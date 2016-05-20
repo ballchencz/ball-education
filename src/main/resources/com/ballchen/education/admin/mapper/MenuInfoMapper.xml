@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ballchen.education.admin.dao.IMenuInfoDAO" >
+  <resultMap id="MenuInfoResultMap" type="com.ballchen.education.admin.entity.MenuInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="visiable" property="visiable" jdbcType="BIT" />
+    <result column="sequence" property="sequence" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="deletioned" property="deletioned" jdbcType="BIT" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, menu_name, url, visiable, sequence, parent_id, deletioned, mark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="MenuInfoResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_menu_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.admin.entity.MenuInfo" >
+    insert into t_menu_info (id, create_time, menu_name, 
+      url, visiable, sequence, 
+      parent_id, deletioned, mark
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{menuName,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{visiable,jdbcType=BIT}, #{sequence,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=VARCHAR}, #{deletioned,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.admin.entity.MenuInfo" >
+    insert into t_menu_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="visiable != null" >
+        visiable,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="deletioned != null" >
+        deletioned,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="visiable != null" >
+        #{visiable,jdbcType=BIT},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="deletioned != null" >
+        #{deletioned,jdbcType=BIT},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.admin.entity.MenuInfo" >
+    update t_menu_info
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="visiable != null" >
+        visiable = #{visiable,jdbcType=BIT},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="deletioned != null" >
+        deletioned = #{deletioned,jdbcType=BIT},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.admin.entity.MenuInfo" >
+    update t_menu_info
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      visiable = #{visiable,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      deletioned = #{deletioned,jdbcType=BIT},
+      mark = #{mark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

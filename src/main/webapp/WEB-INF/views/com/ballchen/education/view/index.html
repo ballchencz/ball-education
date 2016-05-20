@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/public/css/normalize.css"/>
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/public/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/view/css/index.css"/>
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" id="menu-nav">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand clearNavbarBrand" href="#"><img src="${request.contextPath}/resources/com/ballchen/education/public/images/logo.gif"/></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页<span class="sr-only">(current)</span></a></li>
+                <li><a href="#veryGood">优秀作业<span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">课程<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#course" data-tab="tab-onetoone-course">一对一</a></li>
+                        <li><a href="#course" data-tab="tab-banke-course">班课</a></li>
+                        <li><a href="#course" data-tab="tab-video-course">视频课</a></li>
+                    </ul>
+                </li>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#about-modal">关于</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索课程">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 广告轮播 -->
+<div id="ad-carousel" class="carousel" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#ad-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#ad-carousel" data-slide-to="1"></li>
+        <li data-target="#ad-carousel" data-slide-to="2"></li>
+        <li data-target="#ad-carousel" data-slide-to="3"></li>
+        <li data-target="#ad-carousel" data-slide-to="4"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="${request.contextPath}/resources/com/ballchen/education/public/images//piano-1.jpg" alt="1 slide">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>海上钢琴师：用音乐救赎孤独感</h1>
+
+                    <p>《海上钢琴师》的英文片名为《The legend of 1900 》直译就是“1900的传奇……”</p>
+
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button" target="_blank">查看全文</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="${request.contextPath}/resources/com/ballchen/education/public/images/piano-2.jpg" alt="2 slide">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>在肖邦心脏前脱帽</h1>
+
+                    <p>从北京飞到波兰，机场的名字就是肖邦机场。在波兰的两天，走在街头，漫步在公园或者小巷深处，听到的或者看到的都是肖邦……</p>
+
+                    <p><a class="btn btn-lg btn-primary" href="#" target="_blank" role="button">查看全文</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="${request.contextPath}/resources/com/ballchen/education/public/images/piano-3.jpg" alt="3 slide">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>用膝盖行走的钢琴家</h1>
+
+                    <p>她是一个不幸的女孩，出生于韩国一个不幸的家庭。她的父亲是一个下肢瘫痪的伤残军人，曾经为了止痛服用了10年的吗啡……</p>
+
+                    <p><a class="btn btn-lg btn-primary" href="#" target="_blank" role="button">查看全文</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="${request.contextPath}/resources/com/ballchen/education/public/images/piano-4.jpg" alt="4 slide">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>钢琴上的黑白左右手</h1>
+
+                    <p>1983年春天，玛格丽特·帕崔克走进“东南老人疗养中心”，开始了她的疗养生活……</p>
+
+                    <p><a class="btn btn-lg btn-primary" href="#" target="_blank" role="button">查看全文</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="${request.contextPath}/resources/com/ballchen/education/public/images/piano-5.jpg" alt="5 slide">
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>会弹钢琴的小狗</h1>
+
+                    <p>主人有一只非常聪明又特别的小狗，因为它和别的小狗不一样，会弹钢琴哦。它的名字叫托利，主人是马戏团的老板……</p>
+
+                    <p><a class="btn btn-lg btn-primary" href="#" target="_blank" role="button">查看全文</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#ad-carousel" data-slide="prev"><span
+            class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#ad-carousel" data-slide="next"><span
+            class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+<!--主要内容-->
+<div class="container summary">
+    <!--优秀作业-->
+    <div id="veryGood" class="page-header">
+        <h3><a href="#">优秀作业</a></h3>
+    </div>
+    <div class="row" id="summary-container">
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-1.jpg" alt="assignment-1" width="150" height="150">
+            <h4>小星星变奏曲</h4>
+            <!--<p>Google Chrome，又称Google浏览器，是一个由Google（谷歌）公司开发的网页浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-2.jpg" alt="assignment-2" width="150" height="150">
+            <h4>小星星变奏曲</h4>
+            <!--<p>Mozilla Firefox，中文名通常称为“火狐”或“火狐浏览器”，是一个开源网页浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-3.jpg" alt="assignment-3" width="150" height="150">
+            <h4>夜的钢琴曲五</h4>
+            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-4.jpg" alt="assignment-4" width="150" height="150">
+            <h4>夜的钢琴曲五</h4>
+            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-5.jpg" alt="assignment-5" width="150" height="150">
+            <h4>夜的钢琴曲五</h4>
+            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/public/images/assignment-6.jpg" alt="assignment-6" width="150" height="150">
+            <h4>天空之城</h4>
+            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
+            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
+        </div>
+    </div>
+
+    <!--课程-->
+    <!--华丽的分割线-->
+    <div class="page-header" id="course">
+        <h3><a href="#">课程</a></h3>
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="feature-tab">
+        <li class="active"><a href="#tab-onetoone-course" role="tab" data-toggle="tab">一对一</a></li>
+        <li><a href="#tab-banke-course" role="tab" data-toggle="tab">班课</a></li>
+        <li><a href="#tab-video-course" role="tab" data-toggle="tab">视频课</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab-onetoone-course">
+            <div class="row feature">
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/拜厄练习曲.jpg" alt="video-course-1">
+                        <div class="caption">
+                            <h3>拜厄练习曲</h3>
+                            <p>拜厄练习曲十二至四十条的示范与讲解</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img class="img-thumbnail" src="${request.contextPath}/resources/com/ballchen/education/public/images/sam弹的示范或致敬的曲目.jpg" alt="video-course-2">
+                        <div class="caption">
+                            <h3>sam弹的示范或致敬的曲目</h3>
+                            <p>千本樱，土耳其进行曲，以及正在学习的加勒比海盗</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img class="img-thumbnail" src="${request.contextPath}/resources/com/ballchen/education/public/images/贝加尔湖畔.jpg" alt="video-course-3"/>
+                        <div class="caption">
+                            <h3>贝加尔湖畔</h3>
+                            <p>”在我的怀里，在你的眼里，那里春风沉醉....“</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab-banke-course">
+            <div class="row feature">
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/钢琴基本功.jpg" alt="video-course-1" width="448" height="228">
+                        <div class="caption">
+                            <h3>练习基本功的方法</h3>
+                            <p>第一步：明白对错。先让大脑明白什么是正确的。</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/直播答疑课.png" alt="video-course-2" width="448" height="252">
+                        <div class="caption">
+                            <h3>直播答疑课</h3>
+                            <p>为同学们解答在练习时感到困惑和迷茫的问题，传授自己多年修炼的经验</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/天空之城.jpg" alt="video-course-3" width="448" height="252"/>
+                        <div class="caption">
+                            <h3>天空之城</h3>
+                            <p>经典轻音乐，满满的都是回忆....</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab-video-course">
+            <div class="row feature">
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/钢琴基本功.jpg" alt="video-course-1" width="448" height="228">
+                        <div class="caption">
+                            <h3>练习基本功的方法</h3>
+                            <p>第一步：明白对错。先让大脑明白什么是正确的。</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/直播答疑课.png" alt="video-course-2" width="448" height="252">
+                        <div class="caption">
+                            <h3>直播答疑课</h3>
+                            <p>为同学们解答在练习时感到困惑和迷茫的问题，传授自己多年修炼的经验</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="${request.contextPath}/resources/com/ballchen/education/public/images/天空之城.jpg" alt="video-course-3" width="448" height="252"/>
+                        <div class="caption">
+                            <h3>天空之城</h3>
+                            <p>经典轻音乐，满满的都是回忆....</p>
+                            <p><a href="#" class="btn btn-primary" role="button">查看详情</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 关于 -->
+    <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title" id="modal-label">关于</h4>
+                </div>
+                <div class="modal-body">
+                    <p>大家好，我是Sam，是一名钢琴老师，幽默风趣，教学认真。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">了解了</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="modal-footer">
+        <p class="pull-right"><a href="#top">回到顶部</a></p>
+
+        <p>&copy; 2016 纯属娱乐，哈哈哈哈哈！！！ </p>
+    </footer>
+</div>
+</body>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/public/js/jquery.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/view/js/index.js"></script>
+</html>
