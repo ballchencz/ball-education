@@ -11,7 +11,6 @@ body {
 }
 #wrap {
     min-width: 100%;
-    position: absolute;
     background: #eff3f6 bottom;
     min-height: 100%;
     overflow: hidden;
@@ -32,29 +31,31 @@ body {
 	min-width: 1170px;
 }*/
 
-.leftMeun {
+.leftmenu {
     position: absolute;
+    float: left;
     box-sizing: border-box;
     width: 200px;
     height: 100%;
     background: #4d5e70 bottom;
 }
-.leftMeun >div {
+.leftmenu >div {
     padding-left: 20px;
 }
-#rightContent {
-    /*position: absolute;*/
+.rightContent {
+    position: absolute;
     box-sizing: border-box;
-    float: left;
+    float: right;
     box-sizing: border-box;
-    padding-left: 200px;
-    overflow-y: overlay;
-    overflow-x: hidden;
+    /*padding-left: 200px;*/
+    overflow: hidden;
     /*background-color: #eff3f6;*/
-    clear: both;
+    /*clear: both;*/
     color: #717592;
     min-width: 100%;
-    min-height: 500px;
+}
+.rightContent > iframe{
+    margin-left:5px;
 }
 /*左侧菜单栏*/
 
@@ -99,35 +100,35 @@ body {
     color: #F00;
     height: 5px;
 }
-.meun dl {
+.menu dl {
     padding: 0 10px;
 }
-.meun-title {
+.menu-title {
     color: #828e9a;
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 14px;
     font-weight: bold;
 }
-.meun-item {
+.menu-item {
     line-height: 40px;
     height: 40px;
     color: #aab1b7;
     cursor: pointer;
 }
-.meun-item a {
+.menu-item a {
     color: #aab1b7;
     display: block;
 }
-.meun-item-active a {
+.menu-item-active a {
     color: #c4c7cc;
     display: block;
 }
-.meun-item img {
+.menu-item img {
     padding-right: 8px;
     height: 20px;
 }
-.meun-item-active {
+.menu-item-active {
     background-color: #3d4e60;
     border-right: 4px solid #647f9d;
     color: #fff;
@@ -256,7 +257,7 @@ select {
     .tab-pane {
         min-width: 973px;
     }
-    .leftMeun {
+    .leftmenu {
         display: none;
     }
     .toggle-btn {

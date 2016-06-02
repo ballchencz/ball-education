@@ -10,9 +10,8 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         ">
-    <context:component-scan base-package="com.ballchen.education.*.controller,com.ballchen.education.*.service" />
+    <context:component-scan base-package="com.ballchen.education.*.controller,com.ballchen.education.*.service,com.ballchen.education.init" />
     <mvc:annotation-driven enable-matrix-variables="true" />
-    <mvc:resources mapping="/resources/**" location="/resources/"/>
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/com/ballchen/education/" />
         <property name="defaultEncoding" value="utf-8" />
@@ -41,4 +40,5 @@
         <property name="suffix" value=".html" />
     </bean>-->
     <mvc:view-controller path="/" view-name="index"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
 </beans>

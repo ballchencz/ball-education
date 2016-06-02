@@ -3,50 +3,31 @@ package com.ballchen.education.user.entity;
 import java.util.Date;
 
 public class UserBasic {
-    /**
-     * 主键ID
-     */
     private String id;
 
-    /**
-     * 创建时间
-     */
     private Date createTime;
 
-    /**
-     * 用户姓名
-     */
     private String userName;
 
-    /**
-     * 性别，false.女；true.男
-     */
+    private String nickName;
+
     private Boolean sex;
 
-    /**
-     *出生日期
-     */
     private Date birthday;
 
-    /**
-     * 电子邮件
-     */
     private String email;
 
-    /**
-     * 身份证号码
-     */
     private String idNumber;
 
-    /**
-     * 电话
-     */
     private String phone;
 
-    /**
-     * 备注
-     */
+    private String homePhone;
+
+    private String accountId;
+
     private String mark;
+
+    private String description;
 
     public String getId() {
         return id;
@@ -70,6 +51,14 @@ public class UserBasic {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public Boolean getSex() {
@@ -112,11 +101,35 @@ public class UserBasic {
         this.phone = phone == null ? null : phone.trim();
     }
 
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone == null ? null : homePhone.trim();
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
+    }
+
     public String getMark() {
         return mark;
     }
 
     public void setMark(String mark) {
         this.mark = mark == null ? null : mark.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 }

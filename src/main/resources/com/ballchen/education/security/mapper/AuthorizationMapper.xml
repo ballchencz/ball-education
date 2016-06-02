@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.security.dao.IAuthorizationDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.security.entity.Authorization" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="AUTHORIZATION_NAME" property="authorizationName" jdbcType="VARCHAR" />
+    <result column="AUTHORIZATION_CODE" property="authorizationCode" jdbcType="VARCHAR" />
+    <result column="WORK_URL" property="workUrl" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapWithRoles" type="com.ballchen.education.security.entity.Authorization" extends="BaseResultMap">
+    <collection property="roles" ofType="com.ballchen.education.security.entity.Role">
+      <id column="ROLE_ID" property="id" jdbcType="VARCHAR" />
+      <result column="ROLE_CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+      <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
+      <result column="ROLE_MARK" property="mark" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, AUTHORIZATION_NAME, AUTHORIZATION_CODE, WORK_URL, MARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ballchen_t_authorization
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAuthorizationCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+      AUTHORIZATION_CODE
+    from ballchen_t_authorization
+    where ID = #{authorizationCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_authorization
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAll">
+    delete from ballchen_t_authorization
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.security.entity.Authorization" >
+    insert into ballchen_t_authorization (ID, CREATE_TIME, AUTHORIZATION_NAME, 
+      AUTHORIZATION_CODE, WORK_URL, MARK
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{authorizationName,jdbcType=VARCHAR}, 
+      #{authorizationCode,jdbcType=VARCHAR}, #{workUrl,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.security.entity.Authorization" >
+    insert into ballchen_t_authorization
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="authorizationName != null" >
+        AUTHORIZATION_NAME,
+      </if>
+      <if test="authorizationCode != null" >
+        AUTHORIZATION_CODE,
+      </if>
+      <if test="workUrl != null" >
+        WORK_URL,
+      </if>
+      <if test="mark != null" >
+        MARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizationName != null" >
+        #{authorizationName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizationCode != null" >
+        #{authorizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workUrl != null" >
+        #{workUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.security.entity.Authorization" >
+    update ballchen_t_authorization
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizationName != null" >
+        AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizationCode != null" >
+        AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workUrl != null" >
+        WORK_URL = #{workUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        MARK = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.security.entity.Authorization" >
+    update ballchen_t_authorization
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR},
+      AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR},
+      WORK_URL = #{workUrl,jdbcType=VARCHAR},
+      MARK = #{mark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAuthorizationWithRoles" resultMap="BaseResultMapWithRoles">
+    SELECT
+      A.ID,
+      A.CREATE_TIME,
+      A.AUTHORIZATION_NAME,
+      A.AUTHORIZATION_CODE,
+      A.WORK_URL,
+      A.MARK,
+      R.ID AS ROLE_ID,
+      R.CREATE_TIME AS ROLE_CREATE_TIME,
+      R.ROLE_NAME,
+      R.ROLE_CODE,
+      R.MARK AS ROLE_MARK
+    FROM
+      ballchen_t_role_authorization AS RA
+    INNER JOIN ballchen_t_authorization AS A ON RA.AUTHORIZATION_ID = A.ID
+    INNER JOIN ballchen_t_role AS R ON RA.ROLE_ID = R.ID
+  </select>
+  <select id="selectAuthorizationWithRolesByAuthorizationCode" resultMap="BaseResultMapWithRoles" parameterType="java.lang.String">
+    SELECT
+    A.ID,
+    A.CREATE_TIME,
+    A.AUTHORIZATION_NAME,
+    A.AUTHORIZATION_CODE,
+    A.WORK_URL,
+    A.MARK,
+    R.ID AS ROLE_ID,
+    R.CREATE_TIME AS ROLE_CREATE_TIME,
+    R.ROLE_NAME,
+    R.ROLE_CODE,
+    R.MARK AS ROLE_MARK
+    FROM
+    ballchen_t_role_authorization AS RA
+    INNER JOIN ballchen_t_authorization AS A ON RA.AUTHORIZATION_ID = A.ID
+    INNER JOIN ballchen_t_role AS R ON RA.ROLE_ID = R.ID
+    where A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAuthorizationWithRolesBySelective" resultMap="BaseResultMapWithRoles" parameterType="com.ballchen.education.security.entity.Authorization">
+    SELECT
+    A.ID,
+    A.CREATE_TIME,
+    A.AUTHORIZATION_NAME,
+    A.AUTHORIZATION_CODE,
+    A.WORK_URL,
+    A.MARK,
+    R.ID AS ROLE_ID,
+    R.CREATE_TIME AS ROLE_CREATE_TIME,
+    R.ROLE_NAME,
+    R.ROLE_CODE,
+    R.MARK AS ROLE_MARK
+    FROM
+    ballchen_t_role_authorization AS RA
+    INNER JOIN ballchen_t_authorization AS A ON RA.AUTHORIZATION_ID = A.ID
+    INNER JOIN ballchen_t_role AS R ON RA.ROLE_ID = R.ID
+    <where>
+      <trim prefix="values (" suffix=")" suffixOverrides="OR" >
+        <if test="id != null" >
+          A.ID = #{id,jdbcType=VARCHAR} OR
+        </if>
+        <if test="createTime != null" >
+          A.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}OR
+        </if>
+        <if test="authorizationName != null" >
+          A.AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR}OR
+        </if>
+        <if test="authorizationCode != null" >
+          A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR} OR
+        </if>
+        <if test="workUrl != null" >
+          A.WORK_URL = #{workUrl,jdbcType=VARCHAR} OR
+        </if>
+      </trim>
+    </where>
+    AND 1=1
+    <trim prefix="values (" suffix=")" suffixOverrides="OR" >
+      <if test="roles.id != null" >
+        R.ID = #{roles.id,jdbcType=VARCHAR} OR
+      </if>
+      <if test="roles.createTime != null" >
+        R.CREATE_TIME = #{roles.createTime,jdbcType=TIMESTAMP}OR
+      </if>
+      <if test="roles.roleName != null" >
+        R.roleName = #{roles.roleName,jdbcType=VARCHAR}OR
+      </if>
+      <if test="roles.roleCode != null" >
+        A.ROLE_CODE = #{A.roleCode,jdbcType=VARCHAR} OR
+      </if>
+    </trim>
+  </select>
+</mapper>

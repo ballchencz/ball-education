@@ -13,5 +13,7 @@ public interface IUserBasicDAO {
 
     int updateByPrimaryKeySelective(UserBasic record);
 
+    int updateByPrimaryKeyWithBLOBs(UserBasic record);
+
     int updateByPrimaryKey(UserBasic record);
 }

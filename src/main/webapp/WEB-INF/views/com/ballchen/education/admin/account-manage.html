@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Sam钢琴课 - 账户管理</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0"
+          rel="stylesheet">
+
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          rel="stylesheet">
+    <style type="text/css">
+        .button-group {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">最后更新：<i class="fa fa-clock-o"></i> 2015-09-01 12:00</span>
+
+                    <h2>账户管理</h2>
+
+                    <div class="input-group">
+                        <input type="text" placeholder="查找账户" class="input form-control">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                        </span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-success " type="button"><i class="fa fa-upload"></i>&nbsp;&nbsp;<span
+                                class="bold">添加</span></button>
+                        <button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 禁用</button>
+                        <button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 彻底删除</button>
+                        <button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 全选</button>
+                    </div>
+                    <div class="clients-list">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right small text-muted">1406 个账户</span>
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i>账户</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="bootstrap-table">
+                                        <div class="alert alert-success" id="examplebtTableEventsResult" role="alert">
+                                            事件结果
+                                        </div>
+                                        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-heart" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                                            <thead>
+                                            <tr>
+                                                <th data-field="state" data-checkbox="true"></th>
+                                                <th data-field="id">ID</th>
+                                                <th data-field="name">名称</th>
+                                                <th data-field="price">价格</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script>
+        $(function () {
+            $(".full-height-scroll").slimScroll({height: "100%"})
+        });
+        var contextPath = "${request.contextPath}";
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/public/js/seajs/sea.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/public/js/public.js"></script>
+    <script type="text/javascript">
+        seajs.use("admin/js/account-manage")
+    </script>
+    <!--<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/admin/js/account-manage.js" charset="UTF-8"></script>-->
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

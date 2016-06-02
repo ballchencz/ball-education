@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.security.dao.IRoleAuthorizationDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.security.entity.RoleAuthorization" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="AUTHORIZATION_ID" property="authorizationId" jdbcType="VARCHAR" />
+    <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, AUTHORIZATION_ID, ROLE_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ballchen_t_role_authorization
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByRoleIdAndAuthorizationId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+     ID
+    from ballchen_t_role_authorization
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR} AND AUTHORIZATION_ID = #{authorizationId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_role_authorization
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAll">
+    delete from ballchen_t_role_authorization
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.security.entity.RoleAuthorization" >
+    insert into ballchen_t_role_authorization (ID, CREATE_TIME, AUTHORIZATION_ID, 
+      ROLE_ID)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{authorizationId,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.security.entity.RoleAuthorization" >
+    insert into ballchen_t_role_authorization
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="authorizationId != null" >
+        AUTHORIZATION_ID,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizationId != null" >
+        #{authorizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.security.entity.RoleAuthorization" >
+    update ballchen_t_role_authorization
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizationId != null" >
+        AUTHORIZATION_ID = #{authorizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID = #{roleId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.security.entity.RoleAuthorization" >
+    update ballchen_t_role_authorization
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      AUTHORIZATION_ID = #{authorizationId,jdbcType=VARCHAR},
+      ROLE_ID = #{roleId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

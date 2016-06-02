@@ -2,6 +2,8 @@ package com.ballchen.education.account.dao;
 
 import com.ballchen.education.account.entity.Account;
 
+import java.util.List;
+
 public interface IAccountDAO {
     int deleteByPrimaryKey(String id);
 
@@ -14,4 +16,8 @@ public interface IAccountDAO {
     int updateByPrimaryKeySelective(Account record);
 
     int updateByPrimaryKey(Account record);
+
+    List<Account> getAccountPagination(Account account);
+
+    long getAccountPaginationCount(Account account);
 }

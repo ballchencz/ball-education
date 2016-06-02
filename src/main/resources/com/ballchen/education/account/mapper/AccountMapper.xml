@@ -6,32 +6,65 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
-    <result column="USER_BASIC_ID" property="userBasicId" jdbcType="VARCHAR" />
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, ACCOUNT_NAME, PASSWORD, USER_BASIC_ID, MARK
+    ID, CREATE_TIME, ACCOUNT_NAME, PASSWORD, MARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_account
+    from ballchen_t_account
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="getAccountPagination" resultMap="BaseResultMap" parameterType="com.ballchen.education.account.entity.Account">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM
+      ballchen_t_account
+      <trim prefix="where" prefixOverrides="and |or">
+        <if test="createTime != null" >
+          AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=TIMESTAMP},'%' )
+        </if>
+        <if test="accountName != null" >
+          AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )
+        </if>
+        <if test="mark != null" >
+          AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
+        </if>
+      </trim>
+      LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAccountPaginationCount" resultType="java.lang.Long" parameterType="com.ballchen.education.account.entity.Account">
+    SELECT
+      COUNT(*)
+    FROM
+      ballchen_t_account
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="createTime != null" >
+        AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=TIMESTAMP},'%' )
+      </if>
+      <if test="accountName != null" >
+        AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="mark != null" >
+        AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_account
+    delete from ballchen_t_account
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.ballchen.education.account.entity.Account" >
-    insert into t_account (ID, CREATE_TIME, ACCOUNT_NAME, 
-      PASSWORD, USER_BASIC_ID, MARK
-      )
+    insert into ballchen_t_account (ID, CREATE_TIME, ACCOUNT_NAME, 
+      PASSWORD, MARK)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{accountName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{userBasicId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}
-      )
+      #{password,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.account.entity.Account" >
-    insert into t_account
+    insert into ballchen_t_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -44,9 +77,6 @@
       </if>
       <if test="password != null" >
         PASSWORD,
-      </if>
-      <if test="userBasicId != null" >
-        USER_BASIC_ID,
       </if>
       <if test="mark != null" >
         MARK,
@@ -65,16 +95,13 @@
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="userBasicId != null" >
-        #{userBasicId,jdbcType=VARCHAR},
-      </if>
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.account.entity.Account" >
-    update t_account
+    update ballchen_t_account
     <set >
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -85,9 +112,6 @@
       <if test="password != null" >
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="userBasicId != null" >
-        USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
-      </if>
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
       </if>
@@ -95,11 +119,10 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ballchen.education.account.entity.Account" >
-    update t_account
+    update ballchen_t_account
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
-      USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
       MARK = #{mark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
