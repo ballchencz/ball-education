@@ -131,4 +131,16 @@ public class AdminTest {
         long count = this.accountDAO.getAccountPaginationCount(account);
         System.out.println(count);
     }
+
+    @Test
+    public void testInsertAccount(){
+        for(int i=11;i<100;i++){
+            Account account = new Account();
+            account.setId(UUID.randomUUID().toString());
+            account.setAccountName("admin"+i);
+            account.setPassword("sdfaioewjfwjeofjaewoifj");
+            account.setMark("admin"+i);
+            this.accountDAO.insert(account);
+        }
+    }
 }

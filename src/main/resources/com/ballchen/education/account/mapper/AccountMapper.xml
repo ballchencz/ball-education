@@ -33,7 +33,7 @@
           AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
         </if>
       </trim>
-      LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
+      ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
   </select>
   
   <select id="getAccountPaginationCount" resultType="java.lang.Long" parameterType="com.ballchen.education.account.entity.Account">

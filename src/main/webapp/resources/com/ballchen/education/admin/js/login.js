@@ -8,7 +8,6 @@ define(function(require,exports,module){
         /*绑定登录按钮事件*/
         $('.btn').bind('click',function(){
             var formData = public.SerializeFrom($('.btn').parents('form'));
-            console.info(formData);
             $.post(contextPath+'/adminController/validLogin',formData,function(data){
                 if(data.flag){
                     window.location.href = contextPath+"/adminController/getAdminIndexPage";

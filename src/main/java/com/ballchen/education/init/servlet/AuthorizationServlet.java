@@ -46,7 +46,7 @@ public class AuthorizationServlet extends HttpServlet {
         this.roleDAO.deleteAll();
         this.authorizationDAO.deleteAll();
         //获得项目路径
-        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        String path = this.getClass().getClassLoader().getResource("/").getPath();
         File file = new File(path+"com/ballchen/education");
         File[] files = file.listFiles();//获得模块包
         List<Class> controllerClasses = new ArrayList<>();

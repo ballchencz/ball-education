@@ -107,6 +107,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/getAccountPagination",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @ResponseBody
     public String getAccountPagination(Account account){
         List<Account> accounts = this.accountService.getAccountPagination(account);
         JSONObject jsonO = new JSONObject();
