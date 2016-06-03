@@ -1,6 +1,5 @@
 package com.ballchen.education.admin.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ballchen.education.account.entity.Account;
@@ -8,17 +7,16 @@ import com.ballchen.education.account.service.IAccountService;
 import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by ChenZhao on 2016/5/19.
@@ -84,7 +82,7 @@ public class AdminController {
     @RequestMapping(value = "/getUserManagePage",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
     public ModelAndView getUserManagePage(){
-        ModelAndView mv = new ModelAndView("/admin/user-manage");
+        ModelAndView mv = new ModelAndView("/admin/user/user-manage");
         return mv;
     }
 
@@ -95,7 +93,7 @@ public class AdminController {
     @RequestMapping(value = "/getAccountManagePage",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
     public ModelAndView getAccountManagePage(){
-        ModelAndView mv = new ModelAndView("/admin/account-manage");
+        ModelAndView mv = new ModelAndView("/admin/account/account-manage");
         return mv;
     }
 
@@ -114,6 +112,48 @@ public class AdminController {
         jsonO.put("total",accountService.getAccountPaginationCount(account));
         jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(accounts, AdminConsts.DATETIME_FORMAT_STRING)).toArray());
         return jsonO.toJSONString();
+    }
+
+    /**
+     * 获得账户添加/修改页面
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getAccountAMPagination",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    public ModelAndView getAccountAMPagination(){
+        ModelAndView mv = new ModelAndView("/admin/account/account-am");
+        return mv;
+    }
+
+    /**
+     * 添加/修改账户
+     * @param account 账户实体类
+     * @return
+     */
+    @RequestMapping(value="/amAccount",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> amAccount(Account account){
+        Map<String,Object> resultMap = new HashMap<>();
+        if(account.getId()==null || account.getId().equals("")){//添加
+            account.setId(UUID.randomUUID().toString());
+            resultMap.put("name","insert");
+            try{
+                this.accountService.insertAccount(account);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }else{//修改
+            resultMap.put("name","update");
+            try{
+                this.accountService.updateAccount(account);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }
+        return resultMap;
     }
 
 

@@ -5,46 +5,10 @@ seajs.config({
     base: contextPath+"/resources/com/ballchen/education/",
     alias: {
         "jquery": "public/js/jquery.js",
-        "public": "public/js/public.js",
-        "bootstrap":"public/js/bootstrap.js"
+        "public": "public/js/comm.js",
+        "bootstrap":"public/js/bootstrap.js",
+        "jquery-form":"public/js/jquery.form.js",
+        "jquery-validate":"hplus/js/plugins/validate/jquery.validate.min.js",
+        "validate-messages_zh":"hplus/js/plugins/validate/messages_zh.min.js"
     }
-});
-
-define(function(require,exports,module){
-    var public  = {};
-    var ALERT_STATE = {
-        "success":"alert-success",
-        "info":"alert-info",
-        "warning":"alert-warning",
-        "danger":"alert-danger"
-    }
-    /**
-     *序列化表单参数
-     * @param formObject 表单jquery对象
-     * @returns {{}}
-     * @constructor
-     */
-    public.SerializeFrom = function(formObject){
-        var formData = formObject.serializeArray();
-        var returnObject = {};
-        for(var i=0;i<formData.length;i++){
-            returnObject[formData[i].name] = formData[i].value;
-        }
-        return returnObject;
-    }
-    /**
-     * 获得bootstrapalert弹出框
-     * @param state 状态，success,info,warning,danger
-     * @param title 信息标题
-     * @param info 信息内容
-     * @returns {string}
-     */
-    public.bootstrapAlert = function(state,title,info){
-        var alertDiv = "<div class=\"alert "+ALERT_STATE[state]+" alert-dismissible\" role=\"alert\">"+
-        "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+
-        "<strong>"+title+"</strong>"+info+
-        "</div>";
-        return alertDiv;
-    }
-    module.exports = public;
 });
