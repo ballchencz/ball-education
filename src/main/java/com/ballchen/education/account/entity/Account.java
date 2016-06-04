@@ -11,6 +11,8 @@ public class Account {
 
     private String password;
 
+    private Boolean denied;
+
     private String mark;
 
     private String order;
@@ -81,5 +83,13 @@ public class Account {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    public Boolean getDenied() {
+        return denied;
+    }
+
+    public void setDenied(Boolean denied) {
+        this.denied = denied;
     }
 }

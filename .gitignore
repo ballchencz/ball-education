@@ -4,6 +4,8 @@ target/
 .idea/
 *.iml
 *.log
+.gitignore
+*.1
 src/main/resources/rebel.xml
 # Eclipse #
 .settings/

@@ -35,5 +35,26 @@ public interface IAccountService {
      */
     int updateAccount(Account account);
 
+    /**
+     * 根据id查询账户
+     * @param id 账户ID
+     * @return Account 账户实体
+     */
+    Account getAccountById(String id);
+
+    /**
+     * 禁用或启用账户
+     * @param ids 账户ID数组
+     * @return int
+     */
+    int accessOrDeniedAccount(String [] ids,boolean denied);
+
+    /**
+     * 删除账户
+     * @param ids 根据ID删除账户
+     * @return int
+     */
+    int deleteByIds(String [] ids);
+
 
 }

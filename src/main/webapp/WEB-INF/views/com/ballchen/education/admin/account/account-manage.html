@@ -50,7 +50,8 @@
                         </span>
                     </div>-->
                     <div class="button-group">
-                        <button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 禁用</button>
+                        <button class="btn btn-info " type="button" id="access"><i class="fa fa-paste"></i> 启用</button>
+                        <button class="btn btn-info " type="button" id="denied"><i class="fa fa-paste"></i> 禁用</button>
                         <!--<button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 彻底删除</button>-->
                     </div>
                     <div class="clients-list">
@@ -80,14 +81,15 @@
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查询条件 <span class="caret"></span></button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="#">账户名称</a></li>
-                                                            <li><a href="#">创建时间</a></li>
+                                                            <li id="searchAccountNameBtn"><a href="#">账户名称</a></li>
+                                                            <li id="searchCreateTimeBtn"><a href="#">创建时间</a></li>
+                                                            <li id="searchDeniendBtn"><a href="#">禁用</a></li>
                                                         </ul>
                                                     </div>
                                                     <input type="text" class="form-control" aria-label="">
                                                 </div>
                                             </div>
-                                            <button id="ok" type="submit" class="btn btn-default">OK</button>
+                                            <button id="searchBtn" type="submit" class="btn btn-default">查询</button>
                                         </div>
                                     </div>
                                 </div>
@@ -95,9 +97,11 @@
                                     <table id="accountDataGrid" data-height="600" data-mobile-responsive="true">
                                         <thead>
                                         <tr>
-                                            <th data-field="id" data-checkbox="true"></th>
+                                            <th data-checkbox="true"></th>
+                                            <th data-visible="false" data-field="id"></th>
                                             <th data-field="accountName">账户名称</th>
                                             <th data-field="createTime">创建时间</th>
+                                            <th data-field="denied" data-formatter="window.formatDenied">禁用</th>
                                         </tr>
                                         </thead>
                                     </table>

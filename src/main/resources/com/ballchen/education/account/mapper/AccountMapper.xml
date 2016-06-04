@@ -6,10 +6,11 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="DENIED" property="denied" jdbcType="BIT" />
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, ACCOUNT_NAME, PASSWORD, MARK
+    ID, CREATE_TIME, ACCOUNT_NAME, PASSWORD,DENIED, MARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,6 +29,9 @@
         </if>
         <if test="accountName != null" >
           AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )
+        </if>
+        <if test="denied != null">
+          AND DENIED = #{denied,jdbcType=BIT}
         </if>
         <if test="mark != null" >
           AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
@@ -48,6 +52,9 @@
       <if test="accountName != null" >
         AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )
       </if>
+      <if test="denied != null">
+        AND DENIED = #{denied,jdbcType=BIT}
+      </if>
       <if test="mark != null" >
         AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
       </if>
@@ -57,11 +64,19 @@
     delete from ballchen_t_account
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByIds" parameterType="java.util.Map" >
+    delete from ballchen_t_account
+    where ID IN (
+      <foreach collection="ids" index="index" item="item" separator=",">
+        #{item}
+      </foreach>
+    )
+  </delete>
   <insert id="insert" parameterType="com.ballchen.education.account.entity.Account" >
     insert into ballchen_t_account (ID, CREATE_TIME, ACCOUNT_NAME, 
-      PASSWORD, MARK)
+      PASSWORD, DENIED,MARK)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{accountName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR})
+      #{password,jdbcType=VARCHAR},#{denied,jdbcType=BIT},#{mark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.account.entity.Account" >
     insert into ballchen_t_account
@@ -77,6 +92,9 @@
       </if>
       <if test="password != null" >
         PASSWORD,
+      </if>
+      <if test="denied != null" >
+        DENIED,
       </if>
       <if test="mark != null" >
         MARK,
@@ -95,6 +113,9 @@
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
       </if>
+      <if test="denied != null" >
+        #{denied,jdbcType=BIT},
+      </if>
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
       </if>
@@ -112,6 +133,9 @@
       <if test="password != null" >
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
+      <if test="denied != null" >
+        DENIED = #{denied,jdbcType=VARCHAR},
+      </if>
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
       </if>
@@ -123,7 +147,18 @@
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
+      DENIED = #{denied,jdbcType=BIT}
       MARK = #{mark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="accessOrDeniedAccount" parameterType="java.util.Map" >
+    update ballchen_t_account
+    set DENIED = #{denied,jdbcType=BIT}
+    where ID IN(
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </update>
+
 </mapper>

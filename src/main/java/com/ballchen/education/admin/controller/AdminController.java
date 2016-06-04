@@ -7,6 +7,7 @@ import com.ballchen.education.account.service.IAccountService;
 import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,8 +121,14 @@ public class AdminController {
      */
     @RequestMapping(value = "/getAccountAMPagination",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
-    public ModelAndView getAccountAMPagination(){
+    public ModelAndView getAccountAMPagination(Account account){
+        if(account!=null){
+            if(account.getId()!=null){
+                account = this.accountService.getAccountById(account.getId());
+            }
+        }
         ModelAndView mv = new ModelAndView("/admin/account/account-am");
+        mv.addObject("account",account);
         return mv;
     }
 
@@ -156,6 +163,43 @@ public class AdminController {
         return resultMap;
     }
 
+    /**
+     * 禁用或启用账户
+     * @param ids 账户ID数组
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "accessOrDeniedAccount",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> accessOrDeniedAccount(String [] ids,Account account){
+        Map<String,Object> resultMap = new HashMap<>();
+        int result = this.accountService.accessOrDeniedAccount(ids,account.getDenied());
+        if(result>=0){
+            resultMap.put("flag",true);
+        }else{
+            resultMap.put("flag",false);
+        }
+        return resultMap;
+    }
+
+    /**
+     * 根据ID数组删除账户
+     * @param ids 账户ID数组
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/deleteAccount",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> deleteAccount(String [] ids){
+        Map<String,Object> resultMap = new HashMap<>();
+        int result = this.accountService.deleteByIds(ids);
+        if(result>=0){
+            resultMap.put("flag",true);
+        }else{
+            resultMap.put("flag",false);
+        }
+        return resultMap;
+    }
 
 
 

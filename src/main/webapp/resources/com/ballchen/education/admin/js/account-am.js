@@ -4,6 +4,7 @@
 define(function(require,exports,module){
     var public = require("public");
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    parent.layer.iframeAuto(index);
     var CONSTS = {
         "INSERT_SUCCESS_TITLE":"添加成功",
         "INSERT_FAILED_TITLE":"添加失败",
