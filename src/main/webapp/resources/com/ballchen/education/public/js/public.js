@@ -8,6 +8,7 @@ seajs.config({
         "public": "public/js/comm.js",
         "bootstrap":"public/js/bootstrap.js",
         "jquery-form":"public/js/jquery.form.js",
+        "common":"public/js/comm.js",
         "jquery-validate":"hplus/js/plugins/validate/jquery.validate.min.js",
         "validate-messages_zh":"hplus/js/plugins/validate/messages_zh.min.js"
     }

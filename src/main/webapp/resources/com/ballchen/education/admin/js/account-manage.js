@@ -9,7 +9,7 @@ define(function(require,exports,module){
         "accessoryOrDeniedAccount":contextPath+"/adminController/accessOrDeniedAccount",
         "deleteAccount":contextPath+"/adminController/deleteAccount"
     }
-    var public = require("public");
+    var common = require("common");
 
     $('#accountDataGrid').bootstrapTable({
         classes:'table table-hover',
@@ -74,32 +74,36 @@ define(function(require,exports,module){
         }
 
     });
-    /*删除按钮绑定点击事件*/
-    $('.glyphicon-trash').parent().bind('click',function(){
-
-    });
     /**
      * 禁用用户
      */
     $('#denied').bind('click',function(){
+        var selectRow = $("#accountDataGrid").bootstrapTable("getAllSelections")[0];
+        if(selectRow){
             parent.layer.confirm('是否禁用账户？', {
-                btn: ['是','否'] //按钮
-            }, function(){
-                var selectRows = $("#accountDataGrid").bootstrapTable("getAllSelections");
-                if(selectRows.length>0) {
-                    var idsArray = [];
-                    for (var i = 0; i < selectRows.length; i++) {
-                        idsArray.push(selectRows[i].id);
-                    }
-                    $.post(URL.accessoryOrDeniedAccount,{"ids":""+idsArray+"",denied:true},function(data){
-                        if(data.flag){
-                            $("#accountDataGrid").bootstrapTable("refresh");
-                            parent.layer.alert("所选账户已禁用");
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    var selectRows = $("#accountDataGrid").bootstrapTable("getAllSelections");
+                    if(selectRows.length>0) {
+                        var idsArray = [];
+                        for (var i = 0; i < selectRows.length; i++) {
+                            idsArray.push(selectRows[i].id);
                         }
-                    });
-                }
-            }, function(){}
-        );
+                        $.post(URL.accessoryOrDeniedAccount,{"ids":""+idsArray+"",denied:true},function(data){
+                            if(data.flag){
+                                $("#accountDataGrid").bootstrapTable("refresh");
+                                parent.layer.alert("所选账户已禁用");
+                            }
+                        });
+                    }
+                }, function(){}
+            );
+        }else{
+            parent.layer.alert('请选择要禁用的账户', {
+                icon: 0,
+                skin: 'layer-ext-moon'
+            })
+        }
 
     })
     /**
@@ -118,6 +122,11 @@ define(function(require,exports,module){
                     parent.layer.alert("所选账户已启用");
                 }
             });
+        }else{
+            parent.layer.alert('请选择要启用的账户', {
+                icon: 0,
+                skin: 'layer-ext-moon'
+            })
         }
     });
 
@@ -125,59 +134,92 @@ define(function(require,exports,module){
      * 删除账户
      */
     $(".glyphicon-trash").parent().bind('click',function(){
-        parent.layer.confirm('是否删除所选账户？', {
-            btn: ['是','否'] //按钮
-        }, function(){
-            var selectRows = $("#accountDataGrid").bootstrapTable("getAllSelections");
-            if(selectRows.length>0) {
-                var idsArray = [];
-                for (var i = 0; i < selectRows.length; i++) {
-                    idsArray.push(selectRows[i].id);
-                }
-                $.post(URL.deleteAccount,{"ids":""+idsArray+""},function(data){
-                    if(data.flag){
-                        $("#accountDataGrid").bootstrapTable("refresh");
-                        parent.layer.alert("所选账户已删除");
+        var selectRows = $("#accountDataGrid").bootstrapTable("getAllSelections");
+        if(selectRows.length){
+            parent.layer.confirm('是否删除所选账户？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                var selectRows = $("#accountDataGrid").bootstrapTable("getAllSelections");
+                if(selectRows.length>0) {
+                    var idsArray = [];
+                    for (var i = 0; i < selectRows.length; i++) {
+                        idsArray.push(selectRows[i].id);
                     }
-                });
-            }
-        },function(){})
+                    $.post(URL.deleteAccount,{"ids":""+idsArray+""},function(data){
+                        if(data.flag){
+                            $("#accountDataGrid").bootstrapTable("refresh");
+                            parent.layer.alert("所选账户已删除");
+                        }
+                    });
+                }
+            },function(){})
+        }else{
+            parent.layer.alert('请选择要删除的账户', {
+                icon: 0,
+                skin: 'layer-ext-moon'
+            })
+        }
 
     });
 
     /*-----------------查询条件-----------------------*/
     $('#searchAccountNameBtn').bind('click',function(){
+        $(this).parent().parent().next().remove()
+        var searchInputHtml = "<form class='form-inline'><input type='text' placeholder='账户名称' name='accountName' class='form-control' aria-label=''/></form>";
+        $(this).parent().parent().parent().append(searchInputHtml);
         $(this).parent().prev().html($(this).text()+" <span class=\"caret\"></span>");
         $(this).parent().parent().next().attr("name","accountName");
     });
     $('#searchCreateTimeBtn').bind('click',function(){
+        $(this).parent().parent().next().remove();
+        $(this).parent().parent().parent().append("<form class='form-inline'>"+
+                                                        "<div class='input-daterange input-group' id='datepicker' >"+
+                                                        "<input type='text' placeholder='开始时间' class='form-control' aria-label=''name='createTime'><span class='input-group-addon'>到</span>" +
+                                                        "<input type='text' placeholder='结束时间' class='form-control' aria-label='' name='endTime'>" +
+                                                        "</div>"+
+                                                    "</form>");
         $(this).parent().prev().html($(this).text()+" <span class=\"caret\"></span>");
         $(this).parent().parent().next().attr("name","createTime");
+        $("#datepicker").datepicker({
+            keyboardNavigation: true,
+            forceParse: true,
+            autoclose: true
+        });
     });
     $('#searchDeniendBtn').bind('click',function(){
+        $(this).parent().parent().next().remove();//.remove();
         $(this).parent().prev().html($(this).text()+" <span class=\"caret\"></span>");
-        var deniedHtml = "<select class=\"m-b\" name=\"denied\">"+
-                            "<option value='false'>启用</option>"+
-                            "<option value='true'>禁用</option>"+
-                          "</select>"
+        var deniedHtml = " <form class='form-inline'> <div class='radio' style='margin-left: 5px;'>"+
+            "<label>"+
+            "<input type='radio' value='true' name='denied'> 禁用"+
+            "</label>"+
+            "<label>" +
+            "<input type='radio' value='false' name='denied'> 开启"+
+            "</label>"+
+            "</div></form>";
         $(this).parent().parent().next().remove();
-        $(this).parent().parent().append(deniedHtml);
+        $(this).parent().parent().parent().append(deniedHtml);
     });
-
+    /*搜索按钮点击事件*/
+    $('#searchBtn').bind('click',function(){
+        var form = $(this).prev().children(".input-group").children(".form-inline")
+        var queryData = common.serializeForm(form);
+        $("#accountDataGrid").bootstrapTable('refresh',{query: queryData});
+    });
     var accountManage = {};
-    /**
+    /**s
      * 添加bootstrapalert
      * @param state 状态
      * @param info 信息
      */
     window.addBootstrapAlert = function(state,info){
-        var alertDiv =  public.bootstrapAlert(state,info,"");
+        var alertDiv =  common.bootstrapAlert(state,info,"");
         $(".alert").remove();
         $("#tab-1").prepend(alertDiv).hide().fadeIn('slow').delay(3000).fadeOut('slow');
     }
     return addBootstrapAlert;
 });
- function formatDenied(value,row,index){
+function formatDenied(value,row,index){
     if(value){
         return '禁用';
     }else{

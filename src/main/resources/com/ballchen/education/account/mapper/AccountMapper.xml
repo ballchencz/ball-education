@@ -24,8 +24,14 @@
       FROM
       ballchen_t_account
       <trim prefix="where" prefixOverrides="and |or">
-        <if test="createTime != null" >
-          AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=TIMESTAMP},'%' )
+        <if test="createTime != null and endTime == null" >
+          AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=DATE},'%' )
+        </if>
+        <if test="createTime !=null and endTime !=null">
+          AND CREATE_TIME BETWEEN #{createTime,jdbcType=DATE} AND #{endTime,jdbcType=DATE}
+        </if>
+        <if test="createTime ==null and endTime !=null">
+          AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
         </if>
         <if test="accountName != null" >
           AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )
@@ -46,8 +52,14 @@
     FROM
       ballchen_t_account
     <trim prefix="where" prefixOverrides="and |or">
-      <if test="createTime != null" >
-        AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=TIMESTAMP},'%' )
+      <if test="createTime != null and endTime == null" >
+        AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=DATE},'%' )
+      </if>
+      <if test="createTime !=null and endTime !=null">
+        AND CREATE_TIME BETWEEN #{createTime,jdbcType=DATE} AND #{endTime,jdbcType=DATE}
+      </if>
+      <if test="createTime ==null and endTime !=null">
+        AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
       </if>
       <if test="accountName != null" >
         AND ACCOUNT_NAME LIKE CONCAT('%',#{accountName,jdbcType=VARCHAR},'%' )

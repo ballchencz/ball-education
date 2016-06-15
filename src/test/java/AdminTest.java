@@ -3,6 +3,7 @@ import com.ballchen.education.account.dao.IAccountDAO;
 import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.admin.dao.IMenuInfoDAO;
 import com.ballchen.education.admin.entity.MenuInfo;
+import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.security.dao.IAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleDAO;
@@ -10,16 +11,17 @@ import com.ballchen.education.security.entity.Authorization;
 import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.dao.IUserBasicDAO;
+import com.ballchen.education.user.entity.UserBasic;
+import com.ballchen.education.user.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/5/19.
@@ -41,6 +43,8 @@ public class AdminTest {
     private IAuthorizationDAO authorizationDAO;
     @Autowired
     private IRoleAuthorizationDAO roleAuthorizationDAO;
+    @Autowired
+    private IUserService userService;
 
 
     @Test
@@ -126,8 +130,7 @@ public class AdminTest {
         Calendar c = Calendar.getInstance();
         Account account = new Account();
         account.setCreateTime(c.getTime());
-        account.setAccountName("chenzhao");
-        account.setPassword("fawefawwef");
+        account.setEndTime(c.getTime());
         long count = this.accountDAO.getAccountPaginationCount(account);
         System.out.println(count);
     }
@@ -142,5 +145,37 @@ public class AdminTest {
             account.setMark("admin"+i);
             this.accountDAO.insert(account);
         }
+    }
+
+    @Test
+    public void testBeanMap(){
+/*        Account account = new Account();
+        account.setId(UUID.randomUUID().toString());
+        BeanMap beanMap = BeanMap.create(account);
+        Set set = beanMap.keySet();
+        Map<String,Object> map = new HashMap<>();
+        Iterator it = set.iterator();
+        while(it.hasNext()){
+            String key = (String) it.next();
+            Object value = beanMap.get(key);
+            if (value!=null){
+                map.put(key,value);
+            }
+        }
+        System.out.println(map);*/
+    }
+
+    @Test
+    public void testUserBasicPagination(){
+        UserBasic userBasic = new UserBasic();
+        userBasic.setId(UUID.randomUUID().toString());
+        PageHelper ph = new PageHelper();
+        ph.setOrder("asc");
+        ph.setLimit(10);
+        ph.setOffset(0);
+        List<UserBasic> userBasics =  this.userService.getUserBasicPagination(userBasic,ph);
+        Long count = this.userService.getUserBasicPaginationCount(userBasic,ph);
+        System.out.println(JSONArray.toJSONString(userBasics,true));
+        System.out.println(count+"-----------------------------------------------");
     }
 }

@@ -5,8 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.account.service.IAccountService;
 import com.ballchen.education.admin.consts.AdminConsts;
+import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
+import com.ballchen.education.user.dao.IUserBasicDAO;
+import com.ballchen.education.user.entity.UserBasic;
+import com.ballchen.education.user.service.IUserService;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +32,8 @@ public class AdminController {
 
     @Autowired
     private IAccountService accountService;
-
+    @Autowired
+    private IUserService userService;
     /**
      * 获得后台登录页面
      * @return
@@ -75,18 +80,7 @@ public class AdminController {
         ModelAndView mv = new ModelAndView("/admin/index-right_index");
         return mv;
     }
-
-    /**
-     * 获得用户管理页面
-     * @return ModelAndView
-     */
-    @RequestMapping(value = "/getUserManagePage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
-    public ModelAndView getUserManagePage(){
-        ModelAndView mv = new ModelAndView("/admin/user/user-manage");
-        return mv;
-    }
-
+    /*----------------------------------------------账户管理开始--------------------------------------------------------*/
     /**
      * 获得账户管理页面
      * @return ModelAndView
@@ -200,7 +194,36 @@ public class AdminController {
         }
         return resultMap;
     }
+    /*----------------------------------------------账户管理结束--------------------------------------------------------*/
 
+    /*----------------------------------------------用户管理开始--------------------------------------------------------*/
+    /**
+     * 获得用户管理页面
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getUserManagePage",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    public ModelAndView getUserManagePage(){
+        ModelAndView mv = new ModelAndView("/admin/user/user-manage");
+        return mv;
+    }
+    /**
+     * 获得账户分页数据
+     * @param userBasic
+     * @param pageHelper
+     * @return
+     */
+    @RequestMapping(value = "/getAccountPagination",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @ResponseBody
+    public String getUserBasicPagination(UserBasic userBasic, PageHelper pageHelper){
+        List<UserBasic> userBasics = this.userService.getUserBasicPagination(userBasic,pageHelper);
+        JSONObject jsonO = new JSONObject();
+        jsonO.put("total",this.userService.getUserBasicPaginationCount(userBasic,pageHelper));
+        jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(userBasic, AdminConsts.DATETIME_FORMAT_STRING)).toArray());
+        return jsonO.toJSONString();
+    }
+    /*----------------------------------------------用户管理结束--------------------------------------------------------*/
 
 
 }

@@ -15,7 +15,7 @@ define(function(require,exports,module){
      * @returns {{}}
      * @constructor
      */
-    public.SerializeFrom = function(formObject){
+    public.serializeForm = function(formObject){
         var formData = formObject.serializeArray();
         var returnObject = {};
         for(var i=0;i<formData.length;i++){

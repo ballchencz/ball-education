@@ -1,11 +1,18 @@
 package com.ballchen.education.account.entity;
 
+import com.ballchen.education.admin.consts.AdminConsts;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Account {
     private String id;
 
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
     private Date createTime;
+
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
+    private Date endTime;
 
     private String accountName;
 
@@ -91,5 +98,13 @@ public class Account {
 
     public void setDenied(Boolean denied) {
         this.denied = denied;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

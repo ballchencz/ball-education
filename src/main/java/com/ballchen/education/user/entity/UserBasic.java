@@ -1,6 +1,10 @@
 package com.ballchen.education.user.entity;
 
+import com.ballchen.education.account.entity.Account;
+import com.ballchen.education.security.entity.Role;
+
 import java.util.Date;
+import java.util.List;
 
 public class UserBasic {
     private String id;
@@ -28,6 +32,10 @@ public class UserBasic {
     private String mark;
 
     private String description;
+
+    private List<Role> roles;
+
+    private Account account;
 
     public String getId() {
         return id;
@@ -131,5 +139,21 @@ public class UserBasic {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

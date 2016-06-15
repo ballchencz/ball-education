@@ -11,7 +11,8 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         ">
     <context:component-scan base-package="com.ballchen.education.*.controller,com.ballchen.education.*.service,com.ballchen.education.init" />
-    <mvc:annotation-driven enable-matrix-variables="true" />
+    <mvc:annotation-driven conversion-service="conversionService" enable-matrix-variables="true" />
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/com/ballchen/education/" />
         <property name="defaultEncoding" value="utf-8" />
