@@ -33,6 +33,12 @@ public class UserBasic {
 
     private String description;
 
+    private Boolean realNameValid;//实名认证
+
+    private Boolean denied;//禁用
+
+    private String deniedReason;//禁用原因
+
     private List<Role> roles;
 
     private Account account;
@@ -155,5 +161,29 @@ public class UserBasic {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Boolean getRealNameValid() {
+        return realNameValid;
+    }
+
+    public void setRealNameValid(Boolean realNameValid) {
+        this.realNameValid = realNameValid;
+    }
+
+    public String getDeniedReason() {
+        return deniedReason;
+    }
+
+    public void setDeniedReason(String deniedReason) {
+        this.deniedReason = deniedReason;
+    }
+
+    public Boolean getDenied() {
+        return denied;
+    }
+
+    public void setDenied(Boolean denied) {
+        this.denied = denied;
     }
 }

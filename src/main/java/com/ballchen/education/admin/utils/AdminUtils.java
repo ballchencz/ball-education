@@ -11,6 +11,11 @@ import java.util.Set;
  * Created by ChenZhao on 2016/6/15.
  */
 public class AdminUtils {
+    /**
+     * 将POJO转换成Map
+     * @param object
+     * @return
+     */
     public static Map<String,Object> parsePOJOtoMap(Object object){
         BeanMap beanMap = BeanMap.create(object);
         Map<String,Object> map = new HashMap<>();

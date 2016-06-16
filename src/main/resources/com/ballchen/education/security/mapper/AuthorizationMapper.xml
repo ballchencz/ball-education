@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.ballchen.education.security.entity.Authorization" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="AUTHORIZATION_NAME" property="authorizationName" jdbcType="VARCHAR" />
-    <result column="AUTHORIZATION_CODE" property="authorizationCode" jdbcType="VARCHAR" />
-    <result column="WORK_URL" property="workUrl" jdbcType="VARCHAR" />
+    <result column="AUTHORIZATION_NAME" property="authorizationName" jdbcType="LONGVARCHAR" />
+    <result column="AUTHORIZATION_CODE" property="authorizationCode" jdbcType="LONGVARCHAR" />
+    <result column="WORK_URL" property="workUrl" jdbcType="LONGVARCHAR" />
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseResultMapWithRoles" type="com.ballchen.education.security.entity.Authorization" extends="BaseResultMap">
@@ -31,7 +31,7 @@
     select
       AUTHORIZATION_CODE
     from ballchen_t_authorization
-    where ID = #{authorizationCode,jdbcType=VARCHAR}
+    where AUTHORIZATION_CODE = #{authorizationCode,jdbcType=LONGVARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_authorization
@@ -44,8 +44,8 @@
     insert into ballchen_t_authorization (ID, CREATE_TIME, AUTHORIZATION_NAME, 
       AUTHORIZATION_CODE, WORK_URL, MARK
       )
-    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{authorizationName,jdbcType=VARCHAR}, 
-      #{authorizationCode,jdbcType=VARCHAR}, #{workUrl,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{authorizationName,jdbcType=LONGVARCHAR},
+      #{authorizationCode,jdbcType=LONGVARCHAR}, #{workUrl,jdbcType=LONGVARCHAR}, #{mark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.security.entity.Authorization" >
@@ -78,13 +78,13 @@
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="authorizationName != null" >
-        #{authorizationName,jdbcType=VARCHAR},
+        #{authorizationName,jdbcType=LONGVARCHAR},
       </if>
       <if test="authorizationCode != null" >
-        #{authorizationCode,jdbcType=VARCHAR},
+        #{authorizationCode,jdbcType=LONGVARCHAR},
       </if>
       <if test="workUrl != null" >
-        #{workUrl,jdbcType=VARCHAR},
+        #{workUrl,jdbcType=LONGVARCHAR},
       </if>
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
@@ -98,13 +98,13 @@
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="authorizationName != null" >
-        AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR},
+        AUTHORIZATION_NAME = #{authorizationName,jdbcType=LONGVARCHAR},
       </if>
       <if test="authorizationCode != null" >
-        AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR},
+        AUTHORIZATION_CODE = #{authorizationCode,jdbcType=LONGVARCHAR},
       </if>
       <if test="workUrl != null" >
-        WORK_URL = #{workUrl,jdbcType=VARCHAR},
+        WORK_URL = #{workUrl,jdbcType=LONGVARCHAR},
       </if>
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
@@ -115,9 +115,9 @@
   <update id="updateByPrimaryKey" parameterType="com.ballchen.education.security.entity.Authorization" >
     update ballchen_t_authorization
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR},
-      AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR},
-      WORK_URL = #{workUrl,jdbcType=VARCHAR},
+      AUTHORIZATION_NAME = #{authorizationName,jdbcType=LONGVARCHAR},
+      AUTHORIZATION_CODE = #{authorizationCode,jdbcType=LONGVARCHAR},
+      WORK_URL = #{workUrl,jdbcType=LONGVARCHAR},
       MARK = #{mark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -156,7 +156,7 @@
     ballchen_t_role_authorization AS RA
     INNER JOIN ballchen_t_authorization AS A ON RA.AUTHORIZATION_ID = A.ID
     INNER JOIN ballchen_t_role AS R ON RA.ROLE_ID = R.ID
-    where A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR}
+    where A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=LONGVARCHAR}
   </select>
   <select id="selectAuthorizationWithRolesBySelective" resultMap="BaseResultMapWithRoles" parameterType="com.ballchen.education.security.entity.Authorization">
     SELECT
@@ -181,16 +181,16 @@
           A.ID = #{id,jdbcType=VARCHAR} OR
         </if>
         <if test="createTime != null" >
-          A.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}OR
+          a.create_time = #{createtime,jdbctype=timestamp}or
         </if>
         <if test="authorizationName != null" >
-          A.AUTHORIZATION_NAME = #{authorizationName,jdbcType=VARCHAR}OR
+          A.AUTHORIZATION_NAME = #{authorizationName,jdbcType=LONGVARCHAR}OR
         </if>
         <if test="authorizationCode != null" >
-          A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=VARCHAR} OR
+          A.AUTHORIZATION_CODE = #{authorizationCode,jdbcType=LONGVARCHAR} OR
         </if>
         <if test="workUrl != null" >
-          A.WORK_URL = #{workUrl,jdbcType=VARCHAR} OR
+          A.WORK_URL = #{workUrl,jdbcType=LONGVARCHAR} OR
         </if>
       </trim>
     </where>

@@ -14,6 +14,9 @@
     <result column="HOME_PHONE" property="homePhone" jdbcType="VARCHAR" />
     <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    <result column="REAL_NAME_VALID" property="realNameValid" jdbcType="BIT"/>
+    <result column="DENIED" property="denied" jdbcType="BIT"/>
+    <result column="DENIED_REASON" property="deniedReason" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.ballchen.education.user.entity.UserBasic" extends="BaseResultMap" >
     <result column="DESCRIPTION" property="description" jdbcType="LONGVARCHAR" />
@@ -35,7 +38,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     ID, CREATE_TIME, USER_NAME, NICK_NAME, SEX, BIRTHDAY, EMAIL, ID_NUMBER, PHONE, HOME_PHONE,
-    ACCOUNT_ID, MARK
+    ACCOUNT_ID, MARK,REAL_NAME_VALID,DENIED,DENIED_REASON
   </sql>
   <sql id="Blob_Column_List" >
     DESCRIPTION
@@ -56,12 +59,12 @@
     insert into ballchen_t_user_basic (ID, CREATE_TIME, USER_NAME,
     NICK_NAME, SEX, BIRTHDAY,
     EMAIL, ID_NUMBER, PHONE,
-    HOME_PHONE, ACCOUNT_ID, MARK,
+    HOME_PHONE, ACCOUNT_ID, MARK,REAL_NAME_VALID,DENIED,DENIED_REASON
     DESCRIPTION)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{userName,jdbcType=VARCHAR},
     #{nickName,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{birthday,jdbcType=TIMESTAMP},
     #{email,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-    #{homePhone,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR},
+    #{homePhone,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR},#{realNameValid,jdbcType=BIT},#{denied,jdbcType=BIT},#{deniedReason,jdbcType=VARCHAR},
     #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.user.entity.UserBasic" >
@@ -102,6 +105,15 @@
       </if>
       <if test="mark != null" >
         MARK,
+      </if>
+      <if test="realNameValid != null" >
+        REAL_NAME_VALID,
+      </if>
+      <if test="denied != null" >
+        DENIED,
+      </if>
+      <if test="deniedReason != null" >
+        DENIED_REASON,
       </if>
       <if test="description != null" >
         DESCRIPTION,
@@ -144,6 +156,15 @@
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
       </if>
+      <if test="realNameValid != null" >
+        #{realNameValid,jdbcType=BIT},
+      </if>
+      <if test="denied != null" >
+        #{denied,jdbcType=BIT},
+      </if>
+      <if test="deniedReason != null" >
+        #{deniedReason,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -185,6 +206,15 @@
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
       </if>
+      <if test="realNameValid != null" >
+        REAL_NAME_VALID = #{realNameValid,jdbcType=BIT},
+      </if>
+      <if test="denied != null" >
+        DENIED = #{DENIED,jdbcType=BIT},
+      </if>
+      <if test="deniedReason != null" >
+        DENIED_REASON = #{deniedReason,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -204,6 +234,9 @@
     HOME_PHONE = #{homePhone,jdbcType=VARCHAR},
     ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
     MARK = #{mark,jdbcType=VARCHAR},
+    REAL_NAME_VALID = #{realNameValid,jdbcType=BIT},
+    DENIED = #{denied,jdbcType=BIT},
+    DENIED_REASON = #{deniedReason,jdbcType=VARCHAR},
     DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -219,7 +252,10 @@
     PHONE = #{phone,jdbcType=VARCHAR},
     HOME_PHONE = #{homePhone,jdbcType=VARCHAR},
     ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
-    MARK = #{mark,jdbcType=VARCHAR}
+    MARK = #{mark,jdbcType=VARCHAR},
+    REAL_NAME_VALID = #{realNameValid,jdbcType=BIT},
+    DENIED = #{denied,jdbcType=BIT},
+    DENIED_REASON = #{deniedReason,jdbcType=VARCHAR},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <!--分页-->
@@ -274,6 +310,15 @@
       <if test="mark != null" >
         AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
       </if>
+      <if test="realNameValid != null" >
+        AND REAL_NAME_VALID = #{realNameValid,jdbcType=BIT}
+      </if>
+      <if test="denied != null" >
+        AND DENIED = #{DENIED,jdbcType=BIT}
+      </if>
+      <if test="deniedReason != null" >
+        AND DENIED_REASON = #{deniedReason,jdbcType=VARCHAR}
+      </if>
     </trim>
     ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
   </select>
@@ -327,6 +372,15 @@
       </if>
       <if test="mark != null" >
         AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="realNameValid != null" >
+        AND REAL_NAME_VALID = #{realNameValid,jdbcType=BIT}
+      </if>
+      <if test="denied != null" >
+        AND DENIED = #{DENIED,jdbcType=BIT}
+      </if>
+      <if test="deniedReason != null" >
+        AND DENIED_REASON = #{deniedReason,jdbcType=VARCHAR}
       </if>
     </trim>
   </select>

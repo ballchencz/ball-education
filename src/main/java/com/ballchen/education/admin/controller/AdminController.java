@@ -213,14 +213,14 @@ public class AdminController {
      * @param pageHelper
      * @return
      */
-    @RequestMapping(value = "/getAccountPagination",method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserBasicPagination",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
     @ResponseBody
     public String getUserBasicPagination(UserBasic userBasic, PageHelper pageHelper){
         List<UserBasic> userBasics = this.userService.getUserBasicPagination(userBasic,pageHelper);
         JSONObject jsonO = new JSONObject();
         jsonO.put("total",this.userService.getUserBasicPaginationCount(userBasic,pageHelper));
-        jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(userBasic, AdminConsts.DATETIME_FORMAT_STRING)).toArray());
+        jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(userBasics, AdminConsts.DATETIME_FORMAT_STRING)).toArray());
         return jsonO.toJSONString();
     }
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
