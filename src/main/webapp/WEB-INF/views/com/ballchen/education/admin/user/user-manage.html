@@ -11,11 +11,18 @@
 
     <title>Sam钢琴课 - 用户管理</title>
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
-    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0"
+          rel="stylesheet">
 
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
-    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
     <style type="text/css">
         .button-group{
             margin-top:20px;}
@@ -53,49 +60,44 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="full-height-scroll">
                                     <div class="table-responsive">
-                                        <table class="footable table table-striped table-hover">
-                                            <thead>
-                                                <tr><td></td><td>头像</td><td>姓名</td><td>邮箱</td><td>手机号</td><td>状态</td></tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="checkbox"/></td>
-                                                <td class="client-avatar"><img alt="image" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg"> </td>
-                                                <td><a data-toggle="tab" href="#contact-1" class="client-link">张有为</a></td>
-                                                <td><i class="fa fa-envelope"></i>gravida@qq.com</td>
-                                                <td>13256189693</td>
-                                                <td class="client-status"><span class="label label-primary">实名验证</span>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <nav class="">
-                                            <ul class="pagination">
-                                                <li>
-                                                    <a href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a href="#">5</a></li>
-                                                <li>
-                                                    <a href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
+                            <div id="userManageDataGridToolbar">
+                                <div class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="userManageDataGrid" data-height="600" data-mobile-responsive="true">
+                                <thead>
+                                    <tr>
+                                        <th data-checkbox="true"></th>
+                                        <th data-visible="false" data-field="id"></th>
+                                        <th data-field="userName">用户名称</th>
+                                        <th data-field="nickName">昵称</th>
+                                        <th data-field="sex">性别</th>
+                                        <th data-field="birthday">生日</th>
+                                        <th data-field="realNameValid">认证</th>
+                                        <th data-field="denied">状态</th>
+                                        <th data-field="denied">禁用</th>
+                                    </tr>
+                                </thead>
+                            </table>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="col-sm-4">
             <div class="ibox ">
@@ -233,14 +235,22 @@
         </div>
     </div>
 </div>
-<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
-<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script>
     $(function(){$(".full-height-scroll").slimScroll({height:"100%"})});
 </script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<#include "/admin/public-js.html">
+    <script type="text/javascript">
+        seajs.use("admin/js/user-manage")
+    </script>
 </body>
 
 
