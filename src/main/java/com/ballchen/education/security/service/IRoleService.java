@@ -10,5 +10,7 @@ import java.util.List;
 public interface IRoleService {
     void insertRole(Role role);
     int updateRole(Role role);
+    Role selectByRoleCode(String roleCode);
     List<Role> selectRoleWithAuthorization();
+    List<Role> getPageRoles();
 }

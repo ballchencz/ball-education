@@ -2,16 +2,24 @@ package com.ballchen.education.user.service.impl;
 
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.admin.utils.AdminUtils;
+import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
+import com.ballchen.education.security.entity.Role;
+import com.ballchen.education.security.entity.RoleAuthorization;
+import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
+import com.ballchen.education.user.entity.UserBasicRole;
+import com.ballchen.education.user.service.IUserBasicRoleService;
 import com.ballchen.education.user.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Administrator on 2016/5/19.
@@ -21,6 +29,10 @@ public class UserServiceImpl implements IUserService{
 
     @Autowired
     private IUserBasicDAO userBasicDAO;
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    private IUserBasicRoleService userBasicRoleService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -33,8 +45,25 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    @Transactional
     public int insertSelective(UserBasic record) {
-        return userBasicDAO.insertSelective(record);
+        //添加用户
+        int i = userBasicDAO.insertSelective(record);
+        if(record.getRoles()!=null){
+            List<Role> roles = record.getRoles();
+            for (Role role : roles){
+                role = roleService.selectByRoleCode(role.getRoleCode());
+                if(role!=null){
+                    UserBasicRole userBasicRole = new UserBasicRole();
+                    userBasicRole.setId(UUID.randomUUID().toString());
+                    userBasicRole.setUserBasicId(record.getId());
+                    userBasicRole.setRoleId(role.getId());
+                    this.userBasicRoleService.insertSelective(userBasicRole);
+                }
+            }
+        }
+        return i;
+
     }
 
     @Override
@@ -71,6 +100,11 @@ public class UserServiceImpl implements IUserService{
         queryMap.putAll(AdminUtils.parsePOJOtoMap(pageHelper));
         Long count = this.userBasicDAO.getUserBasicPaginationCount(queryMap);
         return count;
+    }
+
+    @Override
+    public UserBasic selectUserBasicWithRolesByPrimaryKey(String id) {
+        return this.userBasicDAO.selectUserBasicWithRolesByPrimaryKey(id);
     }
 
 }

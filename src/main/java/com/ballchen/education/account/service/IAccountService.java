@@ -56,5 +56,11 @@ public interface IAccountService {
      */
     int deleteByIds(String [] ids);
 
+    /**
+     * 获得所有账户（用户中没有的）
+     * @return List<Account>
+     */
+    List<Account> getAllAccount();
+
 
 }

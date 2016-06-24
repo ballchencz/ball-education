@@ -58,4 +58,9 @@ public class AccountServiceImpl implements IAccountService {
         queryMap.put("ids",ids);
         return accountDAO.deleteByIds(queryMap);
     }
+
+    @Override
+    public List<Account> getAllAccount() {
+        return accountDAO.getAllAccount();
+    }
 }

@@ -20,4 +20,6 @@ public interface IRoleDAO {
     int updateByPrimaryKey(Role record);
 
     List<Role> selectRoleWithAuthorization();
+
+    List<Role> getPageRoles();
 }

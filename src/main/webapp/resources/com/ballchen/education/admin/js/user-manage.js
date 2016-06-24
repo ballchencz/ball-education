@@ -5,6 +5,9 @@ define(function(require,exports,module){
     var URL = {
         "getUserManagePagination":contextPath+"/adminController/getUserBasicPagination"
     }
+
+    var common =require("common");
+
     $('#userManageDataGrid').bootstrapTable({
         classes:'table table-hover',
         locale:'zh-CN',
@@ -35,34 +38,40 @@ define(function(require,exports,module){
     /*添加按钮绑定点击事件*/
     $('.glyphicon-plus').parent().bind('click',function(){
         var index = parent.layer.open({
-            title:'添加账户',
+            title:'添加用户',
             type: 2,
             area: ['700px', '530px'],
             fix: false, //不固定
             maxmin: true,
-            content: contextPath+'/adminController/getAccountAMPagination'
+            content: contextPath+'/adminController/getUserBasicAMPage'
         });
         parent.layer.full(index);
     });
     /*修改按钮绑定点击事件*/
     $('.glyphicon-pencil').parent().bind('click',function(){
-        var selectRow = $("#accountDataGrid").bootstrapTable("getAllSelections")[0];
+        var selectRow = $("#userManageDataGrid").bootstrapTable("getAllSelections")[0];
         if(selectRow){
             var index = parent.layer.open({
-                title:'修改账户',
+                title:'修改用户',
                 type: 2,
                 area: ['700px', '530px'],
                 fix: false, //不固定
                 maxmin: true,
-                content: contextPath+'/adminController/getAccountAMPagination?id='+selectRow.id
+                content: contextPath+'/adminController/getUserBasicAMPage?id='+selectRow.id
             });
             parent.layer.full(index);
         }else{
-            parent.layer.alert('请选择要修改的账户', {
+            parent.layer.alert('请选择要修改的用户', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
         }
 
     });
+    window.addBootstrapAlert = function(state,info){
+        var alertDiv =  common.bootstrapAlert(state,info,"");
+        $(".alert").remove();
+        $("#tab-1").prepend(alertDiv).hide().fadeIn('slow').delay(3000).fadeOut('slow');
+    }
+    return addBootstrapAlert;
 })

@@ -10,6 +10,7 @@ import com.ballchen.education.security.entity.Authorization;
 import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.security.entity.RoleAuthorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.ParseState;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -43,8 +44,23 @@ public class AuthorizationServlet extends HttpServlet {
         System.out.println("------------------------------------------------------");
         //删除角色和权限
         this.roleAuthorizationDAO.deleteAll();
-        this.roleDAO.deleteAll();
         this.authorizationDAO.deleteAll();
+        List<Role> roles = this.roleDAO.getPageRoles();
+        if(roles==null){
+            //添加角色
+            Iterator<Map.Entry<String,String>> it = SecurityConsts.roleMap.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry<String,String> entry = it.next();
+                Role role = new Role();
+                role.setId(UUID.randomUUID().toString());
+                role.setRoleCode(entry.getKey());
+                role.setRoleName(entry.getValue());
+                role.setMark(entry.getValue()+"_"+entry.getKey());
+                //向数据库添加角色
+                roleDAO.insert(role);
+
+            }
+        }
         //获得项目路径
         String path = this.getClass().getClassLoader().getResource("/").getPath();
         File file = new File(path+"com/ballchen/education");
@@ -140,28 +156,11 @@ public class AuthorizationServlet extends HttpServlet {
             String roleCode = roleCodes[i].name();
             //判断是否已经存在相同角色代码的角色
             Role role = this.roleDAO.selectByRoleCode(roleCode);
-            if(role==null){
-                String roleId = UUID.randomUUID().toString();
-                role = new Role();
-                role.setId(roleId);
-                role.setRoleCode(roleCode);
-                role.setRoleName(SecurityConsts.roleMap.get(roleCode));
-                role.setMark(SecurityConsts.roleMap.get(roleCode)+"_"+roleCode);
-                //向数据库添加角色
-                roleDAO.insert(role);
-                //向数据库添加角色_权限关联
-                RoleAuthorization roleAuthorization = new RoleAuthorization();
-                roleAuthorization.setId(UUID.randomUUID().toString());
-                roleAuthorization.setAuthorizationId(authorizationId);
-                roleAuthorization.setRoleId(roleId);
-                roleAuthorizationDAO.insert(roleAuthorization);
-            }else{//只添加角色跟权限关联数据
-                RoleAuthorization roleAuthorization = new RoleAuthorization();
-                roleAuthorization.setId(UUID.randomUUID().toString());
-                roleAuthorization.setAuthorizationId(authorizationId);
-                roleAuthorization.setRoleId(role.getId());
-                roleAuthorizationDAO.insert(roleAuthorization);
-            }
+            RoleAuthorization roleAuthorization = new RoleAuthorization();
+            roleAuthorization.setId(UUID.randomUUID().toString());
+            roleAuthorization.setAuthorizationId(authorizationId);
+            roleAuthorization.setRoleId(role.getId());
+            roleAuthorizationDAO.insert(roleAuthorization);
         }
     }
 }

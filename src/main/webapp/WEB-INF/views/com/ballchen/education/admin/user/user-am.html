@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户添加/修改</title>
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/clockpicker/clockpicker.css"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/iCheck/custom.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/simditor/simditor.css" rel="stylesheet">
+    <style type="text/css">
+        .radio-inline{
+            padding-left: 0px;
+        }
+        .checkbox-inline{
+            padding-left:0px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>
+                        <#if userBasic.id?exists>修改用户
+                            <#else>添加用户
+                        </#if>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="userAmForm" method="post">
+                        <input type="hidden" name="id" value="<#if userBasic.id??>${userBasic.id}</#if>">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户姓名：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="userName" class="form-control" value="<#if userBasic.userName??>${userBasic.userName}</#if>" placeholder="用户姓名"> <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 用户姓名不能大于50个字符</span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">性别：</label>
+                                    <div class="col-sm-9">
+                                        <div class="i-checks">
+                                            <#if userBasic.id??>
+                                                <label class="radio-inline">
+                                                    <#if userBasic.sex==false>
+                                                        <input type="radio" checked="true" value="false" id="sexFalse" name="sex">女</label>
+                                                    <#else>
+                                                        <input type="radio" value="false" id="sexFalse" name="sex">女</label>
+                                                    </#if>
+                                                <label class="radio-inline">
+                                                    <#if userBasic.sex==true>
+                                                        <input type="radio" checked="true" value="true" id="sexTrue" name="sex">男</label>
+                                                    <#else>
+                                                        <input type="radio" value="true" id="sexTrue" name="sex">男</label>
+                                                    </#if>
+                                            <#else>
+                                                    <label class="radio-inline">
+                                                         <input type="radio" checked="true" value="false" id="sexFalse" name="sex">女</label>
+                                                    <label class="radio-inline">
+                                                         <input type="radio" value="true" id="sexTrue" name="sex">男</label>
+                                            </#if>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">昵称：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="nickName" id="nickName" value="<#if userBasic.nickName??>${userBasic.nickName}</#if>" class="form-control" placeholder="昵称"> <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 昵称不能大于10个字符</span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">出生日期：</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" name="birthday" id="birthday" class="form-control" value="<#if userBasic.birthday??>${userBasic.birthday?string('yyyy-MM-dd')}</#if>" placeholder="出生日期">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">邮箱：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="email" id="email" value="<#if userBasic.email??>${userBasic.email}</#if>" class="form-control" placeholder="邮箱">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">身份证号码：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="idNumber" id="idNumber" class="form-control" value="<#if userBasic.idNumber??>${userBasic.idNumber}</#if>" placeholder="身份证号码"> <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 身份证不能大于18个字符,X大写</span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">手机号码：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="phone" id="phone" class="form-control" value="<#if userBasic.phone??>${userBasic.phone}</#if>" placeholder="手机号码"><span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 手机号码不能大于20个字符</span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">家庭电话：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="homePhone" name="homePhone" class="form-control" value="<#if userBasic.homePhone??>${userBasic.homePhone}</#if>" placeholder="家庭电话"> <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 家庭电话不能大于20个字符</span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="deniedFalse">禁用：</label>
+                                    <div class="col-sm-9">
+                                        <div class="i-checks">
+                                            <#if userBasic.id??>
+                                                <label class="radio-inline" for="deniedFalse">
+                                                    <#if userBasic.denied==false>
+                                                        <input type="radio" checked="true" value="false" id="deniedFalse" name="denied">否</label>
+                                                    <#else>
+                                                        <input type="radio" value="false" id="deniedFalse" name="denied">否</label>
+                                                    </#if>
+                                                <label class="radio-inline" for="deniedTrue">
+                                                    <#if userBasic.denied==true>
+                                                        <input type="radio" checked="true" value="true" id="deniedTrue" name="denied">是</label>
+                                                    <#else>
+                                                        <input type="radio" value="true" id="deniedTrue" name="denied">是</label>
+                                                    </#if>
+                                            <#else>
+                                                <label class="radio-inline" for="deniedFalse">
+                                                    <input type="radio" checked="true" value="false" id="deniedFalse" name="denied">否</label>
+                                                <label class="radio-inline" for="deniedTrue">
+                                                    <input type="radio" value="true" id="deniedTrue" name="denied">是</label>
+                                            </#if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">角色：</label>
+                                    <div class="col-sm-9" id="roleGroup">
+                                        <div class="i-checks">
+                                            <#list roles?keys as key>
+                                                <#if roles[key]=="学生">
+                                                    <label class="checkbox-inline">
+                                                        <input type="radio" value="${key}" class="roleCode" checked="checked"  name="roles[${key_index}].roleCode">${roles[key]}</label>
+                                                <#else>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" value="${key}" class="roleCode"  name="roles[${key_index}].roleCode">${roles[key]}</label>
+                                                </#if>
+                                            </#list>
+                                            <#if userBasic.id??>
+                                                <#if userBasic.roles??>
+                                                    <#list userBasic.roles as role>
+                                                        <input type="radio" value="${role.roleCode}" style="display: none" name="roleCodeTemp">
+                                                    </#list>
+                                                </#if>
+                                            </#if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">所属账户：</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control m-b" name="accountId">
+                                            <#if userBasic.accountId??>
+                                                <option value="${userBasic.accountId}">${userBasic.account.accountName}</option>
+                                            </#if>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">个人描述：</label>
+                                    <div class="col-sm-9">
+                                        <textarea id="editor" name="description" placeholder="这里输入内容" autofocus>
+                                            <#if userBasic.description??>${userBasic.description}</#if>
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">备注：</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" name="mark"><#if userBasic.mark??>${userBasic.mark}</#if></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <h5>头像上传</h5>
+                                </div>
+                                <div>
+                                    <img id="img-cropper" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <button class="btn btn-primary" type="submit" id="submitBtn">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<#include "/admin/public-js.html">
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/validate/messages_zh.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/public/js/jquery.form.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/cropper/cropper.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/simditor.js"></script>
+<!--<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/demo/form-advanced-demo.min.js"></script>-->
+<script type="text/javascript">
+    seajs.use("admin/js/user-am");
+</script>
+</html>

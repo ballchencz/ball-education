@@ -1,8 +1,8 @@
 function fullAvatarEditor() {
 	var id				= 'fullAvatarEditor'			//flash文件的ID
-	var file			= 'plugins/fullavatareditor/fullAvatarEditor.swf';		//flash文件的路径
+	var file			= contextPath+'/resources/com/ballchen/education/hplus/plugins/fullavatareditor/fullAvatarEditor.swf';		//flash文件的路径
 	var	version			= "10.1.0";						//播放该flash所需的最低版本
-	var	expressInstall	= 'expressInstall.swf';			//expressInstall.swf的路径
+	var	expressInstall	= contextPath+'/resources/com/ballchen/education/hplus/plugins/fullavatareditor/expressInstall.swf';			//expressInstall.swf的路径
 	var	width			= 600;							//flash文件的宽度
 	var	height			= 430;							//flash文件的高度
 	var container		= id;							//装载flash文件的容器(如div)的id

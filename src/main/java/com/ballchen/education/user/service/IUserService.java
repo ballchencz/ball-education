@@ -74,4 +74,11 @@ public interface IUserService {
      * @return Long
      */
     Long getUserBasicPaginationCount(UserBasic userBasic, PageHelper pageHelper);
+
+    /**
+     * 根据ID获得用户带角色
+     * @param id 用户ID
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicWithRolesByPrimaryKey(String id);
 }

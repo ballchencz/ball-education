@@ -18,6 +18,14 @@
     from ballchen_t_account
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="getAllAccount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ballchen_t_account
+    where ID NOT IN(
+      SELECT ACCOUNT_ID FROM ballchen_t_user_basic
+    )
+  </select>
   <select id="getAccountPagination" resultMap="BaseResultMap" parameterType="com.ballchen.education.account.entity.Account">
       SELECT
       <include refid="Base_Column_List"/>
@@ -43,9 +51,10 @@
           AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
         </if>
       </trim>
-      ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
+      <if test="order!=null and limit!=null and offset!=null">
+        ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
+      </if>
   </select>
-  
   <select id="getAccountPaginationCount" resultType="java.lang.Long" parameterType="com.ballchen.education.account.entity.Account">
     SELECT
       COUNT(*)
@@ -72,6 +81,7 @@
       </if>
     </trim>
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_account
     where ID = #{id,jdbcType=VARCHAR}

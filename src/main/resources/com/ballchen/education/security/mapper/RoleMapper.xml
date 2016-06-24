@@ -127,4 +127,7 @@
     INNER JOIN ballchen_t_authorization AS A ON RA.AUTHORIZATION_ID = A.ID
     INNER JOIN ballchen_t_role AS R ON RA.ROLE_ID = R.ID
   </select>
+  <select id="getPageRoles" resultMap="BaseResultMap">
+    SELECT id,ROLE_NAME FROM ballchen_t_role
+  </select>
 </mapper>

@@ -28,7 +28,19 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
+    public Role selectByRoleCode(String roleCode) {
+        return this.roleDAO.selectByRoleCode(roleCode);
+    }
+
+    @Override
     public List<Role> selectRoleWithAuthorization() {
         return roleDAO.selectRoleWithAuthorization();
     }
+
+    @Override
+    public List<Role> getPageRoles() {
+        return roleDAO.getPageRoles();
+    }
+
+
 }

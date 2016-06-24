@@ -33,4 +33,11 @@ public interface IUserBasicDAO {
      * @return Long
      */
     Long getUserBasicPaginationCount(Map<String,Object> queryMap);
+
+    /**
+     * 根据ID获得用户带角色
+     * @param id 用户Id
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicWithRolesByPrimaryKey(String id);
 }

@@ -1,37 +1,41 @@
 package com.ballchen.education.user.entity;
 
 import com.ballchen.education.account.entity.Account;
+import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.security.entity.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
 
 public class UserBasic {
-    private String id;
+    private String id;//ID
 
-    private Date createTime;
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
+    private Date createTime;//创建时间
 
-    private String userName;
+    private String userName;//用户姓名
 
-    private String nickName;
+    private String nickName;//昵称
 
-    private Boolean sex;
+    private Boolean sex;//性别
 
-    private Date birthday;
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
+    private Date birthday;//生日
 
-    private String email;
+    private String email;//邮箱
 
-    private String idNumber;
+    private String idNumber;//身份证号码
 
-    private String phone;
+    private String phone;//手机号码
 
-    private String homePhone;
+    private String homePhone;//家庭电话
 
-    private String accountId;
+    private String accountId;//账户ID
 
-    private String mark;
+    private String mark;//备注
 
-    private String description;
+    private String description;//描述
 
     private Boolean realNameValid;//实名认证
 
@@ -39,9 +43,9 @@ public class UserBasic {
 
     private String deniedReason;//禁用原因
 
-    private List<Role> roles;
+    private List<Role> roles;//角色组
 
-    private Account account;
+    private Account account;//账户
 
     public String getId() {
         return id;

@@ -25,4 +25,6 @@ public interface IAccountDAO {
     int accessOrDeniedAccount(Map<String,Object> queryMap);
 
     int deleteByIds(Map<String,Object> queryMap);
+
+    List<Account> getAllAccount();
 }

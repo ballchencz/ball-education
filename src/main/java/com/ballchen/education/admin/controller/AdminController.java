@@ -8,6 +8,9 @@ import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
+import com.ballchen.education.security.consts.SecurityConsts;
+import com.ballchen.education.security.entity.Role;
+import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +39,9 @@ public class AdminController {
     private IAccountService accountService;
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
     /**
      * 获得后台登录页面
      * @return
@@ -220,9 +228,60 @@ public class AdminController {
         List<UserBasic> userBasics = this.userService.getUserBasicPagination(userBasic,pageHelper);
         JSONObject jsonO = new JSONObject();
         jsonO.put("total",this.userService.getUserBasicPaginationCount(userBasic,pageHelper));
-        jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(userBasics, AdminConsts.DATETIME_FORMAT_STRING)).toArray());
+        jsonO.put("rows", JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(userBasics, AdminConsts.DATE_FORMAT_STRING)).toArray());
         return jsonO.toJSONString();
     }
+
+    /**
+     * 获得用户添加修改页面
+     * @param userBasic
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getUserBasicAMPage",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    public ModelAndView getUserBasicAMPage(UserBasic userBasic){
+        ModelAndView mv = new ModelAndView("/admin/user/user-am");
+        if(userBasic.getId()==null){//添加
+
+        }else{//修改
+            userBasic = this.userService.selectUserBasicWithRolesByPrimaryKey(userBasic.getId());
+        }
+        mv.addObject("userBasic",userBasic);
+        mv.addObject("roles",SecurityConsts.roleMap);
+        return mv;
+    }
+
+    /**
+     * 添加/修改用户
+     * @param userBasic 用户实体类
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value="/amUserBasic",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> amUserBasic(UserBasic userBasic){
+        Map<String,Object> resultMap = new HashMap<>();
+        if(userBasic.getId()==null || userBasic.getId().equals("")){//添加
+            userBasic.setId(UUID.randomUUID().toString());
+            resultMap.put("name","insert");
+            try{
+                this.userService.insertSelective(userBasic);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }else{//修改
+            resultMap.put("name","update");
+            try{
+                this.userService.updateByPrimaryKeySelective(userBasic);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }
+        return resultMap;
+    }
+
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
 
 
