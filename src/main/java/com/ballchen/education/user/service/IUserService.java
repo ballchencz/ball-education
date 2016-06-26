@@ -81,4 +81,19 @@ public interface IUserService {
      * @return UserBasic
      */
     UserBasic selectUserBasicWithRolesByPrimaryKey(String id);
+
+    /**
+     * 根据ID删除用户
+     * @param ids id数组
+     * @return int
+     */
+    int deleteByIds(String [] ids);
+
+    /**
+     * 禁用用户
+     * @param ids id数组
+     * @param userBasic 禁用信息
+     * @return int
+     */
+    int accessOrDeniedUser(String [] ids,UserBasic userBasic);
 }

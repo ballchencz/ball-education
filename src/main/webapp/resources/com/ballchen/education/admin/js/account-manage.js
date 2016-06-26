@@ -75,7 +75,7 @@ define(function(require,exports,module){
 
     });
     /**
-     * 禁用用户
+     * 禁用账户
      */
     $('#denied').bind('click',function(){
         var selectRow = $("#accountDataGrid").bootstrapTable("getAllSelections")[0];

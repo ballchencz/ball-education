@@ -6,6 +6,9 @@ import com.ballchen.education.user.service.IUserBasicRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2016/6/23.
  */
@@ -44,5 +47,22 @@ public class UserBasicRoleServiceImpl implements IUserBasicRoleService {
     @Override
     public int updateByPrimaryKey(UserBasicRole record) {
         return userBasicRoleDAO.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int deleteByUserBasicId(String userBasicId) {
+        return this.userBasicRoleDAO.deleteByUserBasicId(userBasicId);
+    }
+
+    @Override
+    public int deleteByRoleId(String roleId) {
+        return this.userBasicRoleDAO.deleteByRoleId(roleId);
+    }
+
+    @Override
+    public int deleteByUserBasicIds(String[] ids) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("ids",ids);
+        return this.userBasicRoleDAO.deleteByUserBasicIds(paramMap);
     }
 }

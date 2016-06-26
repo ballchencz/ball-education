@@ -281,6 +281,44 @@ public class AdminController {
         }
         return resultMap;
     }
+    /**
+     * 根据ID数组删除用户
+     * @param ids 用户ID数组
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/deleteUserBasicByIds",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> deleteUserBasicByIds(String [] ids){
+        Map<String,Object> resultMap = new HashMap<>();
+        int result = this.userService.deleteByIds(ids);
+        if(result>=0){
+            resultMap.put("flag",true);
+        }else{
+            resultMap.put("flag",false);
+        }
+        return resultMap;
+    }
+
+    /**
+     * 禁用用户
+     * @param ids 用户ID数组
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/accessOrDeniedUser",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> accessOrDeniedUser(String [] ids,UserBasic userBasic){
+        Map<String,Object> returnMap = new HashMap<>();
+        int result = this.userService.accessOrDeniedUser(ids,userBasic);
+        if(result>0){
+            returnMap.put("flag",true);
+        }else{
+            returnMap.put("flag",false);
+        }
+        return returnMap;
+    }
+
 
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
 

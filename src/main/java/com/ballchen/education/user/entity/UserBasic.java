@@ -22,6 +22,8 @@ public class UserBasic {
 
     @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
     private Date birthday;//生日
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
+    private Date endBirthday;//生日查询结束
 
     private String email;//邮箱
 
@@ -189,5 +191,13 @@ public class UserBasic {
 
     public void setDenied(Boolean denied) {
         this.denied = denied;
+    }
+
+    public Date getEndBirthday() {
+        return endBirthday;
+    }
+
+    public void setEndBirthday(Date endBirthday) {
+        this.endBirthday = endBirthday;
     }
 }

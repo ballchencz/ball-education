@@ -40,4 +40,18 @@ public interface IUserBasicDAO {
      * @return UserBasic
      */
     UserBasic selectUserBasicWithRolesByPrimaryKey(String id);
+
+    /**
+     * 根据ID删除用户
+     * @param paramMap id数组
+     * @return int
+     */
+     int deleteByIds(Map<String,Object> paramMap);
+
+    /**
+     * 禁用用户
+     * @param paramMap id数组
+     * @return int
+     */
+    int accessOrDeniedUser(Map<String,Object> paramMap);
 }

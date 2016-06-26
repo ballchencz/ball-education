@@ -65,6 +65,14 @@
     delete from ballchen_t_user_basic
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByIds" parameterType="java.util.Map" >
+    delete from ballchen_t_user_basic
+    where ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </delete>
   <insert id="insert" parameterType="com.ballchen.education.user.entity.UserBasic" >
     insert into ballchen_t_user_basic (ID, CREATE_TIME, USER_NAME,
     NICK_NAME, SEX, BIRTHDAY,
@@ -220,7 +228,7 @@
         REAL_NAME_VALID = #{realNameValid,jdbcType=BIT},
       </if>
       <if test="denied != null" >
-        DENIED = #{DENIED,jdbcType=BIT},
+        DENIED = #{denied,jdbcType=BIT},
       </if>
       <if test="deniedReason != null" >
         DENIED_REASON = #{deniedReason,jdbcType=VARCHAR},
@@ -267,6 +275,16 @@
     DENIED = #{denied,jdbcType=BIT},
     DENIED_REASON = #{deniedReason,jdbcType=VARCHAR},
     where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="accessOrDeniedUser" parameterType="java.util.Map">
+    UPDATE ballchen_t_user_basic
+    SET DENIED = #{denied,jdbcType=BIT},
+    DENIED_REASON = #{deniedReason,jdbcType=VARCHAR}
+    where ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
   </update>
   <!--分页-->
   <select id="getUserBasicPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
@@ -324,10 +342,10 @@
         AND REAL_NAME_VALID = #{realNameValid,jdbcType=BIT}
       </if>
       <if test="denied != null" >
-        AND DENIED = #{DENIED,jdbcType=BIT}
+        AND DENIED = #{denied,jdbcType=BIT}
       </if>
       <if test="deniedReason != null" >
-        AND DENIED_REASON = #{deniedReason,jdbcType=VARCHAR}
+        AND DENIED_REASON LIKE CONCAT('%',#{deniedReason,jdbcType=VARCHAR},'%' )
       </if>
     </trim>
     ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}

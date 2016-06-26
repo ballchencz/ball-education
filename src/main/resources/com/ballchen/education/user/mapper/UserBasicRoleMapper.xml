@@ -20,6 +20,22 @@
     delete from ballchen_t_user_basic_role
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByUserBasicIds" parameterType="java.util.Map" >
+    delete from ballchen_t_user_basic_role
+    where USER_BASIC_ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </delete>
+  <delete id="deleteByUserBasicId" parameterType="java.lang.String">
+    DELETE  FROM  ballchen_t_user_basic_role
+    WHERE  USER_BASIC_ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByRoleId" parameterType="java.lang.String">
+    DELETE FROM  ballchen_t_user_basic_role
+    WHERE  ROLE_ID = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.ballchen.education.user.entity.UserBasicRole" >
     insert into ballchen_t_user_basic_role (ID, CREATE_TIME, USER_BASIC_ID, 
       ROLE_ID)

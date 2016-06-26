@@ -17,14 +17,13 @@ import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/5/19.
  */
 @Service
+@Transactional
 public class UserServiceImpl implements IUserService{
 
     @Autowired
@@ -73,7 +72,19 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public int updateByPrimaryKeySelective(UserBasic record) {
-        return userBasicDAO.updateByPrimaryKeySelective(record);
+        int i =userBasicDAO.updateByPrimaryKeySelective(record);
+        userBasicRoleService.deleteByUserBasicId(record.getId());
+        for(Role role:record.getRoles()){
+            if(role.getRoleCode()!=null){
+                role = this.roleService.selectByRoleCode(role.getRoleCode());
+                UserBasicRole userBasicRole = new UserBasicRole();
+                userBasicRole.setId(UUID.randomUUID().toString());
+                userBasicRole.setRoleId(role.getId());
+                userBasicRole.setUserBasicId(record.getId());
+                this.userBasicRoleService.insertSelective(userBasicRole);
+            }
+        }
+        return  i;
     }
 
     @Override
@@ -105,6 +116,23 @@ public class UserServiceImpl implements IUserService{
     @Override
     public UserBasic selectUserBasicWithRolesByPrimaryKey(String id) {
         return this.userBasicDAO.selectUserBasicWithRolesByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteByIds(String [] ids) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("ids",ids);
+        this.userBasicRoleService.deleteByUserBasicIds(ids);
+        return this.userBasicDAO.deleteByIds(paramMap);
+    }
+
+    @Override
+    public int accessOrDeniedUser(String [] ids,UserBasic userBasic) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("denied",userBasic.getDenied());
+        paramMap.put("deniedReason",userBasic.getDeniedReason());
+        paramMap.put("ids",ids);
+        return this.userBasicDAO.accessOrDeniedUser(paramMap);
     }
 
 }
