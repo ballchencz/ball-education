@@ -54,4 +54,18 @@ public interface IUserBasicDAO {
      * @return int
      */
     int accessOrDeniedUser(Map<String,Object> paramMap);
+
+    /**
+     * 查询最新添加时间的用户
+     * @return UserBasic
+     */
+    UserBasic selectFirstUserBasic();
+
+    /**
+     * 根据身份证号查询用户
+     * @param queryMap 身份证号
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicByIdNumber(Map<String,Object> queryMap);
+
 }

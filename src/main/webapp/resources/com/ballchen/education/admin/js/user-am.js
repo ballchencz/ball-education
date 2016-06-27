@@ -4,7 +4,6 @@
 
 define(function (require, exports, module) {
     var public = require("common");
-    console.log(public);
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
     parent.layer.iframeAuto(index);
     var CONSTS = {
@@ -15,7 +14,8 @@ define(function (require, exports, module) {
 
     };
     var URL = {
-        "getAllAccountJSON":contextPath+"/accountController/getAllAccountJSON"
+        "getAllAccountJSON":contextPath+"/accountController/getAllAccountJSON",
+        "validRepeatIdNumber":contextPath+"/userController/validRepeatIdNumber"
     }
     parent.layer.iframeAuto(index);
     //require("validate-messages_zh");
@@ -48,7 +48,7 @@ define(function (require, exports, module) {
             var e = "<i class='fa fa-times-circle'></i> ";
             $("#userAmForm").validate({
                 submitHandler: function (form) {
-
+                    var formData = public.serializeForm(form);
                     $(form).ajaxSubmit({
                         url: contextPath + "/adminController/amUserBasic",
                         success: function (data) {
@@ -94,7 +94,17 @@ define(function (require, exports, module) {
                     },
                     idNumber: {
                         maxlength: 18,
-                        isIdCardNo: true
+                        isIdCardNo: true,
+                        remote: {
+                            url: URL.validRepeatIdNumber,     //后台处理程序
+                            type: "get",               //数据发送方式
+                            dataType: "json",
+                            data:{
+                                id: function() {
+                                    return $("#userBasicId").val();
+                                }
+                            }
+                        }
                     }, phone: {
                         maxlength: 30
                     }, homePhone: {
@@ -125,7 +135,8 @@ define(function (require, exports, module) {
                         email: e + "请填写合法的email地址"
                     }, idNumber: {
                         maxlength: e + "身份证号码不能大于18个字符",
-                        isIdCardNo: e + "请填写合法的身份证号码"
+                        isIdCardNo: e + "请填写合法的身份证号码",
+                        remote:e+"身份证号码已存在"
                     }, phone: {
                         maxlength: e + "手机号码不能大于30个字符"
                     }, homePhone: {

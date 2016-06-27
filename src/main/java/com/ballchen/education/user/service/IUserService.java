@@ -96,4 +96,17 @@ public interface IUserService {
      * @return int
      */
     int accessOrDeniedUser(String [] ids,UserBasic userBasic);
+
+    /**
+     * 查询最新添加时间的用户
+     * @return UserBasic
+     */
+    UserBasic selectFirstUserBasic();
+
+    /**
+     * 根据身份证号查询用户
+     * @param idNumber 身份证号
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicByIdNumber(String idNumber,String id);
 }

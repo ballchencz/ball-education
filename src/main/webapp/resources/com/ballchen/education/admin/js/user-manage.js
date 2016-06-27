@@ -5,7 +5,8 @@ define(function(require,exports,module){
     var URL = {
         "getUserManagePagination":contextPath+"/adminController/getUserBasicPagination",
         "deleteUserBasicByIds":contextPath+"/adminController/deleteUserBasicByIds",
-        "accessoryOrDeniedUser":contextPath+"/adminController/accessOrDeniedUser"
+        "accessoryOrDeniedUser":contextPath+"/adminController/accessOrDeniedUser",
+        "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic"
     }
 
     var common =require("common");
@@ -34,6 +35,21 @@ define(function(require,exports,module){
                 };
             }
             return {};
+        },
+        onClickRow:function(row){
+            var id = row.id;
+            /*显示右侧用户信息*/
+            $.get(URL.getFirstCreateTimeUserBasic,{id:id},function(data){
+                data = $.parseJSON(data.userBasic);
+                if(data){
+                    //加载用户姓名
+                    $(".userName").text(data.userName);
+                    //加载个人简介
+                    $(".description").html(data.description);
+                    //加载备注
+                    $(".mark").text(data.mark);
+                }
+            })
         }
     });
 
@@ -204,6 +220,18 @@ define(function(require,exports,module){
                 break;
         }
     });
+    /*显示右侧用户信息*/
+    $.get(URL.getFirstCreateTimeUserBasic,function(data){
+        data = $.parseJSON(data.userBasic);
+        if(data){
+            //加载用户姓名
+            $(".userName").text(data.userName);
+            //加载个人简介
+            $(".description").html(data.description);
+            //加载备注
+            $(".mark").text(data.mark);
+        }
+    })
     //绑定查询按钮点击事件
     $("#searchBtn").bind("click",function(){
         var form = $(this).parent().prevAll("form");
@@ -216,6 +244,8 @@ define(function(require,exports,module){
         $("#tab-1").prepend(alertDiv).hide().fadeIn('slow').delay(3000).fadeOut('slow');
     }
     return addBootstrapAlert;
+
+
 })
 //格式化性别
 function formatterSex(value,row,index) {

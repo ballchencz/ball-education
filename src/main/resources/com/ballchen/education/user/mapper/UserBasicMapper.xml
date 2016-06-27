@@ -51,6 +51,27 @@
     from ballchen_t_user_basic
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectUserBasicByIdNumber" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from ballchen_t_user_basic
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="idNumber!=null">
+        AND ID_NUMBER = #{idNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="id!=null">
+        AND ID != #{id,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+  <select id="selectFirstUserBasic" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ballchen_t_user_basic
+    WHERE CREATE_TIME=(SELECT MAX(CREATE_TIME) AS CREATE_TIME FROM ballchen_t_user_basic)
+  </select>
   <select id="selectUserBasicWithRolesByPrimaryKey" resultMap="ResultMapWithAccountAndRoles" parameterType="java.lang.String">
     SELECT
     u.ID, u.CREATE_TIME, u.USER_NAME, u.NICK_NAME, u.SEX, u.BIRTHDAY, u.EMAIL, u.ID_NUMBER, u.PHONE, u.HOME_PHONE,

@@ -319,6 +319,28 @@ public class AdminController {
         return returnMap;
     }
 
+    /**
+     * 获得用户展示数据
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getFirstCreateTimeUserBasic",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> getFirstCreateTimeUserBasic(String id){
+        Map<String,Object> returnMap = new HashMap<>();
+        UserBasic userBasic = null;
+        if(id==null){
+            userBasic = this.userService.selectFirstUserBasic();
+        }else{
+            userBasic = this.userService.selectByPrimaryKey(id);
+        }
+
+        if(userBasic!=null){
+            returnMap.put("userBasic",JSONObject.toJSONString(userBasic));
+        }
+        return returnMap;
+    }
 
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
 

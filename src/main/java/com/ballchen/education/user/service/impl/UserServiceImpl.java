@@ -135,4 +135,21 @@ public class UserServiceImpl implements IUserService{
         return this.userBasicDAO.accessOrDeniedUser(paramMap);
     }
 
+    @Override
+    public UserBasic selectFirstUserBasic() {
+        return userBasicDAO.selectFirstUserBasic();
+    }
+
+    @Override
+    public UserBasic selectUserBasicByIdNumber(String idNumber,String id) {
+        Map<String,Object> queryMap= new HashMap<>();
+        if(id!=null){
+            queryMap.put("id",id);
+        }
+        if(idNumber!=null){
+            queryMap.put("idNumber",idNumber);
+        }
+        return userBasicDAO.selectUserBasicByIdNumber(queryMap);
+    }
+
 }
