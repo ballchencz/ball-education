@@ -3,11 +3,12 @@
  */
 define(function(require,exports,module){
     var $ = require('jquery');
-    var public = require('public');
+    var public = require('common');
     $(function(){
         /*绑定登录按钮事件*/
         $('.btn').bind('click',function(){
-            var formData = public.SerializeFrom($('.btn').parents('form'));
+            console.log(public);
+            var formData = public.serializeForm($('.btn').parents('form'));
             $.post(contextPath+'/adminController/validLogin',formData,function(data){
                 if(data.flag){
                     window.location.href = contextPath+"/adminController/getAdminIndexPage";
