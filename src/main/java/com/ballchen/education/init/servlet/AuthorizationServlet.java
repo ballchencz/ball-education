@@ -46,7 +46,7 @@ public class AuthorizationServlet extends HttpServlet {
         this.roleAuthorizationDAO.deleteAll();
         this.authorizationDAO.deleteAll();
         List<Role> roles = this.roleDAO.getPageRoles();
-        if(roles==null){
+        if(roles.size()==0){
             //添加角色
             Iterator<Map.Entry<String,String>> it = SecurityConsts.roleMap.entrySet().iterator();
             while(it.hasNext()){
