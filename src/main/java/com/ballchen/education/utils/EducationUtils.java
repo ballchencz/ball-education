@@ -110,12 +110,12 @@ public class EducationUtils {
      * @param filePath 文件路径
      * @return JSONObject
      */
-    public static JSONObject getAllProperties(String filePath) {
+    public static Map<String,Object> getAllProperties(String filePath) {
         Properties pps = new Properties();
         InputStream in = null;
-        JSONObject jsonObject = null;
+        Map<String,Object> jsonObject = null;
         try {
-            jsonObject = new JSONObject();
+            jsonObject = new HashMap<>();
             in = new BufferedInputStream(new FileInputStream(filePath));
             pps.load(in);
             Enumeration en = pps.propertyNames(); //得到配置文件的名字

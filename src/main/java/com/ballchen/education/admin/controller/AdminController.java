@@ -14,6 +14,7 @@ import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
+import com.ballchen.education.utils.EducationUtils;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -343,6 +344,33 @@ public class AdminController {
     }
 
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
+
+    /*----------------------------------------------文件服务器管理开始--------------------------------------------------*/
+    @RequestMapping(value = "/getFileServerManagePage",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    public ModelAndView getFileServerManagePage(HttpServletRequest request){
+       // Map<String,Object> returnMap = EducationUtils.getAllProperties();
+       String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
+        ModelAndView mv = new ModelAndView("/admin/fileServer/file-server-manage");
+        mv.addObject("param",EducationUtils.getAllProperties(path));
+        return mv;
+    }
+    @RequestMapping(value = "/saveFileServerProperties",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port){
+        Map<String,Object> returnMap = new HashMap<>();
+        Map<String,Object> param = new HashMap<>();
+        param.put("userName",userName);
+        param.put("password",password);
+        param.put("host",host);
+        param.put("port",port);
+        String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
+        boolean flag = EducationUtils.writeAllProperties(path,param);
+        returnMap.put("flag",flag);
+        return returnMap;
+    }
+    /*----------------------------------------------文件服务器管理结束--------------------------------------------------*/
 
 
 }
