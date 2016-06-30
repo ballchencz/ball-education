@@ -42,4 +42,7 @@
     </bean>-->
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1073741824"/>
+    </bean>
 </beans>

@@ -9,13 +9,10 @@ import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
 import com.ballchen.education.security.consts.SecurityConsts;
-import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.security.service.IRoleService;
-import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
-import com.ballchen.education.utils.EducationUtils;
-import org.omg.CORBA.Request;
+import com.ballchen.education.utils.PublicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -349,10 +346,10 @@ public class AdminController {
     @RequestMapping(value = "/getFileServerManagePage",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     public ModelAndView getFileServerManagePage(HttpServletRequest request){
-       // Map<String,Object> returnMap = EducationUtils.getAllProperties();
+       // Map<String,Object> returnMap = PublicUtils.getAllProperties();
        String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
         ModelAndView mv = new ModelAndView("/admin/fileServer/file-server-manage");
-        mv.addObject("param",EducationUtils.getAllProperties(path));
+        mv.addObject("param", PublicUtils.getAllProperties(path));
         return mv;
     }
     @RequestMapping(value = "/saveFileServerProperties",method = RequestMethod.POST)
@@ -366,7 +363,7 @@ public class AdminController {
         param.put("host",host);
         param.put("port",port);
         String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
-        boolean flag = EducationUtils.writeAllProperties(path,param);
+        boolean flag = PublicUtils.writeAllProperties(path,param);
         returnMap.put("flag",flag);
         return returnMap;
     }

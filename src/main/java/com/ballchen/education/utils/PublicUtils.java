@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by ballchen on 2016/6/28.
  */
-public class EducationUtils {
+public class PublicUtils {
 
     /**
      * 写入所有
@@ -130,15 +130,15 @@ public class EducationUtils {
         return jsonObject;
     }
 /*    public static void main(String [] args){
-        JSONObject jsonObject = EducationUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties");
+        JSONObject jsonObject = PublicUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties");
         System.out.println(jsonObject.toJSONString());
-        boolean flag = EducationUtils.writeProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties","host","/public/upfile");
+        boolean flag = PublicUtils.writeProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties","host","/public/upfile");
         System.out.println(flag);
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("userName","admin1");
         paramMap.put("password","admin121");
         paramMap.put("port",3000);
         paramMap.put("host","/admin/fileManage");
-        flag = EducationUtils.writeAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties",paramMap);
+        flag = PublicUtils.writeAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties",paramMap);
     }*/
 }
