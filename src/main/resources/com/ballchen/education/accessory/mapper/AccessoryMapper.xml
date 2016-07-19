@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.accessory.dao.IAccessoryDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.accessory.entity.Accessory" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ACCESSORY_NAME" property="accessoryName" jdbcType="VARCHAR" />
+    <result column="SAVE_NAME" property="saveName" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="EXT" property="ext" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, ACCESSORY_NAME, SAVE_NAME, FILE_NAME, URL, EXT, MARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ballchen_t_accessory
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_accessory
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.accessory.entity.Accessory" >
+    insert into ballchen_t_accessory (ID, CREATE_TIME, ACCESSORY_NAME, 
+      SAVE_NAME, FILE_NAME, URL, 
+      EXT, MARK)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{accessoryName,jdbcType=VARCHAR}, 
+      #{saveName,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{ext,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.accessory.entity.Accessory" >
+    insert into ballchen_t_accessory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="accessoryName != null" >
+        ACCESSORY_NAME,
+      </if>
+      <if test="saveName != null" >
+        SAVE_NAME,
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="ext != null" >
+        EXT,
+      </if>
+      <if test="mark != null" >
+        MARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessoryName != null" >
+        #{accessoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="saveName != null" >
+        #{saveName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.accessory.entity.Accessory" >
+    update ballchen_t_accessory
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessoryName != null" >
+        ACCESSORY_NAME = #{accessoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="saveName != null" >
+        SAVE_NAME = #{saveName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        EXT = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        MARK = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.accessory.entity.Accessory" >
+    update ballchen_t_accessory
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ACCESSORY_NAME = #{accessoryName,jdbcType=VARCHAR},
+      SAVE_NAME = #{saveName,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      EXT = #{ext,jdbcType=VARCHAR},
+      MARK = #{mark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

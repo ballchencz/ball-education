@@ -1,7 +1,9 @@
 package com.ballchen.education.user.service;
 
+import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.user.entity.UserBasic;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ public interface IUserService {
      * @param record
      * @return int
      */
-    int insertSelective(UserBasic record);
+    int insertSelective(UserBasic record, Accessory accessory);
 
     /**
      * 根据ID查询用户

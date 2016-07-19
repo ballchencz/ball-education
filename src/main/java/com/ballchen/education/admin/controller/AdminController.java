@@ -2,12 +2,15 @@ package com.ballchen.education.admin.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ballchen.education.accessory.entity.Accessory;
+import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.account.service.IAccountService;
 import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
+import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.security.consts.SecurityConsts;
 import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.entity.UserBasic;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +42,11 @@ public class AdminController {
     @Autowired
     private IUserService userService;
 
+    //@Autowired
+    //private IRoleService roleService;
+
     @Autowired
-    private IRoleService roleService;
+    private IAccessoryService accessoryService;
     /**
      * 获得后台登录页面
      * @return
@@ -252,18 +259,20 @@ public class AdminController {
     /**
      * 添加/修改用户
      * @param userBasic 用户实体类
+     * @param imgFile 用户头像文件
      * @return Map<String,Object>
      */
     @RequestMapping(value="/amUserBasic",method = RequestMethod.POST)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     @ResponseBody
-    public Map<String,Object> amUserBasic(UserBasic userBasic){
+    public Map<String,Object> amUserBasic(UserBasic userBasic, MultipartFile imgFile){
         Map<String,Object> resultMap = new HashMap<>();
         if(userBasic.getId()==null || userBasic.getId().equals("")){//添加
             userBasic.setId(UUID.randomUUID().toString());
             resultMap.put("name","insert");
             try{
-                this.userService.insertSelective(userBasic);
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile);
+                this.userService.insertSelective(userBasic,accessory);
                 resultMap.put("flag",true);
             }catch(Exception e){
                 resultMap.put("flag",false);
@@ -347,7 +356,7 @@ public class AdminController {
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     public ModelAndView getFileServerManagePage(HttpServletRequest request){
        // Map<String,Object> returnMap = PublicUtils.getAllProperties();
-       String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
+       String path = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.fileServiceFilePath;
         ModelAndView mv = new ModelAndView("/admin/fileServer/file-server-manage");
         mv.addObject("param", PublicUtils.getAllProperties(path));
         return mv;
@@ -355,14 +364,15 @@ public class AdminController {
     @RequestMapping(value = "/saveFileServerProperties",method = RequestMethod.POST)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     @ResponseBody
-    public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port){
+    public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port,String filePath){
         Map<String,Object> returnMap = new HashMap<>();
         Map<String,Object> param = new HashMap<>();
         param.put("userName",userName);
         param.put("password",password);
         param.put("host",host);
         param.put("port",port);
-        String path = this.getClass().getClassLoader().getResource("/").getPath()+"fileServer.properties";
+        param.put("filePath",filePath);
+        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.fileServiceFilePath;
         boolean flag = PublicUtils.writeAllProperties(path,param);
         returnMap.put("flag",flag);
         return returnMap;

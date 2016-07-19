@@ -1,7 +1,10 @@
 package com.ballchen.education.user.service.impl;
 
+import com.ballchen.education.accessory.entity.Accessory;
+import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.admin.utils.AdminUtils;
+import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
 import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.security.entity.RoleAuthorization;
@@ -11,12 +14,18 @@ import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.entity.UserBasicRole;
 import com.ballchen.education.user.service.IUserBasicRoleService;
 import com.ballchen.education.user.service.IUserService;
+import com.ballchen.education.utils.PublicUtils;
+import com.ballchen.education.utils.SftpUtils;
+import com.jcraft.jsch.SftpException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.accessibility.AccessibleRelation;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -32,6 +41,8 @@ public class UserServiceImpl implements IUserService{
     private IRoleService roleService;
     @Autowired
     private IUserBasicRoleService userBasicRoleService;
+    @Autowired
+    private IAccessoryService accessoryService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -44,9 +55,12 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    @Transactional
-    public int insertSelective(UserBasic record) {
+    public int insertSelective(UserBasic record,Accessory accessory) {
         //添加用户
+       boolean flag = false;
+        if(accessory!=null){//如果附件不为空，说明用户上传了头像，添加附件，并和userBasic做关联
+            this.accessoryService.insertSelective(accessory);
+        }
         int i = userBasicDAO.insertSelective(record);
         if(record.getRoles()!=null){
             List<Role> roles = record.getRoles();

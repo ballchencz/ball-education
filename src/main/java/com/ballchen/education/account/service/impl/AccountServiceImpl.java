@@ -5,6 +5,7 @@ import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.account.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Created by ballchen on 2016/6/1.
  */
 @Service
+@Transactional
 public class AccountServiceImpl implements IAccountService {
 
     @Autowired

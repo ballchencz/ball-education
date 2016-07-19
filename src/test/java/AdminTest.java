@@ -1,4 +1,7 @@
 import com.alibaba.fastjson.JSONArray;
+import com.ballchen.education.accessory.dao.IAccessoryDAO;
+import com.ballchen.education.accessory.entity.Accessory;
+import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.account.dao.IAccountDAO;
 import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.admin.dao.IMenuInfoDAO;
@@ -45,6 +48,8 @@ public class AdminTest {
     private IRoleAuthorizationDAO roleAuthorizationDAO;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IAccessoryService accessoryService;
 
 
     @Test
@@ -177,5 +182,19 @@ public class AdminTest {
         Long count = this.userService.getUserBasicPaginationCount(userBasic,ph);
         System.out.println(JSONArray.toJSONString(userBasics,true));
         System.out.println(count+"-----------------------------------------------");
+    }
+
+    @Test
+    public void testAccessory(){
+        Accessory accessory = new Accessory();
+        accessory.setId(UUID.randomUUID().toString());
+        accessory.setAccessoryName("awefwae");
+        accessory.setCreateTime(new Date());
+        accessory.setExt(".txt");
+        accessory.setFileName("hello");
+        accessory.setMark("dfjaoiwejofjwe");
+        accessory.setSaveName(UUID.randomUUID().toString());
+        accessory.setUrl("/repository");
+        this.accessoryService.insertSelective(accessory);
     }
 }

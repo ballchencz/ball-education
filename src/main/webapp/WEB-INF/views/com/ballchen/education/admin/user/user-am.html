@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="userAmForm" method="post">
+                    <form class="form-horizontal m-t" id="userAmForm" method="post" enctype="multipart/form-data">
                         <input type="hidden" id="userBasicId" name="id" value="<#if userBasic.id??>${userBasic.id}</#if>">
                         <div class="row">
                             <div class="col-md-6">
@@ -202,7 +202,11 @@
                                     <h5>头像上传</h5>
                                 </div>
                                 <div>
-                                    <img id="img-cropper" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
+                                    <div><img id="preview" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg"></div>
+                                    <div>
+                                        <input type="button" id="checkImgFile" value="选择头像" class="btn btn-primary" style="margin-top: 5px;">
+                                        <input type="file" id="imgFile" onchange="setImagePreview()" name="imgFile" style="display: none">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -235,6 +239,8 @@
 <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/uploader.js"></script>
 <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/hotkeys.js"></script>
 <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/simditor/simditor.js"></script>
+<script type="text/javascript" src="/resources/com/ballchen/education/hplus/js/plugins/jcrop/js/jquery.color.js"></script>
+<script type="text/javascript" src="/resources/com/ballchen/education/hplus/js/plugins/jcrop/js/jquery.Jcrop.min.js"></script>
 <!--<script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/demo/form-advanced-demo.min.js"></script>-->
 <script type="text/javascript">
     seajs.use("admin/js/user-am");

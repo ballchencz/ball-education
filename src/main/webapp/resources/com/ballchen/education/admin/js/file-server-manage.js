@@ -42,7 +42,7 @@ define(function(require,exports,module){
                 },
                 password:{
                     required:true,
-                    minlength:5,
+                    minlength:1,
                     maxlength:50
                 },
                 host: {
@@ -62,7 +62,7 @@ define(function(require,exports,module){
                     maxlength:e+"用户名不能大于50个字符"
                 },password: {
                     required: e+"请输入您的密码",
-                    minlength:e+"密码不能小于5个字符",
+                    minlength:e+"密码不能小于1个字符",
                     maxlength:e+"密码不能大于50个字符"
                 },host: {
                     required: e+"请输入服务器地址",

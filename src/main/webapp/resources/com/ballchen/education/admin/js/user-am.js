@@ -31,7 +31,6 @@ define(function (require, exports, module) {
         },
         errorElement: "span",
         errorPlacement: function (e, r) {
-            console.log(r);
             e.appendTo(r.is(":radio") || r.is(":checkbox") ? r.parent().parent().parent() : r.parent())
         },
         errorClass: "help-block m-b-none",
@@ -48,7 +47,8 @@ define(function (require, exports, module) {
             var e = "<i class='fa fa-times-circle'></i> ";
             $("#userAmForm").validate({
                 submitHandler: function (form) {
-                    var formData = public.serializeForm(form);
+                    //console.log(form);
+                    //var formData = public.serializeForm(form);
                     $(form).ajaxSubmit({
                         url: contextPath + "/adminController/amUserBasic",
                         success: function (data) {
@@ -188,5 +188,9 @@ define(function (require, exports, module) {
      console.log(e.scaleY);
      }
      });*/
+    $('#checkImgFile').bind("click",function(){
+        $('#imgFile').click();
+    })
+
 
 });

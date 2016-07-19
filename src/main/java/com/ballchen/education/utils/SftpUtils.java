@@ -1,5 +1,6 @@
 package com.ballchen.education.utils;
 
+import com.ballchen.education.consts.PublicConsts;
 import com.jcraft.jsch.*;
 
 import java.io.*;
@@ -17,6 +18,7 @@ public class SftpUtils {
     private  String host;
     private  Integer port;
     private Session sshSession;
+    private Channel channel;
 
     /*---------------------------有参构造函数---------------------------------------*/
     public SftpUtils(String userName,String password,String host,Integer port){
@@ -44,7 +46,7 @@ public class SftpUtils {
         sshConfig.put("StrictHostKeyChecking", "no");
         sshSession.setConfig(sshConfig);
         sshSession.connect();
-        Channel channel = sshSession.openChannel("sftp");
+        channel = sshSession.openChannel("sftp");
         channel.connect();
         sftp = (ChannelSftp) channel;
         return sftp;
@@ -55,12 +57,14 @@ public class SftpUtils {
      */
     public void disconnect(){
         if(sftp != null){
-            if(sftp.isConnected()){
+            if (sshSession != null) {
                 sshSession.disconnect();
+            }
+            if (channel != null) {
+                channel.disconnect();
+            }
+            if (sftp != null) {
                 sftp.disconnect();
-                sftp.quit();
-            }else if(sftp.isClosed()){
-
             }
         }
     }
@@ -153,11 +157,11 @@ public class SftpUtils {
      * @throws JSchException
      * @throws SftpException
      */
-/*    public void addFolder(String path,FileBean fileBean) throws JSchException, SftpException{
+    public void addFolder(String path) throws JSchException, SftpException{
         //this.connect();
-        String dirName = path+fileBean.getFileName();
+        String dirName = path;
         sftp.mkdir(dirName);
-    }*/
+    }
 
     /**
      *  移除文件夹
@@ -250,30 +254,28 @@ public class SftpUtils {
     }
 
     public void uploadFile(InputStream in,String filePath) throws IOException, SftpException{
-        byte [] b = new byte [1024];
-        int i = 0;
-        OutputStream out = sftp.put(filePath);
-        while((i = in.read(b))!=-1){
-            out.write(b,0,i);
-        }
-        out.flush();
-        out.close();
-        in.close();
+        sftp.put(in,filePath);
     }
 
     public static void main(String[] args) throws JSchException {
-        SftpUtils su = new SftpUtils("admin", "admin", "127.0.0.1", 22);
+        SftpUtils su = new SftpUtils("root", "root", "192.168.84.128", 22);
         su.connect();
-        String filePath = "/t01b2692d40d8f187bb.jpg";
+        String filePath = "D:/fileServer.properties";
+        String saveFilePath = "/home/sftptest/file.txt";
         try {
-            byte [] b = su.getFileByteArrayByFileArray(filePath);
-            System.out.print(b);
-        } catch (FileNotFoundException e) {
+            //byte [] b = su.getFileByteArrayByFileArray("/report/fileServer.txt");
+            //su.removeFile("/report/fileServer.txt");
+            //System.out.println(b);
+            File file = new File(filePath);
+            InputStream is = new FileInputStream(file);
+            su.uploadFile(is,saveFilePath);
+           // su.addFolder(saveFilePath);
+        }catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
-        } catch (SftpException e) {
-
+        }catch (SftpException e) {
+            e.printStackTrace();
         }finally{
             su.disconnect();
         }
