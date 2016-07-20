@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,19 +59,11 @@ public class AccessoryServiceImpl implements IAccessoryService {
     }
 
     @Override
-    public Accessory getAccessoryByMultipartFile(MultipartFile imgFile) {
+    public Accessory getAccessoryByMultipartFile(MultipartFile imgFile,String fileType)throws IOException,SftpException,JSchException{
         Accessory accessory = null;
         if(imgFile!=null){
-            //获得文件服务器文件路径
-            String fileServiceFilePath = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.fileServiceFilePath;
-            //获得文件服务器配置
-            Map<String,Object> fileServeProperties = PublicUtils.getAllProperties(fileServiceFilePath);
-            String userName = (String)fileServeProperties.get("userName");
-            String password = (String)fileServeProperties.get("password");
-            String host = (String)fileServeProperties.get("host");
-            Integer port = Integer.valueOf((String)fileServeProperties.get("port"));
-            String filePath = (String)fileServeProperties.get("filePath");
-            SftpUtils sftpUtils = new SftpUtils(userName,password,host,port);
+            String filePath = (String)this.getSftpUtils().get("filePath");
+            SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
             boolean flag;
             //获得文件名
             String fileName = imgFile.getOriginalFilename().substring(0, imgFile.getOriginalFilename().lastIndexOf("."));
@@ -78,12 +71,11 @@ public class AccessoryServiceImpl implements IAccessoryService {
             String ext = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."),imgFile.getOriginalFilename().length());
             //获得保存到服务器的文件名
             String saveFileServeName = UUID.randomUUID().toString();
-            try {
-                sftpUtils.connect();
-                //上传文件至服务器
-                sftpUtils.uploadFile(imgFile.getInputStream(),filePath+"/"+saveFileServeName+ext);
-                flag = true;
-                if(flag){//上传成功，实例化附件
+            sftpUtils.connect();
+            //上传文件至服务器
+            sftpUtils.uploadFile(imgFile.getInputStream(),filePath+"/"+saveFileServeName+ext);
+            flag = true;
+            if(flag){//上传成功，实例化附件
                     accessory = new Accessory();
                     accessory.setId(UUID.randomUUID().toString());
                     accessory.setUrl(saveFileServeName+ext);
@@ -91,17 +83,51 @@ public class AccessoryServiceImpl implements IAccessoryService {
                     accessory.setExt(ext);
                     accessory.setSaveName(saveFileServeName);
                     accessory.setAccessoryName(fileName);
-                }
-            } catch (IOException e) {
+                    accessory.setFileType(fileType);
+                    accessory.setFileSize(imgFile.getSize());
+            }
+            sftpUtils.disconnect();
+        }
+        return accessory;
+    }
+
+    @Override
+    public byte[] getAccessoryByteByAccessoryId(String id) {
+        Accessory accessory = this.selectByPrimaryKey(id);
+        byte [] bytes = null;
+        if(accessory!=null){
+            String fileUrl = accessory.getUrl();
+            String filePath = (String)this.getSftpUtils().get("filePath");
+            SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
+            try {
+                sftpUtils.connect();
+                bytes = sftpUtils.getFileByteArrayByFileArray(filePath.endsWith("/")?filePath:filePath+"/"+fileUrl);
+            } catch (JSchException e) {
                 e.printStackTrace();
             } catch (SftpException e) {
                 e.printStackTrace();
-            } catch (JSchException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 sftpUtils.disconnect();
             }
+
         }
-        return accessory;
+        return bytes;
+    }
+
+    private Map<String,Object> getSftpUtils(){
+        String fileServiceFilePath = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.FILE_SERVER_FILE_PATH;
+        Map<String,Object> fileServeProperties = PublicUtils.getAllProperties(fileServiceFilePath);
+        String userName = (String)fileServeProperties.get("userName");
+        String password = (String)fileServeProperties.get("password");
+        String host = (String)fileServeProperties.get("host");
+        Integer port = Integer.valueOf((String)fileServeProperties.get("port"));
+        String filePath = (String)fileServeProperties.get("filePath");
+        SftpUtils sftpUtils = new SftpUtils(userName,password,host,port);
+        Map<String,Object> returnMap = new HashMap<>();
+        returnMap.put("filePath",filePath);
+        returnMap.put("sftpUtils",sftpUtils);
+        return returnMap;
     }
 }

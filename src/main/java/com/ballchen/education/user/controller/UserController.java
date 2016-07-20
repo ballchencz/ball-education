@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by ChenZhao on 2016/6/27.
+ * Created by ballchen on 2016/6/27.
  */
 @Controller
 @RequestMapping("userController")
@@ -30,5 +30,4 @@ public class UserController {
             return "true";
         }
     }
-
 }

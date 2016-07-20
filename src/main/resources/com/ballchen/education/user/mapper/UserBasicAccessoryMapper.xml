@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.user.dao.IUserBasicAccessoryDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.user.entity.UserBasicAccessory" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="USER_BASIC_ID" property="userBasicId" jdbcType="VARCHAR" />
+    <result column="ACCESSORY_ID" property="accessoryId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, USER_BASIC_ID, ACCESSORY_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ballchen_t_user_basic_accessory
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_user_basic_accessory
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.user.entity.UserBasicAccessory" >
+    insert into ballchen_t_user_basic_accessory (ID, CREATE_TIME, USER_BASIC_ID, 
+      ACCESSORY_ID)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{userBasicId,jdbcType=VARCHAR}, 
+      #{accessoryId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.user.entity.UserBasicAccessory" >
+    insert into ballchen_t_user_basic_accessory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="userBasicId != null" >
+        USER_BASIC_ID,
+      </if>
+      <if test="accessoryId != null" >
+        ACCESSORY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userBasicId != null" >
+        #{userBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoryId != null" >
+        #{accessoryId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.user.entity.UserBasicAccessory" >
+    update ballchen_t_user_basic_accessory
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userBasicId != null" >
+        USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoryId != null" >
+        ACCESSORY_ID = #{accessoryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.user.entity.UserBasicAccessory" >
+    update ballchen_t_user_basic_accessory
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
+      ACCESSORY_ID = #{accessoryId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

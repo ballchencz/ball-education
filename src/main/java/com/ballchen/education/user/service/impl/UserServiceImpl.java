@@ -9,9 +9,12 @@ import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
 import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.security.entity.RoleAuthorization;
 import com.ballchen.education.security.service.IRoleService;
+import com.ballchen.education.user.dao.IUserBasicAccessoryDAO;
 import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
+import com.ballchen.education.user.entity.UserBasicAccessory;
 import com.ballchen.education.user.entity.UserBasicRole;
+import com.ballchen.education.user.service.IUserBasicAccessoryService;
 import com.ballchen.education.user.service.IUserBasicRoleService;
 import com.ballchen.education.user.service.IUserService;
 import com.ballchen.education.utils.PublicUtils;
@@ -43,6 +46,8 @@ public class UserServiceImpl implements IUserService{
     private IUserBasicRoleService userBasicRoleService;
     @Autowired
     private IAccessoryService accessoryService;
+    @Autowired
+    private IUserBasicAccessoryService userBasicAccessoryService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -56,12 +61,11 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public int insertSelective(UserBasic record,Accessory accessory) {
-        //添加用户
-       boolean flag = false;
-        if(accessory!=null){//如果附件不为空，说明用户上传了头像，添加附件，并和userBasic做关联
-            this.accessoryService.insertSelective(accessory);
-        }
-        int i = userBasicDAO.insertSelective(record);
+        //附件添加结果
+        int accessoryInsertResult = -1;
+        //用户添加结果
+        int userBasicInsertResult;
+        userBasicInsertResult = userBasicDAO.insertSelective(record);
         if(record.getRoles()!=null){
             List<Role> roles = record.getRoles();
             for (Role role : roles){
@@ -75,7 +79,14 @@ public class UserServiceImpl implements IUserService{
                 }
             }
         }
-        return i;
+        if(accessory!=null){//如果附件不为空，说明用户上传了头像，添加附件，并和userBasic做关联
+            accessoryInsertResult = this.accessoryService.insertSelective(accessory);
+        }
+        if(accessoryInsertResult>0 && userBasicInsertResult>0){
+            UserBasicAccessory userBasicAccessory = this.userBasicAccessoryService.getUserBasicAccessoryByUserBasicAndAccessoryEntity(record,accessory);
+            this.userBasicAccessoryService.insertSelective(userBasicAccessory);
+        }
+        return userBasicInsertResult;
 
     }
 
@@ -151,7 +162,7 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public UserBasic selectFirstUserBasic() {
-        return userBasicDAO.selectFirstUserBasic();
+        return userBasicDAO.selectFirstUserBasic(PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
     }
 
     @Override

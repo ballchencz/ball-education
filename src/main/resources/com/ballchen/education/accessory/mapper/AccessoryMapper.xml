@@ -9,10 +9,12 @@
     <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
     <result column="EXT" property="ext" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR"/>
+    <result column="FILE_SIZE" property="fileSize" jdbcType="BIGINT"/>
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, ACCESSORY_NAME, SAVE_NAME, FILE_NAME, URL, EXT, MARK
+    ID, CREATE_TIME, ACCESSORY_NAME, SAVE_NAME, FILE_NAME, URL, EXT,FILE_TYPE,FILE_SIZE,MARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -27,10 +29,10 @@
   <insert id="insert" parameterType="com.ballchen.education.accessory.entity.Accessory" >
     insert into ballchen_t_accessory (ID, CREATE_TIME, ACCESSORY_NAME, 
       SAVE_NAME, FILE_NAME, URL, 
-      EXT, MARK)
+      EXT, FILE_TYPE,FILE_SIZE,MARK)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{accessoryName,jdbcType=VARCHAR}, 
       #{saveName,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{ext,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR})
+      #{ext,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR},#{fileSize,jdbcType=BIGINT},#{mark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.accessory.entity.Accessory" >
     insert into ballchen_t_accessory
@@ -55,6 +57,12 @@
       </if>
       <if test="ext != null" >
         EXT,
+      </if>
+      <if test="fileType != null">
+        FILE_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
       </if>
       <if test="mark != null" >
         MARK,
@@ -82,6 +90,12 @@
       <if test="ext != null" >
         #{ext,jdbcType=VARCHAR},
       </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
       </if>
@@ -108,6 +122,12 @@
       <if test="ext != null" >
         EXT = #{ext,jdbcType=VARCHAR},
       </if>
+      <if test="fileType != null">
+        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        FILE_TYPE = #{fileSize,jdbcType=BIGINT},
+      </if>
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
       </if>
@@ -122,6 +142,8 @@
       FILE_NAME = #{fileName,jdbcType=VARCHAR},
       URL = #{url,jdbcType=VARCHAR},
       EXT = #{ext,jdbcType=VARCHAR},
+      FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      FILE_SIZE = #{fileSize,jdbcType=BIGINT},
       MARK = #{mark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

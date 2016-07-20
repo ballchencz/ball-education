@@ -6,7 +6,8 @@ define(function(require,exports,module){
         "getUserManagePagination":contextPath+"/adminController/getUserBasicPagination",
         "deleteUserBasicByIds":contextPath+"/adminController/deleteUserBasicByIds",
         "accessoryOrDeniedUser":contextPath+"/adminController/accessOrDeniedUser",
-        "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic"
+        "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic",
+        "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId"
     }
 
     var common =require("common");
@@ -48,6 +49,8 @@ define(function(require,exports,module){
                     $(".description").html(data.description);
                     //加载备注
                     $(".mark").text(data.mark);
+                    //加载头像
+                    $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.accessories[0].id);
                 }
             })
         }
@@ -230,6 +233,8 @@ define(function(require,exports,module){
             $(".description").html(data.description);
             //加载备注
             $(".mark").text(data.mark);
+            //加载头像
+            $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.accessories[0].id);
         }
     })
     //绑定查询按钮点击事件

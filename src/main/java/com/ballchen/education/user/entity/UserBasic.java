@@ -1,5 +1,6 @@
 package com.ballchen.education.user.entity;
 
+import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.security.entity.Role;
@@ -22,6 +23,7 @@ public class UserBasic {
 
     @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
     private Date birthday;//生日
+
     @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
     private Date endBirthday;//生日查询结束
 
@@ -48,6 +50,8 @@ public class UserBasic {
     private List<Role> roles;//角色组
 
     private Account account;//账户
+
+    private List<Accessory> accessories;//用户附件集合
 
     public String getId() {
         return id;
@@ -199,5 +203,13 @@ public class UserBasic {
 
     public void setEndBirthday(Date endBirthday) {
         this.endBirthday = endBirthday;
+    }
+
+    public List<Accessory> getAccessories() {
+        return accessories;
+    }
+
+    public void setAccessories(List<Accessory> accessories) {
+        this.accessories = accessories;
     }
 }

@@ -5,6 +5,7 @@ import com.ballchen.education.user.entity.UserBasicRole;
 import com.ballchen.education.user.service.IUserBasicRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
  * Created by Administrator on 2016/6/23.
  */
 @Service
+@Transactional
 public class UserBasicRoleServiceImpl implements IUserBasicRoleService {
 
     @Autowired

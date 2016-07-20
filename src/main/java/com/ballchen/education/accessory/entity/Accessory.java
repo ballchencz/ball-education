@@ -20,6 +20,10 @@ public class Accessory {
 
     private String ext;
 
+    private String fileType;
+
+    private Long fileSize;
+
     private String mark;
 
     public String getId() {
@@ -84,5 +88,21 @@ public class Accessory {
 
     public void setMark(String mark) {
         this.mark = mark == null ? null : mark.trim();
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 }

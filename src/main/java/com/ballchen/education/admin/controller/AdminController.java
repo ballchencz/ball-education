@@ -271,7 +271,7 @@ public class AdminController {
             userBasic.setId(UUID.randomUUID().toString());
             resultMap.put("name","insert");
             try{
-                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile);
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile,PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
                 this.userService.insertSelective(userBasic,accessory);
                 resultMap.put("flag",true);
             }catch(Exception e){
@@ -356,7 +356,7 @@ public class AdminController {
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     public ModelAndView getFileServerManagePage(HttpServletRequest request){
        // Map<String,Object> returnMap = PublicUtils.getAllProperties();
-       String path = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.fileServiceFilePath;
+       String path = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.FILE_SERVER_FILE_PATH;
         ModelAndView mv = new ModelAndView("/admin/fileServer/file-server-manage");
         mv.addObject("param", PublicUtils.getAllProperties(path));
         return mv;
@@ -372,7 +372,7 @@ public class AdminController {
         param.put("host",host);
         param.put("port",port);
         param.put("filePath",filePath);
-        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.fileServiceFilePath;
+        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.FILE_SERVER_FILE_PATH;
         boolean flag = PublicUtils.writeAllProperties(path,param);
         returnMap.put("flag",flag);
         return returnMap;

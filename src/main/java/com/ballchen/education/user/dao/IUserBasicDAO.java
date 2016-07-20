@@ -59,7 +59,7 @@ public interface IUserBasicDAO {
      * 查询最新添加时间的用户
      * @return UserBasic
      */
-    UserBasic selectFirstUserBasic();
+    UserBasic selectFirstUserBasic(String fileType);
 
     /**
      * 根据身份证号查询用户

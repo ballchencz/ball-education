@@ -258,10 +258,10 @@ public class SftpUtils {
     }
 
     public static void main(String[] args) throws JSchException {
-        SftpUtils su = new SftpUtils("root", "root", "192.168.84.128", 22);
+        SftpUtils su = new SftpUtils("sftp", "sftp", "192.168.84.128", 22);
         su.connect();
         String filePath = "D:/fileServer.properties";
-        String saveFilePath = "/home/sftptest/file.txt";
+        String saveFilePath = "/sftp/report/file.txt";
         try {
             //byte [] b = su.getFileByteArrayByFileArray("/report/fileServer.txt");
             //su.removeFile("/report/fileServer.txt");
@@ -280,7 +280,6 @@ public class SftpUtils {
             su.disconnect();
         }
     }
-
 
 
 

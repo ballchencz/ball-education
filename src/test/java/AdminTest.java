@@ -7,6 +7,7 @@ import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.admin.dao.IMenuInfoDAO;
 import com.ballchen.education.admin.entity.MenuInfo;
 import com.ballchen.education.admin.entity.PageHelper;
+import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.security.dao.IAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleDAO;
@@ -194,7 +195,10 @@ public class AdminTest {
         accessory.setFileName("hello");
         accessory.setMark("dfjaoiwejofjwe");
         accessory.setSaveName(UUID.randomUUID().toString());
+        accessory.setFileType(PublicConsts.USER_FILE_TYPE_OTHER);
         accessory.setUrl("/repository");
+        accessory.setFileSize(125635L);
         this.accessoryService.insertSelective(accessory);
     }
+
 }
