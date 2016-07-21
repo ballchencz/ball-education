@@ -11,11 +11,11 @@ define(function (require, exports, module) {
         "INSERT_FAILED_TITLE": "添加失败",
         "UPDATE_SUCCESS_TITLE": "修改成功",
         "UPDATE_FAILED_TITLE": "修改失败"
-
     };
     var URL = {
         "getAllAccountJSON":contextPath+"/accountController/getAllAccountJSON",
-        "validRepeatIdNumber":contextPath+"/userController/validRepeatIdNumber"
+        "validRepeatIdNumber":contextPath+"/userController/validRepeatIdNumber",
+        "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId",
     }
     parent.layer.iframeAuto(index);
     //require("validate-messages_zh");
@@ -171,6 +171,11 @@ define(function (require, exports, module) {
                     });
                 }
                 $("input[name='roleCodeTemp']").iCheck('destroy');
+            }
+            /*初始化用户头像*/
+            var accessoryId = $("input[name='accessoryTemp']").val();
+            if(accessoryId){
+                $("#preview").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
             }
         }
     );

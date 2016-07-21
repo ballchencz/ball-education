@@ -50,6 +50,13 @@
   <resultMap id="ResultMapWithAccountAndRoles" type="com.ballchen.education.user.entity.UserBasic" extends="ResultMapWithRoles">
     <association property="account" column="ACCOUNT_ID" select="com.ballchen.education.account.dao.IAccountDAO.selectByPrimaryKey"/>
   </resultMap>
+  <resultMap id="ResultMapWithAccountAndRolesAndHeadPicture" type="com.ballchen.education.user.entity.UserBasic" extends="ResultMapWithRoles">
+    <association property="account" column="ACCOUNT_ID" select="com.ballchen.education.account.dao.IAccountDAO.selectByPrimaryKey"/>
+    <collection property="accessories" ofType="com.ballchen.education.accessory.entity.Accessory">
+      <id column="ACCESSORY_ID" property="id" jdbcType="VARCHAR" />
+      <result column="URL" property="url" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     ID, CREATE_TIME, USER_NAME, NICK_NAME, SEX, BIRTHDAY, EMAIL, ID_NUMBER, PHONE, HOME_PHONE,
     ACCOUNT_ID, MARK,REAL_NAME_VALID,DENIED,DENIED_REASON
@@ -78,7 +85,7 @@
       </if>
     </trim>
   </select>
-  <select id="selectFirstUserBasic" resultMap="ResultMapWithAccessories" parameterType="java.lang.String">
+  <select id="selectFirstUserBasic" resultMap="ResultMapWithAccessories" parameterType="java.util.Map">
     select
       u.ID,
       u.CREATE_TIME,
@@ -108,10 +115,17 @@
       a.MARK
     from
       ballchen_t_user_basic_accessory AS ua INNER JOIN ballchen_t_user_basic AS u ON ua.USER_BASIC_ID = u.ID INNER JOIN ballchen_t_accessory AS a ON ua.ACCESSORY_ID = a.ID
-    WHERE
-        u.CREATE_TIME=(SELECT MAX(CREATE_TIME) AS CREATE_TIME FROM ballchen_t_user_basic)
-        AND
-        a.FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id == null">
+        AND u.CREATE_TIME=(SELECT MAX(CREATE_TIME) AS CREATE_TIME FROM ballchen_t_user_basic)
+      </if>
+      <if test="fileType!=null">
+        AND a.FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+      </if>
+      <if test="id!=null">
+        AND u.ID = #{id,jdbcType=VARCHAR}
+      </if>
+    </trim>
   </select>
   <select id="selectUserBasicWithRolesByPrimaryKey" resultMap="ResultMapWithAccountAndRoles" parameterType="java.lang.String">
     SELECT
@@ -140,6 +154,44 @@
       ballchen_t_user_basic_role AS ur INNER JOIN ballchen_t_user_basic AS u ON ur.USER_BASIC_ID = u.ID INNER JOIN ballchen_t_role AS r ON ur.ROLE_ID = r.ID
     WHERE
       u.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey" resultMap="ResultMapWithAccountAndRolesAndHeadPicture" parameterType="java.util.Map">
+    SELECT
+        u.ID,
+        u.CREATE_TIME,
+        u.USER_NAME,
+        u.NICK_NAME,
+        u.SEX,
+        u.BIRTHDAY,
+        u.EMAIL,
+        u.ID_NUMBER,
+        u.PHONE,
+        u.HOME_PHONE,
+        u.ACCOUNT_ID,
+        u.MARK,
+        u.REAL_NAME_VALID,
+        u.DENIED,
+        u.DENIED_REASON,
+        u.DESCRIPTION,
+        r.ID AS ROLE_ID,
+        r.CREATE_TIME AS ROLE_CREATE_TIME,
+        r.ROLE_CODE,
+        r.ROLE_NAME,
+        r.MARK AS ROLE_MARK,
+        a.ID AS ACCESSORY_ID,
+        a.URL
+    FROM
+	ballchen_t_user_basic_role AS ur
+	INNER JOIN ballchen_t_user_basic AS u ON ur.USER_BASIC_ID = u.ID
+	INNER JOIN ballchen_t_role AS r ON ur.ROLE_ID = r.ID INNER JOIN
+	ballchen_t_user_basic_accessory AS ua ON ua.USER_BASIC_ID = u.ID
+	INNER JOIN ballchen_t_accessory a ON ua.ACCESSORY_ID = a.ID
+    <trim prefix="where" prefixOverrides="and |or">
+        AND a.FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+      <if test="id!=null">
+        AND u.ID = #{id,jdbcType=VARCHAR}
+      </if>
+    </trim>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_user_basic

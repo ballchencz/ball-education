@@ -96,8 +96,9 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public int updateByPrimaryKeySelective(UserBasic record) {
+    public int updateByPrimaryKeySelective(UserBasic record,Accessory accessory) {
         int i =userBasicDAO.updateByPrimaryKeySelective(record);
+        /*---------------解除现有用户与角色的关联，然后添加新的关联----------------*/
         userBasicRoleService.deleteByUserBasicId(record.getId());
         for(Role role:record.getRoles()){
             if(role.getRoleCode()!=null){
@@ -109,6 +110,25 @@ public class UserServiceImpl implements IUserService{
                 this.userBasicRoleService.insertSelective(userBasicRole);
             }
         }
+        /*------------------------------------------------------------------------*/
+        /*---------------解除用户与附件的关系，添加新的关联（附件不为空的情况下）-------------*/
+        if(accessory!=null){
+            UserBasic userBasicTemp = this.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(record.getId());
+            if(userBasicTemp!=null){
+                Accessory headPictureAccessory = this.accessoryService.selectByPrimaryKey(userBasicTemp.getAccessories().get(0).getId());
+                //删除用户和头像附件的关联
+                UserBasicAccessory userBasicAccessoryTemp = this.userBasicAccessoryService.getUserBasicAccessoryByUserBasicIdAndAccessoryId(record.getId(),headPictureAccessory.getId());
+                userBasicAccessoryService.deleteByPrimaryKey(userBasicAccessoryTemp.getId());
+                //删除用户头像附件
+                this.accessoryService.deleteByPrimaryKey(headPictureAccessory.getId());
+            }
+            //添加用户头像附件
+            accessoryService.insertSelective(accessory);
+            //添加用户头像附件与用户的关联
+            UserBasicAccessory userBasicAccessory = new UserBasicAccessory(UUID.randomUUID().toString(),new Date(),record.getId(),accessory.getId());
+            userBasicAccessoryService.insert(userBasicAccessory);
+        }
+        /*------------------------------------------------------------------------------------*/
         return  i;
     }
 
@@ -161,8 +181,17 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public UserBasic selectFirstUserBasic() {
-        return userBasicDAO.selectFirstUserBasic(PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+    public UserBasic selectFirstUserBasic(String id) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("fileType",PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+        if(id!=null){
+            queryMap.put("id",id);
+        }
+        UserBasic userBasic = userBasicDAO.selectFirstUserBasic(queryMap);
+        if(userBasic==null){
+            userBasic = this.selectByPrimaryKey(id);
+        }
+        return userBasic;
     }
 
     @Override
@@ -175,6 +204,16 @@ public class UserServiceImpl implements IUserService{
             queryMap.put("idNumber",idNumber);
         }
         return userBasicDAO.selectUserBasicByIdNumber(queryMap);
+    }
+
+    @Override
+    public UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(String id) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("fileType",PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+        if(id!=null){
+            queryMap.put("id",id);
+        }
+        return userBasicDAO.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(queryMap);
     }
 
 }

@@ -45,7 +45,7 @@ public interface IUserService {
      * @param record
      * @return int
      */
-    int updateByPrimaryKeySelective(UserBasic record);
+    int updateByPrimaryKeySelective(UserBasic record,Accessory accessory);
 
     /**
      * 修改用户
@@ -101,9 +101,10 @@ public interface IUserService {
 
     /**
      * 查询最新添加时间的用户
+     * @param id 用户Id
      * @return UserBasic
      */
-    UserBasic selectFirstUserBasic();
+    UserBasic selectFirstUserBasic(String id);
 
     /**
      * 根据身份证号查询用户
@@ -111,4 +112,11 @@ public interface IUserService {
      * @return UserBasic
      */
     UserBasic selectUserBasicByIdNumber(String idNumber,String id);
+
+    /**
+     * 根据参数查询用户并且带账户，角色，头像
+     * @param id 用户id
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(String id);
 }

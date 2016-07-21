@@ -7,7 +7,8 @@ define(function(require,exports,module){
         "deleteUserBasicByIds":contextPath+"/adminController/deleteUserBasicByIds",
         "accessoryOrDeniedUser":contextPath+"/adminController/accessOrDeniedUser",
         "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic",
-        "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId"
+        "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId",
+        "defaultHeadPicture":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg"
     }
 
     var common =require("common");
@@ -50,7 +51,16 @@ define(function(require,exports,module){
                     //加载备注
                     $(".mark").text(data.mark);
                     //加载头像
-                    $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.accessories[0].id);
+                    var accessoryId;
+                    if(data.accessories){
+                        accessoryId = data.accessories[0].id
+                    }
+                    if(accessoryId){
+                        $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
+                    }else{
+                        $("#headpicture").attr("src",URL.defaultHeadPicture);
+                    }
+
                 }
             })
         }

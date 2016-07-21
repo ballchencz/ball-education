@@ -22,4 +22,6 @@ public interface IUserBasicAccessoryService {
     int updateByPrimaryKey(UserBasicAccessory record);
 
     UserBasicAccessory getUserBasicAccessoryByUserBasicAndAccessoryEntity(UserBasic userBasic, Accessory accessory);
+
+    UserBasicAccessory getUserBasicAccessoryByUserBasicIdAndAccessoryId(String userBasicId,String accessoryId);
 }

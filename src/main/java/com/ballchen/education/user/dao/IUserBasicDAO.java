@@ -57,9 +57,10 @@ public interface IUserBasicDAO {
 
     /**
      * 查询最新添加时间的用户
+     * @param queryMap 查询参数
      * @return UserBasic
      */
-    UserBasic selectFirstUserBasic(String fileType);
+    UserBasic selectFirstUserBasic(Map<String,Object> queryMap);
 
     /**
      * 根据身份证号查询用户
@@ -67,5 +68,12 @@ public interface IUserBasicDAO {
      * @return UserBasic
      */
     UserBasic selectUserBasicByIdNumber(Map<String,Object> queryMap);
+
+    /**
+     * 根据参数查询用户并且带账户，角色，头像
+     * @param queryMap 查询参数
+     * @return UserBasic
+     */
+    UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(Map<String,Object> queryMap);
 
 }

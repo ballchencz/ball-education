@@ -249,7 +249,11 @@ public class AdminController {
         if(userBasic.getId()==null){//添加
 
         }else{//修改
-            userBasic = this.userService.selectUserBasicWithRolesByPrimaryKey(userBasic.getId());
+            String userBasicId = userBasic.getId();
+            userBasic = this.userService.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(userBasicId);
+            if(userBasic==null){
+                userBasic = userService.selectUserBasicWithRolesByPrimaryKey(userBasicId);
+            }
         }
         mv.addObject("userBasic",userBasic);
         mv.addObject("roles",SecurityConsts.roleMap);
@@ -280,7 +284,8 @@ public class AdminController {
         }else{//修改
             resultMap.put("name","update");
             try{
-                this.userService.updateByPrimaryKeySelective(userBasic);
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile,PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+                this.userService.updateByPrimaryKeySelective(userBasic,accessory);
                 resultMap.put("flag",true);
             }catch(Exception e){
                 resultMap.put("flag",false);
@@ -336,13 +341,7 @@ public class AdminController {
     @ResponseBody
     public Map<String,Object> getFirstCreateTimeUserBasic(String id){
         Map<String,Object> returnMap = new HashMap<>();
-        UserBasic userBasic = null;
-        if(id==null){
-            userBasic = this.userService.selectFirstUserBasic();
-        }else{
-            userBasic = this.userService.selectByPrimaryKey(id);
-        }
-
+        UserBasic userBasic = this.userService.selectFirstUserBasic(id);
         if(userBasic!=null){
             returnMap.put("userBasic",JSONObject.toJSONString(userBasic));
         }

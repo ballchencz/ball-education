@@ -202,7 +202,16 @@
                                     <h5>头像上传</h5>
                                 </div>
                                 <div>
-                                    <div><img id="preview" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg"></div>
+                                    <div>
+                                        <#if userBasic.id??>
+                                            <#if userBasic.accessories??>
+                                                <#list userBasic.accessories as accessory>
+                                                    <input type="radio" value="${accessory.id}" style="display: none" name="accessoryTemp">
+                                                </#list>
+                                            </#if>
+                                        </#if>
+                                        <img id="preview" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
+                                    </div>
                                     <div>
                                         <input type="button" id="checkImgFile" value="选择头像" class="btn btn-primary" style="margin-top: 5px;">
                                         <input type="file" id="imgFile" onchange="setImagePreview()" name="imgFile" style="display: none">

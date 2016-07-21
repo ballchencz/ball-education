@@ -201,4 +201,11 @@ public class AdminTest {
         this.accessoryService.insertSelective(accessory);
     }
 
+    @Test
+    public void testGetUser(){
+        String id = "353b2540-c82b-405a-9268-f10ad4146c13";
+        UserBasic userBasic = this.userService.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(id);
+
+    }
+
 }

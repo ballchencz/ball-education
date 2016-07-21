@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -58,5 +60,13 @@ public class UserBasicAccessoryServiceImpl implements IUserBasicAccessoryService
             userBasicAccessory = new UserBasicAccessory(UUID.randomUUID().toString(),null,userBasic.getId(),accessory.getId());
         }
         return userBasicAccessory;
+    }
+
+    @Override
+    public UserBasicAccessory getUserBasicAccessoryByUserBasicIdAndAccessoryId(String userBasicId, String accessoryId) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("userBasicId",userBasicId);
+        queryMap.put("accessoryId",accessoryId);
+        return userBasicAccessoryDAO.getUserBasicAccessoryByUserBasicIdAndAccessoryId(queryMap);
     }
 }
