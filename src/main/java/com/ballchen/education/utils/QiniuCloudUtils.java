@@ -44,16 +44,10 @@ public class QiniuCloudUtils {
      * @param saveFileName
      * @throws IOException
      */
-    public String simpleUpload(byte [] bytes,String saveFileName) throws IOException {
-        Response res = null;
-        try {
-            //调用put方法上传
-            res = uploadManager.put(bytes, saveFileName, getSimpleUpToken());
-        } catch (QiniuException e) {
-            res = e.response;
-        }finally {
-            return res.bodyString();
-        }
+    public String simpleUpload(byte [] bytes,String saveFileName) throws QiniuException {
+        //调用put方法上传
+        Response res = uploadManager.put(bytes, saveFileName, getSimpleUpToken());
+        return res.bodyString();
     }
 
     /**
@@ -62,29 +56,17 @@ public class QiniuCloudUtils {
      * @param saveFileName
      * @throws IOException
      */
-    public String overWriteUpload(byte [] bytes,String saveFileName) throws IOException{
-        Response res = null;
-        try {
-            //调用put方法上传，这里指定的key和上传策略中的key要一致
-            res = uploadManager.put(bytes, saveFileName, getOverWriteUpToken(saveFileName));
-        } catch (QiniuException e) {
-           res = e.response;
-        }finally {
-            return res.bodyString();
-        }
+    public String overWriteUpload(byte [] bytes,String saveFileName) throws QiniuException{
+        //调用put方法上传，这里指定的key和上传策略中的key要一致
+        Response res = uploadManager.put(bytes, saveFileName, getOverWriteUpToken(saveFileName));
+        return res.bodyString();
     }
 
-    public void removeSimpleFile(String saveFileName){
+    public void removeSimpleFile(String saveFileName) throws QiniuException {
         //实例化一个BucketManager对象
         BucketManager bucketManager = new BucketManager(auth);
-        try {
-            //调用delete方法移动文件
-            bucketManager.delete(bucketName, saveFileName);
-        } catch (QiniuException e) {
-            //捕获异常信息
-            Response r = e.response;
-            System.out.println(r.toString());
-        }
+        //调用delete方法移动文件
+        bucketManager.delete(bucketName, saveFileName);
     }
 
     public static void main(String [] args){

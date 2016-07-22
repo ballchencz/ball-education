@@ -9,6 +9,7 @@ import com.ballchen.education.utils.QiniuCloudUtils;
 import com.ballchen.education.utils.SftpUtils;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.qiniu.common.QiniuException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +61,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
     }
 
     @Override
-    public Accessory getAccessoryByMultipartFile(MultipartFile imgFile,String fileType)throws IOException,SftpException,JSchException{
+    public Accessory getAccessoryByMultipartFile(MultipartFile imgFile,String fileType) throws IOException, SftpException, JSchException,QiniuException{
         boolean flag = false;
         //获得文件名
         String fileName = imgFile.getOriginalFilename().substring(0, imgFile.getOriginalFilename().lastIndexOf("."));
