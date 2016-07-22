@@ -14,55 +14,140 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-sm-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>文件服务器配置</h5>
-                </div>
-                <div class="ibox-content">
-                    <form method="post" class="form-horizontal" id="fileServerForm">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">用户名</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  placeholder="文件服务器用户名" name="userName" value="${param['userName']}">
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">密码</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password"  placeholder="文件服务器密码" value="${param['password']}">
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">服务器地址</label>
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">sftp文件服务器</a>
+                    </li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">七牛云存储</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <form method="post" class="form-horizontal" id="fileServerForm">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">用户名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  placeholder="文件服务器用户名" name="userName" value="${sftpProperties['userName']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" name="password"  placeholder="文件服务器密码" value="${sftpProperties['password']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">服务器地址</label>
 
-                            <div class="col-sm-10">
-                                <input type="text"  placeholder="文件服务器地址" class="form-control" name="host" value="${param['host']}">
-                            </div>
+                                    <div class="col-sm-10">
+                                        <input type="text"  placeholder="文件服务器地址" class="form-control" name="host" value="${sftpProperties['host']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">端口号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  placeholder="文件服务器端口号" class="form-control" name="port" value="${sftpProperties['port']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">路径</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  placeholder="路径" class="form-control" name="filePath" value="${sftpProperties['filePath']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">使用</label>
+                                    <div class="col-sm-10">
+                                        <div class="i-checks">
+                                                <#if sftpProperties['denied']?boolean == false>
+                                                    <label class="radio-inline" for="deniedTrue">
+                                                        <input type="radio" checked="true" value="false" id="deniedTrue" name="denied">是</label>
+                                                    <label class="radio-inline" for="deniedFalse">
+                                                        <input type="radio" value="true" id="deniedFalse" name="denied">否</label>
+                                                <#else>
+                                                    <label class="radio-inline" for="deniedTrue">
+                                                        <input type="radio" value="false" id="deniedTrue" name="denied">是</label>
+                                                    <label class="radio-inline" for="deniedFalse">
+                                                        <input type="radio" checked="true" value="true" id="deniedFalse" name="denied">否</label>
+                                                </#if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-2" control-label>
+                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>保 存</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">端口号</label>
-                            <div class="col-sm-10">
-                                <input type="text"  placeholder="文件服务器端口号" class="form-control" name="port" value="${param['port']}">
-                            </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                            <form method="post" class="form-horizontal" id="qiniucloudForm">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">AK</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  placeholder="AccessKey" name="accessKey" value="${qiniuCloudProperties['accessKey']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">SK</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" name="secretKey"  placeholder="SecretKey" value="${qiniuCloudProperties['secretKey']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">空间名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="bucketName"  placeholder="空间名" value="${qiniuCloudProperties['bucketName']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">路径</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="filePath"  placeholder="路径" value="${qiniuCloudProperties['filePath']}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">使用</label>
+                                    <div class="col-sm-10">
+                                        <div class="i-checks">
+                                                <#if qiniuCloudProperties['denied']?boolean == false>
+                                                    <label class="radio-inline" for="deniedTrue">
+                                                        <input type="radio" checked="true" value="false" id="deniedTrue" name="denied">是</label>
+                                                    <label class="radio-inline" for="deniedFalse">
+                                                        <input type="radio" value="true" id="deniedFalse" name="denied">否</label>
+                                                <#else>
+                                                    <label class="radio-inline" for="deniedTrue">
+                                                        <input type="radio" value="false" id="deniedTrue" name="denied">是</label>
+                                                    <label class="radio-inline" for="deniedFalse">
+                                                        <input type="radio" checked="true" value="true" id="deniedFalse" name="denied">否</label>
+                                                </#if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-2" control-label>
+                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>保 存</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">文件地址</label>
-                            <div class="col-sm-10">
-                                <input type="text"  placeholder="文件地址" class="form-control" name="filePath" value="${param['filePath']}">
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <div class="col-sm-2" control-label>
-                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>保 存</strong>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

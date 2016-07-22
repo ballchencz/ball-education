@@ -5,6 +5,7 @@ import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.utils.PublicUtils;
+import com.ballchen.education.utils.QiniuCloudUtils;
 import com.ballchen.education.utils.SftpUtils;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -60,33 +61,42 @@ public class AccessoryServiceImpl implements IAccessoryService {
 
     @Override
     public Accessory getAccessoryByMultipartFile(MultipartFile imgFile,String fileType)throws IOException,SftpException,JSchException{
+        boolean flag = false;
+        //获得文件名
+        String fileName = imgFile.getOriginalFilename().substring(0, imgFile.getOriginalFilename().lastIndexOf("."));
+        //获得文件扩展名
+        String ext = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."),imgFile.getOriginalFilename().length());
+        //获得保存到服务器的文件名
+        String saveFileServeName = UUID.randomUUID().toString();
         Accessory accessory = null;
         if(imgFile!=null){
-            String filePath = (String)this.getSftpUtils().get("filePath");
-            SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
-            boolean flag;
-            //获得文件名
-            String fileName = imgFile.getOriginalFilename().substring(0, imgFile.getOriginalFilename().lastIndexOf("."));
-            //获得文件扩展名
-            String ext = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."),imgFile.getOriginalFilename().length());
-            //获得保存到服务器的文件名
-            String saveFileServeName = UUID.randomUUID().toString();
-            sftpUtils.connect();
-            //上传文件至服务器
-            sftpUtils.uploadFile(imgFile.getInputStream(),filePath+"/"+saveFileServeName+ext);
-            flag = true;
-            if(flag){//上传成功，实例化附件
-                    accessory = new Accessory();
-                    accessory.setId(UUID.randomUUID().toString());
-                    accessory.setUrl(saveFileServeName+ext);
-                    accessory.setFileName(fileName);
-                    accessory.setExt(ext);
-                    accessory.setSaveName(saveFileServeName);
-                    accessory.setAccessoryName(fileName);
-                    accessory.setFileType(fileType);
-                    accessory.setFileSize(imgFile.getSize());
+            Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+            String type = (String)fileServerProperties.get("type");
+            if(type.equals("sftp")){//使用sftp上传
+                String filePath = (String)this.getSftpUtils().get("filePath");
+                SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
+
+                sftpUtils.connect();
+                //上传文件至服务器
+                sftpUtils.uploadFile(imgFile.getInputStream(),filePath+"/"+saveFileServeName+ext);
+                flag = true;
+
+                sftpUtils.disconnect();
+            }else{//使用七牛云存储
+                QiniuCloudUtils qiniuCloudUtils = getQiniuCloudUtils(fileServerProperties);
+                qiniuCloudUtils.simpleUpload(imgFile.getBytes(),saveFileServeName+ext);
             }
-            sftpUtils.disconnect();
+            if(flag){//上传成功，实例化附件
+                accessory = new Accessory();
+                accessory.setId(UUID.randomUUID().toString());
+                accessory.setUrl(saveFileServeName+ext);
+                accessory.setFileName(fileName);
+                accessory.setExt(ext);
+                accessory.setSaveName(saveFileServeName);
+                accessory.setAccessoryName(fileName);
+                accessory.setFileType(fileType);
+                accessory.setFileSize(imgFile.getSize());
+            }
         }
         return accessory;
     }
@@ -117,7 +127,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
     }
 
     private Map<String,Object> getSftpUtils(){
-        String fileServiceFilePath = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.FILE_SERVER_FILE_PATH;
+        String fileServiceFilePath = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.SFTP_FILE_SERVER_PROPERTIES_NAME;
         Map<String,Object> fileServeProperties = PublicUtils.getAllProperties(fileServiceFilePath);
         String userName = (String)fileServeProperties.get("userName");
         String password = (String)fileServeProperties.get("password");
@@ -129,5 +139,13 @@ public class AccessoryServiceImpl implements IAccessoryService {
         returnMap.put("filePath",filePath);
         returnMap.put("sftpUtils",sftpUtils);
         return returnMap;
+    }
+    private QiniuCloudUtils getQiniuCloudUtils(Map<String,Object> properties){
+        String accessKey = (String)properties.get("accessKey");
+        String secretKey = (String)properties.get("secretKey");
+        String bucketName = (String)properties.get("bucketName");
+        String filePath = (String)properties.get("filePath");
+        QiniuCloudUtils qiniuCloudUtils = new QiniuCloudUtils(accessKey,secretKey,bucketName,filePath);
+        return qiniuCloudUtils;
     }
 }

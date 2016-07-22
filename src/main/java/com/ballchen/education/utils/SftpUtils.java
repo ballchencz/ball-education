@@ -1,8 +1,6 @@
 package com.ballchen.education.utils;
 
-import com.ballchen.education.consts.PublicConsts;
 import com.jcraft.jsch.*;
-
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.Properties;
@@ -153,7 +151,6 @@ public class SftpUtils {
     /**
      * 添加文件夹
      * @param path
-     * @param fileBean
      * @throws JSchException
      * @throws SftpException
      */
@@ -260,7 +257,7 @@ public class SftpUtils {
     public static void main(String[] args) throws JSchException {
         SftpUtils su = new SftpUtils("sftp", "sftp", "192.168.84.128", 22);
         su.connect();
-        String filePath = "D:/fileServer.properties";
+        String filePath = "D:/sftpFileServer.properties";
         String saveFilePath = "/sftp/report/file.txt";
         try {
             //byte [] b = su.getFileByteArrayByFileArray("/report/fileServer.txt");

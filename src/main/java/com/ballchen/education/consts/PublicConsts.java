@@ -5,9 +5,14 @@ package com.ballchen.education.consts;
  */
 public class PublicConsts {
     /**
-     * 项目根路径
+     * sftp文件服务器配置文件名称
      */
-    public static final String  FILE_SERVER_FILE_PATH = "fileServer.properties";
+    public static final String  SFTP_FILE_SERVER_PROPERTIES_NAME = "sftpFileServer.properties";
+
+    /**
+     * 七牛云存储配置文件
+     */
+    public static final String QINIU_CLOUD_PEOPERTIES_NAME = "qiniucloud.properties";
 
     /**
      * 用户头像文件类型

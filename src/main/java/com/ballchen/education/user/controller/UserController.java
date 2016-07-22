@@ -19,6 +19,12 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * 验证重复的身份证
+     * @param idNumber 身份证号码
+     * @param id 用户ID
+     * @return String
+     */
     @RequestMapping(value = "/validRepeatIdNumber",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     @ResponseBody

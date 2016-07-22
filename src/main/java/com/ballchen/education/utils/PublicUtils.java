@@ -1,6 +1,8 @@
 package com.ballchen.education.utils;
 
 
+import com.ballchen.education.consts.PublicConsts;
+
 import java.io.*;
 import java.util.*;
 
@@ -104,6 +106,35 @@ public class PublicUtils {
         return value;
     }
 
+    public static Map<String,Object> getUseableFileServerProperties(String rootUrl){
+        Properties pps = new Properties();
+        InputStream in;
+        Map<String,Object> jsonObject = null;
+        String sftpFileServiceProperties = rootUrl+PublicConsts.SFTP_FILE_SERVER_PROPERTIES_NAME;
+        String qiniuCloudProperties = rootUrl+PublicConsts.QINIU_CLOUD_PEOPERTIES_NAME;
+        boolean sftpFileServiceDenied = Boolean.valueOf(PublicUtils.getValueByKey(sftpFileServiceProperties,"denied"));
+        try {
+            jsonObject = new HashMap<>();
+            if(sftpFileServiceDenied){
+                in = new BufferedInputStream(new FileInputStream(sftpFileServiceProperties));
+                jsonObject.put("type","sftp");
+            }else{
+                in = new BufferedInputStream(new FileInputStream(qiniuCloudProperties));
+                jsonObject.put("type","qiniu");
+            }
+            pps.load(in);
+            Enumeration en = pps.propertyNames(); //得到配置文件的名字
+            while(en.hasMoreElements()) {
+                String strKey = (String) en.nextElement();
+                String strValue = pps.getProperty(strKey);
+                jsonObject.put(strKey,strValue);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     /**
      * 读取Properties的全部信息
      * @param filePath 文件路径
@@ -111,7 +142,7 @@ public class PublicUtils {
      */
     public static Map<String,Object> getAllProperties(String filePath) {
         Properties pps = new Properties();
-        InputStream in = null;
+        InputStream in;
         Map<String,Object> jsonObject = null;
         try {
             jsonObject = new HashMap<>();
@@ -129,15 +160,15 @@ public class PublicUtils {
         return jsonObject;
     }
 /*    public static void main(String [] args){
-        JSONObject jsonObject = PublicUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties");
+        JSONObject jsonObject = PublicUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/sftpFileServer.properties");
         System.out.println(jsonObject.toJSONString());
-        boolean flag = PublicUtils.writeProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties","host","/public/upfile");
+        boolean flag = PublicUtils.writeProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/sftpFileServer.properties","host","/public/upfile");
         System.out.println(flag);
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("userName","admin1");
         paramMap.put("password","admin121");
         paramMap.put("port",3000);
         paramMap.put("host","/admin/fileManage");
-        flag = PublicUtils.writeAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/fileServer.properties",paramMap);
+        flag = PublicUtils.writeAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/sftpFileServer.properties",paramMap);
     }*/
 }

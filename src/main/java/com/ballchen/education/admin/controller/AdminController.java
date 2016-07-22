@@ -355,15 +355,18 @@ public class AdminController {
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     public ModelAndView getFileServerManagePage(HttpServletRequest request){
        // Map<String,Object> returnMap = PublicUtils.getAllProperties();
-       String path = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.FILE_SERVER_FILE_PATH;
+        String sftpFilePath = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.SFTP_FILE_SERVER_PROPERTIES_NAME;
+        String qiniuCloudPath = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.QINIU_CLOUD_PEOPERTIES_NAME;
         ModelAndView mv = new ModelAndView("/admin/fileServer/file-server-manage");
-        mv.addObject("param", PublicUtils.getAllProperties(path));
+        mv.addObject("sftpProperties", PublicUtils.getAllProperties(sftpFilePath));
+        mv.addObject("qiniuCloudProperties",PublicUtils.getAllProperties(qiniuCloudPath));
         return mv;
     }
+    /*--------------sftp文件服务器表单提交开始-------------------*/
     @RequestMapping(value = "/saveFileServerProperties",method = RequestMethod.POST)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
     @ResponseBody
-    public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port,String filePath){
+    public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port,String filePath,Boolean denied){
         Map<String,Object> returnMap = new HashMap<>();
         Map<String,Object> param = new HashMap<>();
         param.put("userName",userName);
@@ -371,11 +374,32 @@ public class AdminController {
         param.put("host",host);
         param.put("port",port);
         param.put("filePath",filePath);
-        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.FILE_SERVER_FILE_PATH;
+        param.put("denied",denied);
+        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.SFTP_FILE_SERVER_PROPERTIES_NAME;
         boolean flag = PublicUtils.writeAllProperties(path,param);
         returnMap.put("flag",flag);
         return returnMap;
     }
+    /*--------------sftp文件服务器表单提交结束-------------------*/
+    /*--------------七牛云存储表单提交开始-------------------*/
+    @RequestMapping(value = "/saveQiniuFileServerProperties",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> saveQiniuFileServerProperties(String accessKey,String secretKey,String bucketName,String filePath,Boolean denied){
+        Map<String,Object> returnMap = new HashMap<>();
+        Map<String,Object> param = new HashMap<>();
+        param.put("accessKey",accessKey);
+        param.put("secretKey",secretKey);
+        param.put("bucketName",bucketName);
+        param.put("filePath",filePath);
+        param.put("denied",denied);
+        String path = this.getClass().getClassLoader().getResource("/").getPath()+ PublicConsts.QINIU_CLOUD_PEOPERTIES_NAME;
+        boolean flag = PublicUtils.writeAllProperties(path,param);
+        returnMap.put("flag",flag);
+        return returnMap;
+    }
+    /*--------------七牛云存储表单提交结束-------------------*/
+
     /*----------------------------------------------文件服务器管理结束--------------------------------------------------*/
 
 
