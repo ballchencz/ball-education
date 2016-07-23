@@ -16,6 +16,8 @@ import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
 import com.ballchen.education.utils.PublicUtils;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -246,6 +249,7 @@ public class AdminController {
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
     public ModelAndView getUserBasicAMPage(UserBasic userBasic){
         ModelAndView mv = new ModelAndView("/admin/user/user-am");
+        List<Accessory> accessories = null;
         if(userBasic.getId()==null){//添加
 
         }else{//修改
@@ -254,7 +258,13 @@ public class AdminController {
             if(userBasic==null){
                 userBasic = userService.selectUserBasicWithRolesByPrimaryKey(userBasicId);
             }
+            /*根据用户ID获得身份证的反正面照片*/
+            accessories = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(
+                    userBasicId,
+                    PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE,
+                    PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
         }
+        mv.addObject("idCardAccessories",accessories);
         mv.addObject("userBasic",userBasic);
         mv.addObject("roles",SecurityConsts.roleMap);
         return mv;
@@ -346,6 +356,33 @@ public class AdminController {
             returnMap.put("userBasic",JSONObject.toJSONString(userBasic));
         }
         return returnMap;
+    }
+
+    /**
+     * 保存用户身份证图片
+     * @param id 用户基本信息ID
+     * @param idCardPositiveImgFile 用户身份证照片正面
+     * @param idCardNegativeImgFile 用户身份证照片反面
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value="/amUserIdCardPicture",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> amUserIdCardPicture(String id,MultipartFile idCardPositiveImgFile,MultipartFile idCardNegativeImgFile){
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("name","insert");
+        if(id!=null){
+            try {
+                Accessory idCardPositive = this.accessoryService.getAccessoryByMultipartFile(idCardPositiveImgFile,PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE);
+                Accessory idCardNegative = this.accessoryService.getAccessoryByMultipartFile(idCardNegativeImgFile,PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
+                this.accessoryService.insertIdCardPictureAccessory(idCardPositive,idCardNegative,id);
+                resultMap.put("flag",true);
+            } catch (Exception e) {
+                resultMap.put("flag",false);
+            }
+
+        }
+        return resultMap;
     }
 
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/

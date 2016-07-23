@@ -14,10 +14,9 @@ seajs.config({
     }
 });
 //下面用于图片上传预览功能
-function setImagePreview(avlaue) {
-    var docObj=document.getElementById("imgFile");
-
-    var imgObjPreview=document.getElementById("preview");
+function setImagePreview(fileInput,imgFile) {
+    var docObj=document.getElementById(imgFile);
+    var imgObjPreview=document.getElementById(fileInput);
     if(docObj.files &&docObj.files[0])
     {
         //火狐下，直接设img属性

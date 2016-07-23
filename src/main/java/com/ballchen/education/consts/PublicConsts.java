@@ -20,6 +20,16 @@ public class PublicConsts {
     public static final String USER_FILE_TYPE_HEAD_PICTURE = "HEADPICTURE";
 
     /**
+     * 用户身份证正面图片
+     */
+    public static final String USER_FILE_TYPE_IDCARD_POSITIVE = "IDCARDPOSITIVE";
+
+    /**
+     * 用户身份证反面图片
+     */
+    public static final String USER_FILE_TYPE_IDCARD_NEGATIVE = "IDCARDNEGATIVE";
+
+    /**
      * 用户作业文件类型
      */
     public static final String USER_FILE_TYPE_WORK_FILE = "WORK";

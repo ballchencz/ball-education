@@ -204,8 +204,7 @@ public class AdminTest {
     @Test
     public void testGetUser(){
         String id = "353b2540-c82b-405a-9268-f10ad4146c13";
-        UserBasic userBasic = this.userService.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(id);
-
+        this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(id,PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE,PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
     }
 
 }

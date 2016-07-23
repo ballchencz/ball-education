@@ -30,19 +30,16 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>
-                        <#if userBasic.id?exists>修改用户
-                            <#else>添加用户
-                        </#if>
-                    </h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
+                <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">用户基本信息</a>
+                    </li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">实名认证</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
                     <form class="form-horizontal m-t" id="userAmForm" method="post" enctype="multipart/form-data">
                         <input type="hidden" id="userBasicId" name="id" value="<#if userBasic.id??>${userBasic.id}</#if>">
                         <div class="row">
@@ -214,7 +211,7 @@
                                     </div>
                                     <div>
                                         <input type="button" id="checkImgFile" value="选择头像" class="btn btn-primary" style="margin-top: 5px;">
-                                        <input type="file" id="imgFile" onchange="setImagePreview()" name="imgFile" style="display: none">
+                                        <input type="file" id="previewImgFile" onchange="setImagePreview('preview','previewImgFile')" name="imgFile" style="display: none">
                                     </div>
                                 </div>
                             </div>
@@ -229,6 +226,61 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div class="panel-body">
+                        <form class="form-horizontal m-t" id="userIdCardAmForm" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="<#if userBasic.id??>${userBasic.id}</#if>">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">身份证正面：</label>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <img id="previewIdCardPositive" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
+                                            </div>
+                                            <div>
+                                                <input type="button" id="checkIdCardPositiveImgFile" value="选择身份证正面" class="btn btn-success" style="margin-top: 5px;" name="checkIdCardPositiveImgFile">
+                                                <input type="file" id="idCardPositiveImgFile" onchange="setImagePreview('previewIdCardPositive','idCardPositiveImgFile')" name="idCardPositiveImgFile" style="display: none">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">身份证反面：</label>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <img id="previewIdCardNegative" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
+                                            </div>
+                                            <div>
+                                                <input type="button" id="checkIdCardNegativeImgFile" value="选择身份证反面" class="btn btn-warning" style="margin-top: 5px;" name="checkIdCardNegativeImgFile">
+                                                <input type="file" id="idCardNegativeImgFile" onchange="setImagePreview('previewIdCardNegative','idCardNegativeImgFile')" name="idCardNegativeImgFile" style="display: none">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-8 col-sm-offset-3">
+                                            <button class="btn btn-primary" type="submit" id="userIdCardAmFormBtn">提交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
                 </div>
             </div>
         </div>

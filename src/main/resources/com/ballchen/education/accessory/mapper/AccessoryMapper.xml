@@ -22,6 +22,39 @@
     from ballchen_t_accessory
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectAccessoryByUserIdAndIdCardPicture" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+      a.ID,
+      a.CREATE_TIME,
+      a.ACCESSORY_NAME,
+      a.SAVE_NAME,
+      a.FILE_NAME,
+      a.URL,
+      a.EXT,
+      a.FILE_TYPE,
+      a.FILE_SIZE,
+      a.MARK
+    FROM
+      ballchen_t_user_basic_accessory ua
+      RIGHT JOIN
+      ballchen_t_accessory a
+      ON
+      ua.ACCESSORY_ID = a.ID
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null" >
+        AND ua.USER_BASIC_ID = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="fileTypePositive!=null and fileTypeNegative==null">
+        AND a.FILE_TYPE = #{fileTypePositive,jdbcType=VARCHAR}
+      </if>
+      <if test="fileTypePositive==null and fileTypeNegative!=null">
+        AND a.FILE_TYPE = #{fileTypeNegative,jdbcType=VARCHAR}
+      </if>
+      <if test="fileTypePositive!=null and fileTypeNegative!=null">
+        AND a.FILE_TYPE = #{fileTypePositive,jdbcType=VARCHAR} OR a.FILE_TYPE = #{fileTypeNegative,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_accessory
     where ID = #{id,jdbcType=VARCHAR}

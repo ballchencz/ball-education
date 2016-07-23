@@ -119,4 +119,5 @@ public interface IUserService {
      * @return UserBasic
      */
     UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(String id);
+
 }

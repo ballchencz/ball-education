@@ -10,12 +10,15 @@ define(function (require, exports, module) {
         "INSERT_SUCCESS_TITLE": "添加成功",
         "INSERT_FAILED_TITLE": "添加失败",
         "UPDATE_SUCCESS_TITLE": "修改成功",
-        "UPDATE_FAILED_TITLE": "修改失败"
+        "UPDATE_FAILED_TITLE": "修改失败",
+        "SAVE_SUCCESS_TITLE":"保存成功",
+        "SAVE_FAILED_TITLE":"保存失败",
     };
     var URL = {
         "getAllAccountJSON":contextPath+"/accountController/getAllAccountJSON",
         "validRepeatIdNumber":contextPath+"/userController/validRepeatIdNumber",
         "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId",
+        "amUserIdCardPicture":contextPath+"/adminController/amUserIdCardPicture"
     }
     parent.layer.iframeAuto(index);
     //require("validate-messages_zh");
@@ -23,6 +26,7 @@ define(function (require, exports, module) {
         return this.optional(element) || public.isIdCardNo(value);
     }, "请正确输入您的身份证号码");
     $.validator.setDefaults({
+        ignore: "",
         highlight: function (e) {
             $(e).closest(".form-group").removeClass("has-success").addClass("has-error")
         },
@@ -32,6 +36,8 @@ define(function (require, exports, module) {
         errorElement: "span",
         errorPlacement: function (e, r) {
             e.appendTo(r.is(":radio") || r.is(":checkbox") ? r.parent().parent().parent() : r.parent())
+            e.appendTo(r.is(":file")? r.parent().prev(): r.parent());
+            e.appendTo(r.is(":hidden")? r.next(): r.parent());
         },
         errorClass: "help-block m-b-none",
         validClass: "help-block m-b-none"
@@ -150,6 +156,62 @@ define(function (require, exports, module) {
                     }
                 }
             });
+        $("#userIdCardAmForm").validate({
+            submitHandler: function (form) {
+                //console.log(form);
+                //var formData = public.serializeForm(form);
+                $(form).ajaxSubmit({
+                    url: URL.amUserIdCardPicture,
+                    success: function (data) {
+                        var contentWindow = parent.$("iframe.J_iframe:visible").get(0).contentWindow;
+                        if (data.name == "insert") {
+                            if (data.flag) {
+                                contentWindow.addBootstrapAlert("success", CONSTS.INSERT_SUCCESS_TITLE);
+                                contentWindow.$('#userManageDataGrid').bootstrapTable('refresh');
+                            } else {
+                                contentWindow.addBootstrapAlert("warning", CONSTS.INSERT_FAILED_TITLE);
+                            }
+                        } else if (data.name == "update") {
+                            if (data.flag) {
+                                contentWindow.addBootstrapAlert("success", CONSTS.UPDATE_SUCCESS_TITLE);
+                                contentWindow.$('#userManageDataGrid').bootstrapTable('refresh');
+                            } else {
+                                contentWindow.addBootstrapAlert("warning", CONSTS.UPDATE_FAILED_TITLE);
+                            }
+                        }else if(data.name == "save"){
+                            if (data.flag) {
+                                contentWindow.addBootstrapAlert("success", CONSTS.SAVE_SUCCESS_TITLE);
+                                contentWindow.$('#userManageDataGrid').bootstrapTable('refresh');
+                            } else {
+                                contentWindow.addBootstrapAlert("warning", CONSTS.SAVE_FAILED_TITLE);
+                            }
+                        }
+                        parent.layer.close(index);
+                    }
+                });
+            },
+            rules: {
+                id:{
+                  required:true
+                },
+                idCardPositiveImgFile: {
+                    required: true
+                },
+                idCardNegativeImgFile: {
+                    required: true
+                }
+            },
+            messages: {
+                id:{
+                  required:e+"请先完善用户基本信息"
+                },
+                idCardPositiveImgFile: {
+                    required: e + "请选择要上传的身份证正面"
+                }, idCardNegativeImgFile: {
+                    required: e + "请选择要上传的身份证正面"
+                }
+            }
+        });
             /*初始化账户select*/
             $.get(URL.getAllAccountJSON,function(data){
                 data = $.parseJSON(data);
@@ -193,8 +255,18 @@ define(function (require, exports, module) {
      console.log(e.scaleY);
      }
      });*/
+    /*用户头像*/
     $('#checkImgFile').bind("click",function(){
-        $('#imgFile').click();
+        $('#previewImgFile').click();
+    })
+
+    /*身份证正面*/
+    $('#checkIdCardPositiveImgFile').bind("click",function(){
+        $('#idCardPositiveImgFile').click();
+    })
+    /*身份证反面*/
+    $('#checkIdCardNegativeImgFile').bind("click",function(){
+        $('#idCardNegativeImgFile').click();
     })
 
 

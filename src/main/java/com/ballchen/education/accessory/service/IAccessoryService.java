@@ -6,6 +6,7 @@ import com.jcraft.jsch.SftpException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by ballchen on 2016/7/19.
@@ -26,4 +27,11 @@ public interface IAccessoryService {
     Accessory getAccessoryByMultipartFile(MultipartFile imgFile,String fileType)throws IOException,SftpException,JSchException;
 
     byte[] getAccessoryByteByAccessoryId(String id);
+
+    List<Accessory> selectAccessoryByUserIdAndIdCardPicture(String id,String fileTypePositive,String fileTypeNegative);
+
+
+    int insertIdCardPictureAccessory(Accessory idCardPositive,Accessory idCardNegative,String userId);
+
+    /*List<Accessory> getUserIdCardPositivePictureAndNegativePicture(MultipartFile idCardPositivePicture,MultipartFile idCardNegativePicture) throws JSchException, IOException, SftpException;*/
 }
