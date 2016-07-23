@@ -115,7 +115,7 @@ public class PublicUtils {
         boolean sftpFileServiceDenied = Boolean.valueOf(PublicUtils.getValueByKey(sftpFileServiceProperties,"denied"));
         try {
             jsonObject = new HashMap<>();
-            if(sftpFileServiceDenied){
+            if(!sftpFileServiceDenied){
                 in = new BufferedInputStream(new FileInputStream(sftpFileServiceProperties));
                 jsonObject.put("type","sftp");
             }else{

@@ -5,8 +5,11 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import org.apache.commons.io.FileUtils;
+import org.aspectj.util.FileUtil;
 
 import java.io.*;
+import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -21,11 +24,13 @@ public class QiniuCloudUtils {
     private String filePath;
     //创建上传对象
     private UploadManager uploadManager;
+    private BucketManager bucketManager;
     public QiniuCloudUtils(String accessKey,String secritKey,String bucketName,String filePath) {
         auth = Auth.create(accessKey,secritKey);
         this.bucketName = bucketName;
         this.filePath = filePath;
         this.uploadManager = new UploadManager();
+        this.bucketManager = new BucketManager(auth);
     }
 
     //简单上传，使用默认策略，只需要设置上传的空间名就可以了
@@ -62,6 +67,11 @@ public class QiniuCloudUtils {
         return res.bodyString();
     }
 
+    /**
+     * 删除文件
+     * @param saveFileName
+     * @throws QiniuException
+     */
     public void removeSimpleFile(String saveFileName) throws QiniuException {
         //实例化一个BucketManager对象
         BucketManager bucketManager = new BucketManager(auth);
@@ -69,11 +79,32 @@ public class QiniuCloudUtils {
         bucketManager.delete(bucketName, saveFileName);
     }
 
+    /**
+     *根据保存名称获得文件字节数组
+     * @param saveName
+     * @return byte[]
+     * @throws IOException
+     */
+    public byte [] getFileBytesBySaveName(String saveName) throws IOException {
+        String urlStr = "http://oaph9wwmm.bkt.clouddn.com/"+saveName;
+        URL url = new URL(urlStr);
+        InputStream in = url.openStream();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte [] buff = new byte[1024];
+        int length;
+        while((length = in.read(buff))!=-1){
+            out.write(buff, 0, length);
+        }
+        return out.toByteArray();
+    }
+
     public static void main(String [] args){
         QiniuCloudUtils qiniuCloudUtils = new QiniuCloudUtils("1asbmET-Q5da9M9TFvUiJXgHdVUJY5NQdtLo2sIX","msr-RG48kraUZe89ScvesacCg7wdHVP2PXjqssIL","ballchen","/");
-        File file = new File("D:/图片/信联网智图片/psb.jpg");
+        //File file = new File("D:/图片/信联网智图片/psb.jpg");
         try {
-            InputStream in = new FileInputStream(file);
+            byte [] bytes = qiniuCloudUtils.getFileBytesBySaveName("0.jpg");
+            System.out.println(bytes);
+/*            InputStream in = new FileInputStream(file);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte [] buff = new byte[1024];
             int length;
@@ -82,7 +113,7 @@ public class QiniuCloudUtils {
             }
             String fileName = file.getName();
             String s = qiniuCloudUtils.overWriteUpload(out.toByteArray(), "01a9f72c-b4de-4495-b69d-e3f7e1a2ebbb"+fileName.substring(fileName.lastIndexOf("."),fileName.length()));
-            System.out.println(s);
+            System.out.println(s);*/
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
