@@ -392,7 +392,6 @@ public class AdminController {
             } catch (Exception e) {
                 resultMap.put("flag",false);
             }
-
         }
         return resultMap;
     }

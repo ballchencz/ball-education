@@ -54,4 +54,14 @@ public class PublicConsts {
      */
     public static final String USER_FILE_TYPE_OTHER = "OTHER";
 
+    /**
+     * sftp文件服务器类型
+     */
+    public static final String FILE_SERVER_TYPE_SFTP = "SFTP";
+
+    /**
+     * 七牛云存储文件服务器类型
+     */
+    public static final String FILE_SERVER_TYPE_QINIU = "QINIU";
+
 }

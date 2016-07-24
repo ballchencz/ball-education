@@ -24,6 +24,7 @@ import org.springframework.cglib.beans.BeanMap;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -51,7 +52,6 @@ public class AdminTest {
     private IUserService userService;
     @Autowired
     private IAccessoryService accessoryService;
-
 
     @Test
     public void testQueryById() throws Exception {
@@ -203,8 +203,8 @@ public class AdminTest {
 
     @Test
     public void testGetUser(){
-        String id = "353b2540-c82b-405a-9268-f10ad4146c13";
-        this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(id,PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE,PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
+        UserBasic userBasic = this.userService.selectFirstUserBasic(null);
+        System.out.println("fawefwef");
     }
 
 }

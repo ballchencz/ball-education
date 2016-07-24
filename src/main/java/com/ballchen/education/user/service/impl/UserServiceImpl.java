@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.accessibility.AccessibleRelation;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -184,6 +185,12 @@ public class UserServiceImpl implements IUserService{
     public UserBasic selectFirstUserBasic(String id) {
         Map<String,Object> queryMap = new HashMap<>();
         queryMap.put("fileType",PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+        Class c = this.getClass();
+        ClassLoader classLoader = c.getClassLoader();
+        URL url = classLoader.getResource("/");
+        String path = url.getPath();
+        Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+        queryMap.put("fileServerType",fileServerProperties.get("type"));
         if(id!=null){
             queryMap.put("id",id);
         }
@@ -210,6 +217,8 @@ public class UserServiceImpl implements IUserService{
     public UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(String id) {
         Map<String,Object> queryMap = new HashMap<>();
         queryMap.put("fileType",PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);
+        Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+        queryMap.put("fileServerType",fileServerProperties.get("type"));
         if(id!=null){
             queryMap.put("id",id);
         }

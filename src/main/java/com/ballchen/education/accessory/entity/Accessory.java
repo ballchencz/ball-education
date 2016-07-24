@@ -24,6 +24,8 @@ public class Accessory {
 
     private Long fileSize;
 
+    private String fileServerType;
+
     private String mark;
 
     public String getId() {
@@ -104,5 +106,13 @@ public class Accessory {
 
     public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getFileServerType() {
+        return fileServerType;
+    }
+
+    public void setFileServerType(String fileServerType) {
+        this.fileServerType = fileServerType;
     }
 }

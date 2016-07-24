@@ -117,10 +117,10 @@ public class PublicUtils {
             jsonObject = new HashMap<>();
             if(!sftpFileServiceDenied){
                 in = new BufferedInputStream(new FileInputStream(sftpFileServiceProperties));
-                jsonObject.put("type","sftp");
+                jsonObject.put("type",PublicConsts.FILE_SERVER_TYPE_SFTP);
             }else{
                 in = new BufferedInputStream(new FileInputStream(qiniuCloudProperties));
-                jsonObject.put("type","qiniu");
+                jsonObject.put("type",PublicConsts.FILE_SERVER_TYPE_QINIU);
             }
             pps.load(in);
             Enumeration en = pps.propertyNames(); //得到配置文件的名字

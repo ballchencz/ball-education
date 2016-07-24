@@ -87,7 +87,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
             String filePath = (String)this.getSftpUtils().get("filePath");
             SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
             Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
-            if(fileServerProperties.get("type").equals("sftp")){//sftp文件服务器
+            if(fileServerProperties.get("type").equals(PublicConsts.FILE_SERVER_TYPE_SFTP)){//sftp文件服务器
                 try {
                     sftpUtils.connect();
                     bytes = sftpUtils.getFileByteArrayByFileArray(filePath.endsWith("/")?filePath:filePath+"/"+fileUrl);
@@ -119,6 +119,8 @@ public class AccessoryServiceImpl implements IAccessoryService {
         queryMap.put("id",id);
         queryMap.put("fileTypePositive",fileTypePositive);
         queryMap.put("fileTypeNegative",fileTypeNegative);
+        Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+        queryMap.put("fileServerType",fileServerProperties.get("type"));
         return accessoryDAO.selectAccessoryByUserIdAndIdCardPicture(queryMap);
     }
 
@@ -130,6 +132,8 @@ public class AccessoryServiceImpl implements IAccessoryService {
             queryMap.put("id",userId);
             queryMap.put("fileTypePositive",PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE);
             queryMap.put("fileTypeNegative",PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
+            Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+            queryMap.put("fileServerType",fileServerProperties.get("type"));
             /*查询出身份证正反图片*/
             List<Accessory> userIdCardPictureAccessories = this.accessoryDAO.selectAccessoryByUserIdAndIdCardPicture(queryMap);
             /*判断是否有身份证正反图片存在,存在，删除和UserBasic的关联，删除附件，然后添加附件，添加关联*/
@@ -209,7 +213,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
         String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),file.getOriginalFilename().length());
         //获得保存到服务器的文件名
         String saveFileServeName = UUID.randomUUID().toString();
-        if(fileServerType.equals("sftp")){//使用sftp上传
+        if(fileServerType.equals(PublicConsts.FILE_SERVER_TYPE_SFTP)){//使用sftp上传
             String filePath = (String)this.getSftpUtils().get("filePath");
             SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
             sftpUtils.connect();
@@ -231,6 +235,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
             accessory.setSaveName(saveFileServeName);
             accessory.setAccessoryName(fileName);
             accessory.setFileType(fileType);
+            accessory.setFileServerType(fileServerType);
             accessory.setFileSize(file.getSize());
         }
         return accessory;

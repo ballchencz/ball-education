@@ -11,10 +11,11 @@
     <result column="EXT" property="ext" jdbcType="VARCHAR" />
     <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR"/>
     <result column="FILE_SIZE" property="fileSize" jdbcType="BIGINT"/>
+    <result column="FILE_SERVER_TYPE" property="fileServerType" jdbcType="VARCHAR"/>
     <result column="MARK" property="mark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, ACCESSORY_NAME, SAVE_NAME, FILE_NAME, URL, EXT,FILE_TYPE,FILE_SIZE,MARK
+    ID, CREATE_TIME, ACCESSORY_NAME, SAVE_NAME, FILE_NAME, URL, EXT,FILE_TYPE,FILE_SIZE,FILE_SERVER_TYPE,MARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -44,6 +45,9 @@
       <if test="id != null" >
         AND ua.USER_BASIC_ID = #{id,jdbcType=VARCHAR}
       </if>
+      <if test="fileServerType !=null">
+        AND a.FILE_SERVER_TYPE = #{fileServerType,jdbcType=VARCHAR}
+      </if>
       <if test="fileTypePositive!=null and fileTypeNegative==null">
         AND a.FILE_TYPE = #{fileTypePositive,jdbcType=VARCHAR}
       </if>
@@ -62,10 +66,10 @@
   <insert id="insert" parameterType="com.ballchen.education.accessory.entity.Accessory" >
     insert into ballchen_t_accessory (ID, CREATE_TIME, ACCESSORY_NAME, 
       SAVE_NAME, FILE_NAME, URL, 
-      EXT, FILE_TYPE,FILE_SIZE,MARK)
+      EXT, FILE_TYPE,FILE_SIZE,FILE_SERVER_TYPE,MARK)
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{accessoryName,jdbcType=VARCHAR}, 
       #{saveName,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{ext,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR},#{fileSize,jdbcType=BIGINT},#{mark,jdbcType=VARCHAR})
+      #{ext,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR},#{fileSize,jdbcType=BIGINT},#{fileServerType,jdbcType=VARCHAR},#{mark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.accessory.entity.Accessory" >
     insert into ballchen_t_accessory
@@ -96,6 +100,9 @@
       </if>
       <if test="fileSize != null">
         FILE_SIZE,
+      </if>
+      <if test="fileServerType != null">
+        FILE_SERVER_TYPE,
       </if>
       <if test="mark != null" >
         MARK,
@@ -129,6 +136,9 @@
       <if test="fileSize != null">
         #{fileSize,jdbcType=BIGINT},
       </if>
+      <if test="fileServerType != null">
+        #{fileServerType,jdbcType=VARCHAR},
+      </if>
       <if test="mark != null" >
         #{mark,jdbcType=VARCHAR},
       </if>
@@ -161,6 +171,9 @@
       <if test="fileSize != null">
         FILE_TYPE = #{fileSize,jdbcType=BIGINT},
       </if>
+      <if test="fileServerType != null">
+        FILE_SERVER_TYPE = #{fileServerType,jdbcType=VARCHAR},
+      </if>
       <if test="mark != null" >
         MARK = #{mark,jdbcType=VARCHAR},
       </if>
@@ -177,6 +190,7 @@
       EXT = #{ext,jdbcType=VARCHAR},
       FILE_TYPE = #{fileType,jdbcType=VARCHAR},
       FILE_SIZE = #{fileSize,jdbcType=BIGINT},
+      FILE_SERVER_TYPE = #{fileServerType,jdbcType=VARCHAR},
       MARK = #{mark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
