@@ -239,6 +239,9 @@
                                         <label class="col-sm-3 control-label">身份证正面：</label>
                                         <div class="col-sm-9">
                                             <div>
+                                                <#if idCardPositive??>
+                                                    <input type="hidden" name="idCardPositiveTemp" value="${idCardPositive.id}">
+                                                </#if>
                                                 <img id="previewIdCardPositive" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
                                             </div>
                                             <div>
@@ -256,6 +259,9 @@
                                         <label class="col-sm-3 control-label">身份证反面：</label>
                                         <div class="col-sm-9">
                                             <div>
+                                                <#if idCardNegative??>
+                                                    <input type="hidden" name="idCardNegativeTemp" value="${idCardNegative.id}">
+                                                </#if>
                                                 <img id="previewIdCardNegative" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a3.jpg">
                                             </div>
                                             <div>

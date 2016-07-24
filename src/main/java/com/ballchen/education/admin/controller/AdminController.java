@@ -249,7 +249,8 @@ public class AdminController {
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
     public ModelAndView getUserBasicAMPage(UserBasic userBasic){
         ModelAndView mv = new ModelAndView("/admin/user/user-am");
-        List<Accessory> accessories = null;
+        Accessory idCardPositive = null;//用户身份证正面
+        Accessory idCardNegative = null;//用户身份证反面
         if(userBasic.getId()==null){//添加
 
         }else{//修改
@@ -259,12 +260,23 @@ public class AdminController {
                 userBasic = userService.selectUserBasicWithRolesByPrimaryKey(userBasicId);
             }
             /*根据用户ID获得身份证的反正面照片*/
-            accessories = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(
+            List<Accessory> idCardPositives = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(
                     userBasicId,
                     PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE,
+                    null);
+            if(idCardPositives!=null&&idCardPositives.size()>0){
+                idCardPositive = idCardPositives.get(0);
+            }
+            List<Accessory> idCardNegatives = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(
+                    userBasicId,
+                    null,
                     PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
+            if(idCardNegatives!=null&&idCardNegatives.size()>0){
+                idCardNegative = idCardNegatives.get(0);
+            }
         }
-        mv.addObject("idCardAccessories",accessories);
+        mv.addObject("idCardPositive",idCardPositive);
+        mv.addObject("idCardNegative",idCardNegative);
         mv.addObject("userBasic",userBasic);
         mv.addObject("roles",SecurityConsts.roleMap);
         return mv;

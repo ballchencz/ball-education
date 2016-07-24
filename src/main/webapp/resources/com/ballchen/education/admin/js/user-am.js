@@ -239,6 +239,16 @@ define(function (require, exports, module) {
             if(accessoryId){
                 $("#preview").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
             }
+            /*初始化用户身份证正面*/
+            var idCardPositiveId = $("input[name='idCardPositiveTemp']").val();
+            if(idCardPositiveId){
+                $("#previewIdCardPositive").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+idCardPositiveId);
+            }
+            /*初始化用户身份证反面*/
+            var idCardNegativeId = $("input[name='idCardNegativeTemp']").val();
+            if(idCardPositiveId){
+                $("#previewIdCardNegative").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+idCardNegativeId);
+            }
         }
     );
 //头像上传
