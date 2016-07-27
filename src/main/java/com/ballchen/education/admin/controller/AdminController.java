@@ -10,6 +10,8 @@ import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
+import com.ballchen.education.category.entity.Category;
+import com.ballchen.education.category.service.ICategoryService;
 import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.security.consts.SecurityConsts;
 import com.ballchen.education.security.service.IRoleService;
@@ -44,6 +46,8 @@ public class AdminController {
     private IAccountService accountService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ICategoryService categoryService;
 
     //@Autowired
     //private IRoleService roleService;
@@ -397,7 +401,54 @@ public class AdminController {
     }
 
     /*----------------------------------------------用户管理结束--------------------------------------------------------*/
+    /*----------------------------------------------分类管理开始--------------------------------------------------------*/
 
+    /**
+     * 获得分类管理页面
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getCategoryManagePage",method=RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    public ModelAndView getCategoryManagePage(){
+        ModelAndView mv = new ModelAndView("/admin/category/category-manage");
+        return mv;
+    }
+
+    /**
+     * 获得分类分页数据
+     * @param category
+     * @param pageHelper
+     * @return String
+     */
+    @RequestMapping(value = "/getCategoryPaginationData",method = RequestMethod.GET)
+    @ResponseBody
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    public String getCategoryPaginationData(Category category,PageHelper pageHelper){
+        List<Category> categories = this.categoryService.getCategoryPagination(category,pageHelper);
+        long total = this.categoryService.getCategoryPaginationCount(category,pageHelper);
+        JSONObject jsonO = new JSONObject();
+        jsonO.put("total",total);
+        jsonO.put("rows",JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(categories, AdminConsts.DATE_FORMAT_STRING)).toArray());
+        return jsonO.toJSONString();
+    }
+
+    /**
+     * 获得分类管理添加修改页面
+     * @param id 分类ID
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getCategoryAMPage",method=RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    public ModelAndView getCategoryAMPage(String id){
+        ModelAndView mv = new ModelAndView("/admin/category/category-am");
+        Category category = null;
+        if(id!=null){//修改
+
+        }
+        mv.addObject("category",category);
+        return mv;
+    }
+    /*----------------------------------------------分类管理结束--------------------------------------------------------*/
     /*----------------------------------------------文件服务器管理开始--------------------------------------------------*/
     @RequestMapping(value = "/getFileServerManagePage",method = RequestMethod.GET)
     @AuthorizationAnno(roleCode = RoleCode.ADMIN)
