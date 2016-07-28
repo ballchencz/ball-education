@@ -159,6 +159,16 @@ public class PublicUtils {
         }
         return jsonObject;
     }
+
+    /**
+     * 获得唯一逐渐
+     * @return String
+     */
+    public static String getUUID(){
+        return UUID.randomUUID().toString();
+    }
+
+
 /*    public static void main(String [] args){
         JSONObject jsonObject = PublicUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/sftpFileServer.properties");
         System.out.println(jsonObject.toJSONString());

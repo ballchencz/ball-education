@@ -17,15 +17,17 @@ public class AdminUtils {
      * @return
      */
     public static Map<String,Object> parsePOJOtoMap(Object object){
-        BeanMap beanMap = BeanMap.create(object);
         Map<String,Object> map = new HashMap<>();
-        Set<String> keySet = beanMap.keySet();
-        Iterator<String> it = keySet.iterator();
-        while(it.hasNext()){
-            String key = it.next();
-            Object value = beanMap.get(key);
-            if(value!=null){
-                map.put(key,value);
+        if(object!=null){
+            BeanMap beanMap = BeanMap.create(object);
+            Set<String> keySet = beanMap.keySet();
+            Iterator<String> it = keySet.iterator();
+            while(it.hasNext()){
+                String key = it.next();
+                Object value = beanMap.get(key);
+                if(value!=null){
+                    map.put(key,value);
+                }
             }
         }
         return map;

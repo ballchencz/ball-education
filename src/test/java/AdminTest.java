@@ -7,6 +7,9 @@ import com.ballchen.education.account.entity.Account;
 import com.ballchen.education.admin.dao.IMenuInfoDAO;
 import com.ballchen.education.admin.entity.MenuInfo;
 import com.ballchen.education.admin.entity.PageHelper;
+import com.ballchen.education.category.consts.CategoryConst;
+import com.ballchen.education.category.entity.Category;
+import com.ballchen.education.category.service.ICategoryService;
 import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.security.dao.IAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
@@ -52,6 +55,8 @@ public class AdminTest {
     private IUserService userService;
     @Autowired
     private IAccessoryService accessoryService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @Test
     public void testQueryById() throws Exception {
@@ -205,6 +210,13 @@ public class AdminTest {
     public void testGetUser(){
         UserBasic userBasic = this.userService.selectFirstUserBasic(null);
         System.out.println("fawefwef");
+    }
+
+    @Test
+    public void testCategory(){
+        PageHelper pageHelper = new PageHelper();
+        long total = this.categoryService.getCategoryPaginationCount(null,pageHelper);
+        System.out.println(JSONArray.toJSONString(total,true));
     }
 
 }

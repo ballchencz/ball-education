@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Sam钢琴课 - 账户管理</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0"
+          rel="stylesheet">
+
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
+    <style type="text/css">
+        .button-group {
+            margin-top: 20px;
+        }
+        .alert{
+            margin-bottom: 0px;
+            margin-top:10px;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">最后更新：<i class="fa fa-clock-o"></i> 2015-09-01 12:00</span>
+
+                    <h2>分类管理</h2>
+
+                    <div class="button-group">
+                        <button class="btn btn-info " type="button" id="access"><i class="fa fa-paste"></i> 启用</button>
+                        <button class="btn btn-info " type="button" id="denied"><i class="fa fa-paste"></i> 禁用</button>
+                        <!--<button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 彻底删除</button>-->
+                    </div>
+                    <div class="clients-list">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right small text-muted">1406 个分类</span>
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i>分类</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="bootstrap-table">
+                                    <div id="categoryDataGridToolbar">
+                                        <div class="form-inline" role="form">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-default">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline btn-default">
+                                                    <i class="glyphicon glyphicon-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline btn-default">
+                                                    <i class="glyphicon glyphicon-trash"></i>
+                                                </button>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查询条件 <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">
+                                                            <li id="searchAccountNameBtn"><a href="#">分类名称</a></li>
+                                                            <li id="searchCreateTimeBtn"><a href="#">创建时间</a></li>
+                                                            <li id="searchDeniendBtn"><a href="#">分类类型</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <form class="form-inline">
+                                                        <input type="text" class="form-control" placeholder="分类名称" name="categoryName" aria-label="">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <button id="searchBtn" type="submit" class="btn btn-default">查询</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                    </div>
+                                    <table id="categoryDataGrid" data-height="600" data-mobile-responsive="true">
+                                        <thead>
+                                        <tr>
+                                            <th data-checkbox="true"></th>
+                                            <th data-visible="false" data-field="id"></th>
+                                            <th data-field="categoryName">分类名称</th>
+                                            <th data-field="createTime">创建时间</th>
+                                            <th data-field="categoryType">分类类型</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script>
+        $(function () {
+            $(".full-height-scroll").slimScroll({height: "100%"})
+        });
+    </script>
+
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+    <#include "/admin/public-js.html">
+    <script type="text/javascript">
+        seajs.use("admin/js/category-manage")
+    </script>
+    <!--<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/admin/js/account-manage.js" charset="UTF-8"></script>-->
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>
