@@ -1,10 +1,14 @@
 package com.ballchen.education.category.entity;
 
+import com.ballchen.education.admin.consts.AdminConsts;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Category {
     private String id;
 
+    @DateTimeFormat(pattern = AdminConsts.DATE_FORMAT_STRING)
     private Date createTime;
 
     private String categoryName;
@@ -16,6 +20,8 @@ public class Category {
     private String userBasicId;
 
     private String mark;
+
+    private String state = "closed";
 
     public String getId() {
         return id;
@@ -72,4 +78,13 @@ public class Category {
     public void setMark(String mark) {
         this.mark = mark == null ? null : mark.trim();
     }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
 }

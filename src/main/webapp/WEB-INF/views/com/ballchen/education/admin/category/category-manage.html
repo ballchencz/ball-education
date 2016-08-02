@@ -23,6 +23,9 @@
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
           rel="stylesheet">
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/icon.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/color.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/bootstrap/easyui.css">
     <style type="text/css">
         .button-group {
             margin-top: 20px;
@@ -76,9 +79,9 @@
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查询条件 <span class="caret"></span></button>
                                                         <ul class="dropdown-menu">
-                                                            <li id="searchAccountNameBtn"><a href="#">分类名称</a></li>
+                                                            <li id="searchCategoryNameBtn"><a href="#">分类名称</a></li>
                                                             <li id="searchCreateTimeBtn"><a href="#">创建时间</a></li>
-                                                            <li id="searchDeniendBtn"><a href="#">分类类型</a></li>
+                                                            <li id="searchCategoryTypeBtn"><a href="#">分类类型</a></li>
                                                         </ul>
                                                     </div>
                                                     <form class="form-inline">
@@ -91,18 +94,46 @@
                                     </div>
                                 </div>
                                     </div>
-                                    <table id="categoryDataGrid" data-height="600" data-mobile-responsive="true">
+<!--                                    <table id="categoryDataGrid" data-height="600" data-mobile-responsive="true">
                                         <thead>
                                         <tr>
                                             <th data-checkbox="true"></th>
                                             <th data-visible="false" data-field="id"></th>
-                                            <th data-field="categoryName">分类名称</th>
+                                            <th data-field="categoryName" data-formatter="window.formatFileColum">分类名称</th>
                                             <th data-field="createTime">创建时间</th>
                                             <th data-field="categoryType">分类类型</th>
                                         </tr>
                                         </thead>
+                                    </table>-->
+                                    <table class="easyui-treegrid" style="height:500px"
+                                           data-options="
+                                                        ownumbers: true,
+                                                        pagination: true,
+                                                        pageSize: 10,
+                                                        pageList: [10,20],
+                                                        idField: 'id',
+                                                        treeField: 'categoryName',
+                                                        fitColumns:true,
+                                                        lines:false,
+                                                        animate:true,
+                                                        checkbox: true,
+                                                        rownumbers: true,
+                                                        onBeforeLoad:function(row,param){
+                                                            var id = param.id;
+                                                            delete param.id;
+                                                            if(id){
+                                                                param.parentId = id;
+                                                            }
+                                                        },
+                                                        url:'${request.contextPath}/adminController/getCategoryPaginationData',method:'get'">
+                                        <thead>
+                                        <tr>
+                                            <th data-options="field:'categoryName',width:100">分类名称</th>
+                                            <th data-options="field:'createTime',width:80">创建时间</th>
+                                            <th data-options="field:'categoryType',width:80,formatter:formatCategoryType">分类类型</th>
+                                        </tr>
+                                        </thead>
                                     </table>
-
                                 </div>
                             </div>
 
@@ -120,6 +151,8 @@
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
     <script>
         $(function () {
             $(".full-height-scroll").slimScroll({height: "100%"})
@@ -130,6 +163,23 @@
     <#include "/admin/public-js.html">
     <script type="text/javascript">
         seajs.use("admin/js/category-manage")
+
+        function formatCategoryType(value){
+            $.ajax({
+                async:false,
+                type: "GET",
+                url: contextPath+"/categoryController/getCategoryTypeJSON",
+                data: "name=John&location=Boston",
+                success: function(data){
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].value==value){
+                            value = data[i].label;
+                        }
+                    }
+                }
+            });
+            return value;
+        }
     </script>
     <!--<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/admin/js/account-manage.js" charset="UTF-8"></script>-->
 </body>

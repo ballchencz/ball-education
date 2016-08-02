@@ -21,4 +21,6 @@ public interface ICategoryDAO {
     List<Category> getCategoryPagination(Map<String,Object> queryMap);
 
     long getCategoryPaginationCount(Map<String,Object> queryMap);
+
+    List<Category> selectByParentId(String parentId);
 }

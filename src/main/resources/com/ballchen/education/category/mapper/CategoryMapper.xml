@@ -19,6 +19,12 @@
     from ballchen_t_category
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from ballchen_t_category
+    where PARENT_ID = #{parentId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_category
     where ID = #{id,jdbcType=VARCHAR}
@@ -132,19 +138,22 @@
         AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
       </if>
       <if test="categoryName != null" >
-        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+        AND CATEGORY_NAME LIKE CONCAT('%',#{categoryName,jdbcType=VARCHAR},'%' )
       </if>
       <if test="categoryType != null" >
-        CATEGORY_TYPE = #{categoryType,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null" >
-        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+        AND CATEGORY_TYPE LIKE CONCAT('%',#{categoryType,jdbcType=VARCHAR},'%' )
       </if>
       <if test="userBasicId != null" >
-        USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
+        AND USER_BASIC_ID LIKE CONCAT('%',#{userBasicId,jdbcType=VARCHAR},'%' )
       </if>
       <if test="mark != null" >
-        MARK = #{mark,jdbcType=VARCHAR},
+        AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="parentId != null">
+        AND PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId == null">
+        AND PARENT_ID IS NULL
       </if>
     </trim>
     <if test="order!=null and limit!=null and offset!=null">
@@ -167,19 +176,22 @@
         AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
       </if>
       <if test="categoryName != null" >
-        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+        AND CATEGORY_NAME LIKE CONCAT('%',#{categoryName,jdbcType=VARCHAR},'%' )
       </if>
       <if test="categoryType != null" >
-        CATEGORY_TYPE = #{categoryType,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null" >
-        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+        AND CATEGORY_TYPE LIKE CONCAT('%',#{categoryType,jdbcType=VARCHAR},'%' )
       </if>
       <if test="userBasicId != null" >
-        USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR},
+        AND USER_BASIC_ID LIKE CONCAT('%',#{userBasicId,jdbcType=VARCHAR},'%' )
       </if>
       <if test="mark != null" >
-        MARK = #{mark,jdbcType=VARCHAR},
+        AND MARK LIKE CONCAT('%',#{mark,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="parentId != null">
+        AND PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId == null">
+        AND PARENT_ID IS NULL
       </if>
     </trim>
   </select>

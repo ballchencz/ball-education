@@ -1,5 +1,6 @@
 package com.ballchen.education.category.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.category.entity.Category;
 
@@ -37,4 +38,9 @@ public interface ICategoryService {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    List<Category> selectByParentId(String parentId);
+
+
+    JSONObject getCategoryPagination(Long total,List<Category> categories);
 }

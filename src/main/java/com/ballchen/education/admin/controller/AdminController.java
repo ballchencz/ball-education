@@ -408,7 +408,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getCategoryManagePage",method=RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
     public ModelAndView getCategoryManagePage(){
         ModelAndView mv = new ModelAndView("/admin/category/category-manage");
         return mv;
@@ -422,14 +422,11 @@ public class AdminController {
      */
     @RequestMapping(value = "/getCategoryPaginationData",method = RequestMethod.GET)
     @ResponseBody
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
     public String getCategoryPaginationData(Category category,PageHelper pageHelper){
         List<Category> categories = this.categoryService.getCategoryPagination(category,pageHelper);
         long total = this.categoryService.getCategoryPaginationCount(category,pageHelper);
-        JSONObject jsonO = new JSONObject();
-        jsonO.put("total",total);
-        jsonO.put("rows",JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(categories, AdminConsts.DATE_FORMAT_STRING)).toArray());
-        return jsonO.toJSONString();
+        return this.categoryService.getCategoryPagination(total,categories).toJSONString();
     }
 
     /**
@@ -438,7 +435,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getCategoryAMPage",method=RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
     public ModelAndView getCategoryAMPage(String id){
         ModelAndView mv = new ModelAndView("/admin/category/category-am");
         Category category = null;
