@@ -15,13 +15,16 @@ public class Category {
 
     private String categoryType;
 
+    private Long sequence;
+
     private String parentId;
 
     private String userBasicId;
 
+    private String accessoryId;
+
     private String mark;
 
-    private String state = "closed";
 
     public String getId() {
         return id;
@@ -79,12 +82,19 @@ public class Category {
         this.mark = mark == null ? null : mark.trim();
     }
 
-    public String getState() {
-        return state;
+    public Long getSequence() {
+        return sequence;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setSequence(Long sequence) {
+        this.sequence = sequence;
     }
 
+    public String getAccessoryId() {
+        return accessoryId;
+    }
+
+    public void setAccessoryId(String accessoryId) {
+        this.accessoryId = accessoryId;
+    }
 }

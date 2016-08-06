@@ -2,6 +2,7 @@ package com.ballchen.education.category.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.ballchen.education.admin.consts.AdminConsts;
+import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.category.consts.CategoryConst;
 import com.ballchen.education.category.entity.Category;
 import com.ballchen.education.category.service.ICategoryService;
@@ -45,5 +46,25 @@ public class CategoryController {
         String s = JSONArray.toJSONStringWithDateFormat(categories, AdminConsts.DATE_FORMAT_STRING);
         return s;
     }
+
+    @RequestMapping(value = "/getCategoryAsyncTree",method = RequestMethod.GET)
+    @ResponseBody
+    public String getCategoryAsyncTree(Category category,PageHelper pageHelper){
+        if(category.getId()!=null){
+            String parentId = category.getId();
+            category.setParentId(parentId);
+            category.setId(null);
+        }
+        List<Category> categories = this.categoryService.getCategoryPagination(category,pageHelper);
+        return this.categoryService.getCategoryTree(categories).toJSONString();
+    }
+
+
+    @RequestMapping(value = "/getCategoryById",method = RequestMethod.GET)
+    @ResponseBody
+    public Category getCategoryById(String id){
+        return this.categoryService.selectByPrimaryKey(id);
+    }
+
 
 }

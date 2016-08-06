@@ -77,15 +77,10 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-btn">
-                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查询条件 <span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li id="searchCategoryNameBtn"><a href="#">分类名称</a></li>
-                                                            <li id="searchCreateTimeBtn"><a href="#">创建时间</a></li>
-                                                            <li id="searchCategoryTypeBtn"><a href="#">分类类型</a></li>
-                                                        </ul>
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分类类型 <span class="caret"></span></button>
                                                     </div>
                                                     <form class="form-inline">
-                                                        <input type="text" class="form-control" placeholder="分类名称" name="categoryName" aria-label="">
+                                                        <select class='form-control m-b' name='categoryType'></select>
                                                     </form>
                                                 </div>
                                             </div>
@@ -105,7 +100,7 @@
                                         </tr>
                                         </thead>
                                     </table>-->
-                                    <table class="easyui-treegrid" style="height:500px"
+                                    <table class="easyui-treegrid" id="categoryTypeTable" style="height:500px"
                                            data-options="
                                                         ownumbers: true,
                                                         pagination: true,
@@ -116,7 +111,6 @@
                                                         fitColumns:true,
                                                         lines:false,
                                                         animate:true,
-                                                        checkbox: true,
                                                         rownumbers: true,
                                                         onBeforeLoad:function(row,param){
                                                             var id = param.id;
@@ -163,23 +157,25 @@
     <#include "/admin/public-js.html">
     <script type="text/javascript">
         seajs.use("admin/js/category-manage")
-
+        var categoryTypes = [];
+        $.ajax({
+            async:false,
+            type: "GET",
+            url: contextPath+"/categoryController/getCategoryTypeJSON",
+            data: "name=John&location=Boston",
+            success: function(data){
+                categoryTypes = data;
+            }
+        });
         function formatCategoryType(value){
-            $.ajax({
-                async:false,
-                type: "GET",
-                url: contextPath+"/categoryController/getCategoryTypeJSON",
-                data: "name=John&location=Boston",
-                success: function(data){
-                    for(var i=0;i<data.length;i++){
-                        if(data[i].value==value){
-                            value = data[i].label;
-                        }
-                    }
+            for(var i=0;i<categoryTypes.length;i++){
+                if(categoryTypes[i].value==value){
+                    value = categoryTypes[i].label;
                 }
-            });
+            }
             return value;
         }
+
     </script>
     <!--<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/admin/js/account-manage.js" charset="UTF-8"></script>-->
 </body>

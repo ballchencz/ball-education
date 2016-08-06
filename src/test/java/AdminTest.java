@@ -214,9 +214,8 @@ public class AdminTest {
 
     @Test
     public void testCategory(){
-        PageHelper pageHelper = new PageHelper();
-        long total = this.categoryService.getCategoryPaginationCount(null,pageHelper);
-        System.out.println(JSONArray.toJSONString(total,true));
+        Category category = this.categoryService.selectByPrimaryKey("4984b1b9-92eb-4c52-91d2-f07c9b13ecce");
+        System.out.println(category);
     }
 
 }

@@ -1,8 +1,11 @@
 package com.ballchen.education.category.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.category.entity.Category;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,4 +46,16 @@ public interface ICategoryService {
 
 
     JSONObject getCategoryPagination(Long total,List<Category> categories);
+
+    JSONArray getCategoryTree(List<Category> categories);
+
+    int insertSelective(Category record, Accessory accessory);
+
+    /**
+     * 修改用户
+     * @param record
+     * @return int
+     */
+    int updateByPrimaryKeySelective(Category record,Accessory accessory);
+
 }

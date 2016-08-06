@@ -424,6 +424,12 @@ public class AdminController {
     @ResponseBody
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
     public String getCategoryPaginationData(Category category,PageHelper pageHelper){
+        if(pageHelper.getRows()!=null){
+            pageHelper.setLimit(pageHelper.getRows());
+        }
+        if(pageHelper.getRows()!=null && pageHelper.getPage()!=null){
+            pageHelper.setOffset((pageHelper.getPage()-1)*pageHelper.getRows());
+        }
         List<Category> categories = this.categoryService.getCategoryPagination(category,pageHelper);
         long total = this.categoryService.getCategoryPaginationCount(category,pageHelper);
         return this.categoryService.getCategoryPagination(total,categories).toJSONString();
@@ -431,19 +437,54 @@ public class AdminController {
 
     /**
      * 获得分类管理添加修改页面
-     * @param id 分类ID
+     * @param category 分类ID
      * @return ModelAndView
      */
     @RequestMapping(value = "/getCategoryAMPage",method=RequestMethod.GET)
     @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
-    public ModelAndView getCategoryAMPage(String id){
+    public ModelAndView getCategoryAMPage(Category category){
         ModelAndView mv = new ModelAndView("/admin/category/category-am");
-        Category category = null;
-        if(id!=null){//修改
-
+        if(category!=null){
+            if(category.getId()!=null){//修改
+                category = this.categoryService.selectByPrimaryKey(category.getId());
+            }
         }
         mv.addObject("category",category);
         return mv;
+    }
+
+    /**
+     * 添加/修改分类
+     * @param category 用户实体类
+     * @param imgFile 用户头像文件
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value="/amCategory",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> amCategory(Category category, MultipartFile imgFile){
+        Map<String,Object> resultMap = new HashMap<>();
+        if(category.getId()==null || category.getId().equals("")){//添加
+            category.setId(UUID.randomUUID().toString());
+            resultMap.put("name","insert");
+            try{
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile,PublicConsts.USER_FILE_TYPE_CATEGORY);
+                this.categoryService.insertSelective(category,accessory);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }else{//修改
+            resultMap.put("name","update");
+            try{
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile,PublicConsts.USER_FILE_TYPE_CATEGORY);
+                this.categoryService.updateByPrimaryKeySelective(category,accessory);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }
+        return resultMap;
     }
     /*----------------------------------------------分类管理结束--------------------------------------------------------*/
     /*----------------------------------------------文件服务器管理开始--------------------------------------------------*/

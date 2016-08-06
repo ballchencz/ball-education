@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>账户添加/修改</title>
+    <title>分类添加/修改</title>
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/icon.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/color.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/themes/bootstrap/easyui.css">
 </head>
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -15,7 +20,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>
-                            <#if account.id ?exists>修改账户<#else>添加账户</#if>
+                            <#if category.id ?exists>修改分类<#else>添加分类</#if>
                         </h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
@@ -24,32 +29,66 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form class="form-horizontal m-t" id="accountAmForm">
-                            <input type="hidden" name="id" value="<#if account.id??>${account.id}</#if>">
+                        <form class="form-horizontal m-t" id="categoryAmForm" enctype="multipart/form-data" method="post">
+                            <input type="hidden" name="id" value="<#if category.id??>${category.id}</#if>">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">账户名称：</label>
+                                <label class="col-sm-3 control-label">分类图片：</label>
                                 <div class="col-sm-8">
-                                    <input id="accountName" name="accountName" class="form-control" type="text" value="<#if account.accountName??>${account.accountName}</#if>">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户名称不能大于50个字符</span>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;">
+                                            <img id="categoryImg" data-src="holder.js/100x100" alt="100x100">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">选择分类图片</span>
+                                                <span class="fileinput-exists">修改</span>
+                                                <input type="file" name="imgFile">
+                                            </span>
+                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">删除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <#if category.accessoryId??>
+                                    <input type="hidden" name="accessoryId" id="accessoryId" value="${category.accessoryId}">
+                                </#if>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">分类名称：</label>
+                                <div class="col-sm-8">
+                                    <input id="categoryName" name="categoryName" class="form-control" type="text" value="<#if category.categoryName??>${category.categoryName}</#if>">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 分类名称不能大于50个字符</span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">账户密码：</label>
+                                <label class="col-sm-3 control-label">分类类型：</label>
                                 <div class="col-sm-8">
-                                    <input id="password" name="password" class="form-control" type="password">
+                                    <select name="categoryType" id="categoryType" class="form-control form-control m-b">
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">确认密码：</label>
+                                <label class="col-sm-3 control-label">排序序号：</label>
                                 <div class="col-sm-8">
-                                    <input id="confirm_password" name="confirm_password" class="form-control" type="password">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                                    <input id="sequence"  placeholder="排序序号" name="sequence" class="form-control" type="text" value="<#if category.sequence??>${category.sequence}</#if>">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>排序序号必须为数字（0，1，2，3......）</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">上级分类：</label>
+                                <div class="col-sm-8">
+                                    <#if category.parentId??>
+                                        <input type="hidden" id="parentIdTemp" value="${category.parentId}" />
+                                    </#if>
+                                    <select id="parentId" name="parentId" class="easyui-combotree" style="width:200px;"
+                                            data-options="url:'${request.contextPath}/categoryController/getCategoryAsyncTree',method:'get'">
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">备注：</label>
                                 <div class="col-sm-8">
-                                    <textarea id="mark" name="mark" class="form-control"><#if account.mark??>${account.mark}</#if></textarea>
+                                    <textarea id="mark" name="mark" class="form-control"><#if category.mark??>${category.mark}</#if></textarea>
                                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 备注不能超过500个字符</span>
                                 </div>
                             </div>
@@ -70,7 +109,12 @@
 <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/validate/messages_zh.min.js"></script>
 <script src="${request.contextPath}/resources/com/ballchen/education/public/js/jquery.form.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/holder/2.9.3/holder.js"></script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<script src="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+<script src="${request.contextPath}/resources/com/ballchen/education/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
 <#include "/admin/public-js.html">
 <script type="text/javascript">
     seajs.use("admin/js/category-am");

@@ -60,7 +60,7 @@ public class PageHelper {
     }
 
     public void setPage(Integer page) {
-        if(page!=null && rows!=null){
+        if(rows!=null && page!=null){
             this.offset = (page-1)*rows;
         }
         this.page = page;
@@ -71,9 +71,6 @@ public class PageHelper {
     }
 
     public void setRows(Integer rows) {
-        if(rows!=null){
-            this.limit = rows;
-        }
         this.rows = rows;
     }
 }
