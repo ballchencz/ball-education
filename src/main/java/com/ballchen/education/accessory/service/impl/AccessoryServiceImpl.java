@@ -168,6 +168,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
         return i;
     }
 
+
 /*    @Override
     public List<Accessory> getUserIdCardPositivePictureAndNegativePicture(MultipartFile idCardPositivePicture, MultipartFile idCardNegativePicture) throws JSchException, IOException, SftpException {
         boolean flag = false;

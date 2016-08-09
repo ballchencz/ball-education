@@ -56,6 +56,13 @@ public interface IUserBasicDAO {
     int accessOrDeniedUser(Map<String,Object> paramMap);
 
     /**
+     * 实名认证
+     * @param paramMap id数组
+     * @return int
+     */
+    int realNameValid(Map<String,Object> paramMap);
+
+    /**
      * 查询最新添加时间的用户
      * @param queryMap 查询参数
      * @return UserBasic

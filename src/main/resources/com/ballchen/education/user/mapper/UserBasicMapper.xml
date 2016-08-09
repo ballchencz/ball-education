@@ -429,6 +429,17 @@
     </foreach>
     )
   </update>
+
+  <update id="realNameValid" parameterType="java.util.Map">
+    UPDATE ballchen_t_user_basic
+    SET REAL_NAME_VALID = #{realNameValid,jdbcType=BIT}
+    where ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </update>
+
   <!--分页-->
   <select id="getUserBasicPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
     SELECT

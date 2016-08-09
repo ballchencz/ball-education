@@ -182,6 +182,14 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    public int realNameValid(String[] ids, UserBasic userBasic) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("realNameValid",userBasic.getRealNameValid());
+        paramMap.put("ids",ids);
+        return this.userBasicDAO.realNameValid(paramMap);
+    }
+
+    @Override
     public UserBasic selectFirstUserBasic(String id) {
         Map<String,Object> queryMap = new HashMap<>();
         queryMap.put("fileType",PublicConsts.USER_FILE_TYPE_HEAD_PICTURE);

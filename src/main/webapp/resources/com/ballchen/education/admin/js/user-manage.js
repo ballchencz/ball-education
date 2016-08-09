@@ -6,9 +6,13 @@ define(function(require,exports,module){
         "getUserManagePagination":contextPath+"/adminController/getUserBasicPagination",
         "deleteUserBasicByIds":contextPath+"/adminController/deleteUserBasicByIds",
         "accessoryOrDeniedUser":contextPath+"/adminController/accessOrDeniedUser",
+        "realNameValid":contextPath+"/adminController/realNameValid",
         "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic",
         "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId",
-        "defaultHeadPicture":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg"
+        "defaultHeadPicture":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
+        "defaultIdCardPicturePositive":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
+        "defaultIdCardPictureNegative":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
+        "getAccessoryByUserBasicIdAndIdCardPictureFileType":contextPath+"/accessoryController/getAccessoryByUserBasicIdAndIdCardPictureFileType"
     }
 
     var common =require("common");
@@ -60,7 +64,17 @@ define(function(require,exports,module){
                     }else{
                         $("#headpicture").attr("src",URL.defaultHeadPicture);
                     }
-
+                    //加载身份正面
+                    $("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");
+                    //加载身份证反面
+                    $("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");
+                    //加载认证状态
+                    $("#realNameValidStatusSpan").removeClass();
+                    if(data.realNameValid){
+                        $("#realNameValidStatusSpan").addClass("label label-primary").text("已认证");
+                    }else{
+                        $("#realNameValidStatusSpan").addClass("label label-warning").text("未认证");
+                    }
                 }
             })
         }
@@ -181,7 +195,52 @@ define(function(require,exports,module){
             })
         }
     });
-
+    /**
+     * 实名认证
+     */
+    $("#realNameCheckTrue").bind('click',function(){
+        var selectRows = $("#userManageDataGrid").bootstrapTable("getAllSelections");
+        if(selectRows.length>0) {
+            var idsArray = [];
+            for (var i = 0; i < selectRows.length; i++) {
+                idsArray.push(selectRows[i].id);
+            }
+            $.post(URL.realNameValid,{"ids":""+idsArray+"",realNameValid:true},function(data){
+                if(data.flag){
+                    $("#userManageDataGrid").bootstrapTable("refresh");
+                    parent.layer.alert("所选用户已认证");
+                }
+            });
+        }else{
+            parent.layer.alert('请选择要实名认证的用户', {
+                icon: 0,
+                skin: 'layer-ext-moon'
+            })
+        }
+    });
+    /**
+     * 取消实名认证
+     */
+    $("#realNameCheckFalse").bind('click',function(){
+        var selectRows = $("#userManageDataGrid").bootstrapTable("getAllSelections");
+        if(selectRows.length>0) {
+            var idsArray = [];
+            for (var i = 0; i < selectRows.length; i++) {
+                idsArray.push(selectRows[i].id);
+            }
+            $.post(URL.realNameValid,{"ids":""+idsArray+"",realNameValid:false},function(data){
+                if(data.flag){
+                    $("#userManageDataGrid").bootstrapTable("refresh");
+                    parent.layer.alert("所选用户已取消认证");
+                }
+            });
+        }else{
+            parent.layer.alert('请选择要取消实名认证的用户', {
+                icon: 0,
+                skin: 'layer-ext-moon'
+            })
+        }
+    });
     /**
      * 查询条件
      */
@@ -242,9 +301,29 @@ define(function(require,exports,module){
             //加载个人简介
             $(".description").html(data.description);
             //加载备注
-            $(".mark").text(data.mark);
+            $(".mark").html(data.mark);
             //加载头像
-            $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.accessories[0].id);
+            var accessoryId;
+            if(data.accessories){
+                accessoryId = data.accessories[0].id
+            }
+            if(accessoryId){
+                $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
+            }else{
+                $("#headpicture").attr("src",URL.defaultHeadPicture);
+            }
+            //加载身份正面
+            $("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");
+            //加载身份证反面
+            $("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");
+            //加载认证状态
+            $("#realNameValidStatusSpan").removeClass();
+            if(data.realNameValid){
+                $("#realNameValidStatusSpan").addClass("label label-primary").text("已认证");
+            }else{
+                $("#realNameValidStatusSpan").addClass("label label-warning").text("未认证");
+            }
+
         }
     })
     //绑定查询按钮点击事件

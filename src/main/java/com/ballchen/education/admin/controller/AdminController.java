@@ -358,6 +358,26 @@ public class AdminController {
     }
 
     /**
+     * 用户实名认证
+     * @param ids 用户id数组
+     * @param userBasic
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/realNameValid",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @ResponseBody
+    public Map<String,Object> realNameValid(String [] ids,UserBasic userBasic){
+        Map<String,Object> returnMap = new HashMap<>();
+        int result = this.userService.realNameValid(ids,userBasic);
+        if(result>0){
+            returnMap.put("flag",true);
+        }else{
+            returnMap.put("flag",false);
+        }
+        return returnMap;
+    }
+
+    /**
      * 获得用户展示数据
      * @param id
      * @return

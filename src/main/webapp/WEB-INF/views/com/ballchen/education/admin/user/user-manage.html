@@ -23,6 +23,7 @@
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
           rel="stylesheet">
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/switchery/switchery.css">
     <style type="text/css">
         .button-group{margin-top:20px;}
         .button-group {margin-top: 20px;}
@@ -69,6 +70,8 @@
                     <div class="button-group">
                         <button class="btn btn-info " id="deniedBtn" type="button"><i class="fa fa-paste"></i> 禁用</button>
                         <button class="btn btn-info " id="accessBtn" type="button"><i class="fa fa-paste"></i> 启用</button>
+                        <button class="btn btn-info " id="realNameCheckTrue" type="button"><i class="fa fa-paste"></i> 实名认证</button>
+                        <button class="btn btn-info " id="realNameCheckFalse" type="button"><i class="fa fa-paste"></i>取消实名认证</button>
                     </div>
                     <div class="clients-list">
                         <ul class="nav nav-tabs">
@@ -146,25 +149,20 @@
                             <div class="client-detail">
                                 <div class="full-height-scroll">
 
-                                    <strong>当前动态</strong>
-
+                                    <strong>实名认证<span class="label label-primary" id="realNameValidStatusSpan" style="margin-left: 10px;">已认证</span></strong>
                                     <ul class="list-group clear-list">
                                         <li class="list-group-item fist-item">
-                                            <span class="pull-right"> 09:00</span> 请联系我
+                                            <span class="pull-left">身份证正面</span><br>
+                                            <img src="sdfaewf" style="margin-top: 10px;" id="idCardPicturePositive" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg">
                                         </li>
                                         <li class="list-group-item">
-                                            <span class="pull-right"> 10:16 </span> 签合同
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pull-right"> 08:22 </span> 开新公司
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="pull-right"> 11:06 </span> 打电话给李四
+                                            <span class="pull-left"> 身份证反面 </span><br>
+                                            <img src="sdfwaefaweffewfew" style="margin-top: 10px;" id="idCardPictureNegative" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg">
                                         </li>
                                     </ul>
                                     <strong>备注</strong>
                                     <div class="mark">
-                                        无
+                                        dfgsergsregawdfawefwaegawefawefw
                                     </div>
                                     <hr/>
                                 </div>
@@ -184,6 +182,7 @@
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/switchery/switchery.js"></script>
 <script>
     $(function(){$(".full-height-scroll").slimScroll({height:"100%"})});
 </script>

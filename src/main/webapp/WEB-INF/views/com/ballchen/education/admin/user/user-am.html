@@ -147,6 +147,32 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="realNameValidFalse">实名认证：</label>
+                                    <div class="col-sm-9">
+                                        <div class="i-checks">
+                                            <#if userBasic.id??>
+                                                <label class="radio-inline" for="realNameValidFalse">
+                                                    <#if userBasic.realNameValid==false>
+                                                        <input type="radio" checked="true" value="false" id="realNameValidFalse" name="realNameValid">否</label>
+                                                <#else>
+                                                    <input type="radio" checked="true" value="false" id="realNameValidFalse" name="realNameValid">否</label>
+                                            </#if>
+                                            <label class="radio-inline" for="realNameValidTrue">
+                                                <#if userBasic.realNameValid==true>
+                                                    <input type="radio" checked="true" value="true" id="realNameValidTrue" name="realNameValid">是</label>
+                                            <#else>
+                                                <input type="radio" value="true" id="realNameValidTrue" name="realNameValid">是</label>
+                                                </#if>
+                                                <#else>
+                                                    <label class="radio-inline" for="realNameValidTrue">
+                                                        <input type="radio" checked="true" value="false" id="realNameValidTrue" name="realNameValid">否</label>
+                                                    <label class="radio-inline" for="realNameValidTrue">
+                                                        <input type="radio" value="true" id="realNameValidTrue" name="realNameValid">是</label>
+                                                    </#if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label">角色：</label>
                                     <div class="col-sm-9" id="roleGroup">
                                         <div class="i-checks">

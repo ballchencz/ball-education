@@ -100,6 +100,14 @@ public interface IUserService {
     int accessOrDeniedUser(String [] ids,UserBasic userBasic);
 
     /**
+     * 实名认证
+     * @param ids
+     * @param userBasic
+     * @return
+     */
+    int realNameValid(String [] ids,UserBasic userBasic);
+
+    /**
      * 查询最新添加时间的用户
      * @param id 用户Id
      * @return UserBasic
