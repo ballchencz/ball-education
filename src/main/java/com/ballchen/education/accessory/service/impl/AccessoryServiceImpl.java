@@ -168,6 +168,38 @@ public class AccessoryServiceImpl implements IAccessoryService {
         return i;
     }
 
+    @Override
+    public String getAccessoryURLString(String id) {
+        Accessory accessory = this.selectByPrimaryKey(id);
+        byte [] bytes = null;
+        String URL = "";
+        if(accessory!=null){
+            String fileUrl = accessory.getUrl();
+            String filePath = (String)this.getSftpUtils().get("filePath");
+            SftpUtils sftpUtils = (SftpUtils)this.getSftpUtils().get("sftpUtils");
+            Map<String,Object> fileServerProperties = PublicUtils.getUseableFileServerProperties(this.getClass().getClassLoader().getResource("/").getPath());
+            if(fileServerProperties.get("type").equals(PublicConsts.FILE_SERVER_TYPE_SFTP)){//sftp文件服务器
+                try {
+                    sftpUtils.connect();
+                    bytes = sftpUtils.getFileByteArrayByFileArray(filePath.endsWith("/")?filePath:filePath+"/"+fileUrl);
+                } catch (JSchException e) {
+                    e.printStackTrace();
+                } catch (SftpException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    sftpUtils.disconnect();
+                }
+            }else{//七牛云存储
+                QiniuCloudUtils qiniuCloudUtils = getQiniuCloudUtils(fileServerProperties);
+                String saveName = accessory.getSaveName()+accessory.getExt();
+                URL = qiniuCloudUtils.getFileURLString(saveName);
+            }
+        }
+        return URL;
+    }
+
 
 /*    @Override
     public List<Accessory> getUserIdCardPositivePictureAndNegativePicture(MultipartFile idCardPositivePicture, MultipartFile idCardNegativePicture) throws JSchException, IOException, SftpException {

@@ -98,6 +98,12 @@ public class QiniuCloudUtils {
         return out.toByteArray();
     }
 
+    public String getFileURLString(String saveName){
+        String urlStr = "http://oaph9wwmm.bkt.clouddn.com/"+saveName;
+        return urlStr;
+    }
+
+
     public static void main(String [] args){
         QiniuCloudUtils qiniuCloudUtils = new QiniuCloudUtils("1asbmET-Q5da9M9TFvUiJXgHdVUJY5NQdtLo2sIX","msr-RG48kraUZe89ScvesacCg7wdHVP2PXjqssIL","ballchen","/");
         //File file = new File("D:/图片/信联网智图片/psb.jpg");

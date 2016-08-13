@@ -9,10 +9,12 @@ define(function(require,exports,module){
         "realNameValid":contextPath+"/adminController/realNameValid",
         "getFirstCreateTimeUserBasic":contextPath+"/adminController/getFirstCreateTimeUserBasic",
         "getAccessoryBytesByAccessoryId":contextPath+"/accessoryController/getAccessoryBytesByAccessoryId",
+        "getAccessoryURLByAccessoryId":contextPath+"/accessoryController/getAccessoryURLByAccessoryId",
         "defaultHeadPicture":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
         "defaultIdCardPicturePositive":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
         "defaultIdCardPictureNegative":contextPath+"/resources/com/ballchen/education/hplus/img/a2.jpg",
-        "getAccessoryByUserBasicIdAndIdCardPictureFileType":contextPath+"/accessoryController/getAccessoryByUserBasicIdAndIdCardPictureFileType"
+        "getAccessoryByUserBasicIdAndIdCardPictureFileType":contextPath+"/accessoryController/getAccessoryByUserBasicIdAndIdCardPictureFileType",
+        "getAccessoryURLByUserBasicIdAndIdCardPictureFileType":contextPath+"/accessoryController/getAccessoryURLByUserBasicIdAndIdCardPictureFileType"
     }
 
     var common =require("common");
@@ -60,14 +62,22 @@ define(function(require,exports,module){
                         accessoryId = data.accessories[0].id
                     }
                     if(accessoryId){
-                        $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
+                        $.get(URL.getAccessoryURLByAccessoryId,{"id":accessoryId},function(data){
+                            $("#headpicture").attr("src",data);
+                        })
                     }else{
                         $("#headpicture").attr("src",URL.defaultHeadPicture);
                     }
                     //加载身份正面
-                    $("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");
+                    $.get(URL.getAccessoryURLByUserBasicIdAndIdCardPictureFileType,{"userBasicId":data.id,"idCardPictureFileType":"positive"},function(data){
+                        $("#idCardPicturePositive").attr("src",data);
+                    })
+                    /*$("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");*/
                     //加载身份证反面
-                    $("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");
+                    $.get(URL.getAccessoryURLByUserBasicIdAndIdCardPictureFileType,{"userBasicId":data.id,"idCardPictureFileType":"negative"},function(data){
+                        $("#idCardPictureNegative").attr("src",data);
+                    })
+                    /*$("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");*/
                     //加载认证状态
                     $("#realNameValidStatusSpan").removeClass();
                     if(data.realNameValid){
@@ -308,14 +318,23 @@ define(function(require,exports,module){
                 accessoryId = data.accessories[0].id
             }
             if(accessoryId){
-                $("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);
+                $.get(URL.getAccessoryURLByAccessoryId,{"id":accessoryId},function(data){
+                    $("#headpicture").attr("src",data);
+                })
+                /*$("#headpicture").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+accessoryId);*/
             }else{
                 $("#headpicture").attr("src",URL.defaultHeadPicture);
             }
             //加载身份正面
-            $("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");
+            $.get(URL.getAccessoryURLByUserBasicIdAndIdCardPictureFileType,{"userBasicId":data.id,"idCardPictureFileType":"positive"},function(data){
+                $("#idCardPicturePositive").attr("src",data);
+            })
+            /*$("#idCardPicturePositive").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=positive");*/
             //加载身份证反面
-            $("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");
+            $.get(URL.getAccessoryURLByUserBasicIdAndIdCardPictureFileType,{"userBasicId":data.id,"idCardPictureFileType":"negative"},function(data){
+                $("#idCardPictureNegative").attr("src",data);
+            })
+            /*$("#idCardPictureNegative").attr("src",URL.getAccessoryByUserBasicIdAndIdCardPictureFileType+"?userBasicId="+data.id+"&idCardPictureFileType=negative");*/
             //加载认证状态
             $("#realNameValidStatusSpan").removeClass();
             if(data.realNameValid){

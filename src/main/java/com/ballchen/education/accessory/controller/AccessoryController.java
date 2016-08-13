@@ -4,6 +4,8 @@ import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.admin.consts.AdminConsts;
 import com.ballchen.education.consts.PublicConsts;
+import com.ballchen.education.utils.QiniuCloudUtils;
+import com.ballchen.education.utils.SftpUtils;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ public class AccessoryController {
         return bytes;
     }
 
+    @RequestMapping(value="/getAccessoryURLByAccessoryId",method={RequestMethod.GET})
+    @ResponseBody
+    public String getAccessoryURLByAccessoryId(String id){
+        return this.accessoryService.getAccessoryURLString(id);
+    }
+
     /**
      * 根据用户ID和身份证反正面标识获得身份证字节数组
      * @param userBasicId 用户ID
@@ -62,5 +70,32 @@ public class AccessoryController {
             b = getAccessoryBytesByAccessoryId(accessory.getId());
         }
         return b;
+    }
+
+
+    /**
+     * 根据用户ID和身份证反正面标识获得身份证字URL
+     * @param userBasicId 用户ID
+     * @param idCardPictureFileType 身份证反正面标识
+     * @return String
+     */
+    @RequestMapping(value="/getAccessoryURLByUserBasicIdAndIdCardPictureFileType",method={RequestMethod.GET})
+    @ResponseBody
+    public String getAccessoryURLByUserBasicIdAndIdCardPictureFileType(String userBasicId,String idCardPictureFileType){
+        Accessory accessory = null;
+        List<Accessory> accessories = null;
+        String URL = null;
+        if(idCardPictureFileType!=null){
+            if(idCardPictureFileType.equals("positive")){//正面
+                accessories = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(userBasicId, PublicConsts.USER_FILE_TYPE_IDCARD_POSITIVE,null);
+            }else{//反面
+                accessories = this.accessoryService.selectAccessoryByUserIdAndIdCardPicture(userBasicId, null,PublicConsts.USER_FILE_TYPE_IDCARD_NEGATIVE);
+            }
+        }
+        if(accessories!=null && accessories.size()>0){
+            accessory = accessories.get(0);
+            URL = getAccessoryURLByAccessoryId(accessory.getId());
+        }
+        return URL;
     }
 }
