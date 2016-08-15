@@ -11,6 +11,8 @@ import com.ballchen.education.category.consts.CategoryConst;
 import com.ballchen.education.category.entity.Category;
 import com.ballchen.education.category.service.ICategoryService;
 import com.ballchen.education.consts.PublicConsts;
+import com.ballchen.education.course.entity.*;
+import com.ballchen.education.course.service.*;
 import com.ballchen.education.security.dao.IAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleAuthorizationDAO;
 import com.ballchen.education.security.dao.IRoleDAO;
@@ -57,6 +59,16 @@ public class AdminTest {
     private IAccessoryService accessoryService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private ICourseService courseService;
+    @Autowired
+    private ICourseAccessoryService courseAccessoryService;
+    @Autowired
+    private ICourseUserBasicService courseUserBasicService;
+    @Autowired
+    private ICourseChapterService courseChapterService;
+    @Autowired
+    private ICourseChapterAccessoryService courseChapterAccessoryService;
 
     @Test
     public void testQueryById() throws Exception {
@@ -216,6 +228,12 @@ public class AdminTest {
     public void testCategory(){
         Category category = this.categoryService.selectByPrimaryKey("4984b1b9-92eb-4c52-91d2-f07c9b13ecce");
         System.out.println(category);
+    }
+
+    @Test
+    public void testCourse(){
+        CourseChapterAccessory courseChapter = this.courseChapterAccessoryService.selectByPrimaryKey("dsfewfe");
+        System.out.println(courseChapter);
     }
 
 }

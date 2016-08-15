@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.course.dao.ICourseDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.course.entity.Course" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+    <result column="COURSE_TYPE" property="courseType" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="DENIED" property="denied" jdbcType="BIT" />
+    <result column="RECOMMEND" property="recommend" jdbcType="BIT" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ballchen.education.course.entity.Course" extends="BaseResultMap" >
+    <result column="DESCRIPTION" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, COURSE_NAME, COURSE_TYPE, PRICE, DENIED, RECOMMEND, CATEGORY_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    DESCRIPTION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ballchen_t_course
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_course
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ballchen.education.course.entity.Course" >
+    insert into ballchen_t_course (ID, CREATE_TIME, COURSE_NAME, 
+      COURSE_TYPE, PRICE, DENIED, 
+      RECOMMEND, CATEGORY_ID, DESCRIPTION
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{courseName,jdbcType=VARCHAR}, 
+      #{courseType,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{denied,jdbcType=BIT}, 
+      #{recommend,jdbcType=BIT}, #{categoryId,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.course.entity.Course" >
+    insert into ballchen_t_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME,
+      </if>
+      <if test="courseType != null" >
+        COURSE_TYPE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="denied != null" >
+        DENIED,
+      </if>
+      <if test="recommend != null" >
+        RECOMMEND,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseType != null" >
+        #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="denied != null" >
+        #{denied,jdbcType=BIT},
+      </if>
+      <if test="recommend != null" >
+        #{recommend,jdbcType=BIT},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.course.entity.Course" >
+    update ballchen_t_course
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseType != null" >
+        COURSE_TYPE = #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="denied != null" >
+        DENIED = #{denied,jdbcType=BIT},
+      </if>
+      <if test="recommend != null" >
+        RECOMMEND = #{recommend,jdbcType=BIT},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ballchen.education.course.entity.Course" >
+    update ballchen_t_course
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      COURSE_TYPE = #{courseType,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      DENIED = #{denied,jdbcType=BIT},
+      RECOMMEND = #{recommend,jdbcType=BIT},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.course.entity.Course" >
+    update ballchen_t_course
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      COURSE_TYPE = #{courseType,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      DENIED = #{denied,jdbcType=BIT},
+      RECOMMEND = #{recommend,jdbcType=BIT},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
