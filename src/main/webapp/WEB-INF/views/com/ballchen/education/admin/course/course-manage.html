@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Sam钢琴课 - 课程管理</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/bootstrap.min14ed.css?v=3.3.6"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/font-awesome.min93e3.css?v=4.4.0"
+          rel="stylesheet">
+
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/style.min862f.css?v=4.1.0"
+          rel="stylesheet">
+    <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/switchery/switchery.css">
+    <style type="text/css">
+        .button-group{margin-top:20px;}
+        .button-group {margin-top: 20px;}
+        .alert{margin-bottom: 0px;margin-top:10px;}
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small pull-right">最后更新：<i class="fa fa-clock-o"></i> 2015-09-01 12:00</span>
+                    <h2>课程管理</h2>
+                    <div class="input-group">
+                        <form class="form-inline">
+                            <input type="text" placeholder="课程名称" class="input form-control" name="courseName">
+                        </form>
+                        <div class="input-group-btn">
+                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">操作 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="seachParam">
+                                <li><a href="#">课程名称</a>
+                                </li>
+                                <li><a href="#">昵称</a>
+                                </li>
+                                <li><a href="#">性别</a>
+                                </li>
+                                <li><a href="#">出生日期</a>
+                                </li>
+                                <li><a href="#">实名认证</a>
+                                </li>
+                                <li><a href="#">禁用</a>
+                                </li>
+                                <li><a href="#">禁用原因</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn btn-primary" id="searchBtn"> <i class="fa fa-search"></i> 查询</button>
+                        </span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-info " id="deniedBtn" type="button"><i class="fa fa-paste"></i> 禁用</button>
+                        <button class="btn btn-info " id="accessBtn" type="button"><i class="fa fa-paste"></i> 启用</button>
+                        <button class="btn btn-info " id="realNameCheckTrue" type="button"><i class="fa fa-paste"></i> 实名认证</button>
+                        <button class="btn btn-info " id="realNameCheckFalse" type="button"><i class="fa fa-paste"></i>取消实名认证</button>
+                    </div>
+                    <div class="clients-list">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right small text-muted">1406 个客户</span>
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i>用户</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <div class="table-responsive">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="courseManageDataGridToolbar">
+                                <div class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="courseManageDataGrid" data-height="600" data-mobile-responsive="true">
+                                <thead>
+                                    <tr>
+                                        <th data-checkbox="true"></th>
+                                        <th data-visible="false" data-field="id"></th>
+                                        <th data-field="courseName">课程名称</th>
+                                        <th data-field="courseType">课程类型</th>
+                                        <th data-field="categoryId">所属分类</th>
+                                        <th data-field="price">价格</th>
+                                        <th data-field="recommend">推荐</th>
+                                        <th data-field="denied" data-formatter="formatterDeniedState">禁用</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox ">
+
+                <div class="ibox-content">
+                    <div class="tab-content">
+                        <div id="contact-1" class="tab-pane active">
+                            <div class="row m-b-lg">
+                                <div class="col-lg-4 text-center">
+                                    <h2 class="userName">未知</h2>
+                                    <div class="m-b-sm">
+                                        <img alt="image" class="img-circle" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg" style="width: 62px" id="headpicture">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h3>
+                                        个人简介
+                                    </h3>
+                                    <div class="description">
+                                        无
+                                    </div>
+                                    <br>
+                                    <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> 发送消息
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="client-detail">
+                                <div class="full-height-scroll">
+
+                                    <strong>实名认证<span class="label label-primary" id="realNameValidStatusSpan" style="margin-left: 10px;">已认证</span></strong>
+                                    <ul class="list-group clear-list">
+                                        <li class="list-group-item fist-item">
+                                            <span class="pull-left">身份证正面</span><br>
+                                            <img src="sdfaewf" style="margin-top: 10px;" id="idCardPicturePositive" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="pull-left"> 身份证反面 </span><br>
+                                            <img src="sdfwaefaweffewfew" style="margin-top: 10px;" id="idCardPictureNegative" src="${request.contextPath}/resources/com/ballchen/education/hplus/img/a2.jpg">
+                                        </li>
+                                    </ul>
+                                    <strong>备注</strong>
+                                    <div class="mark">
+                                        dfgsergsregawdfawefwaegawefawefw
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/content.min.js?v=1.0.0"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/switchery/switchery.js"></script>
+<script>
+    $(function(){$(".full-height-scroll").slimScroll({height:"100%"})});
+</script>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<#include "/admin/public-js.html">
+    <script type="text/javascript">
+        seajs.use("admin/js/course-manage")
+    </script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

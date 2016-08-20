@@ -13,6 +13,8 @@ import com.ballchen.education.annotation.RoleCode;
 import com.ballchen.education.category.entity.Category;
 import com.ballchen.education.category.service.ICategoryService;
 import com.ballchen.education.consts.PublicConsts;
+import com.ballchen.education.course.entity.Course;
+import com.ballchen.education.course.service.ICourseService;
 import com.ballchen.education.security.consts.SecurityConsts;
 import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.entity.UserBasic;
@@ -48,6 +50,8 @@ public class AdminController {
     private IUserService userService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private ICourseService courseService;
 
     //@Autowired
     //private IRoleService roleService;
@@ -73,7 +77,7 @@ public class AdminController {
     @ResponseBody
     public Map<String,Object> login(Account account){
         ModelAndView mv = new ModelAndView("/admin/index");
-        Map<String,Object> returnMap = new HashMap<String,Object>();
+        Map<String,Object> returnMap = new HashMap<>();
         returnMap.put("flag",true);
         returnMap.put("info","我是中文，还是乱码？");
         return returnMap;
@@ -84,7 +88,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getAdminIndexPage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得管理后台页面")
     public ModelAndView getAdminIndexPage(){
         ModelAndView mv = new ModelAndView("/admin/index");
         return mv;
@@ -95,7 +99,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getAdminIndexRightIndexPage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得管理后台右侧首页页面")
     public ModelAndView getAdminIndexRightIndexPage(){
         ModelAndView mv = new ModelAndView("/admin/index-right_index");
         return mv;
@@ -106,7 +110,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getAccountManagePage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "获得账户管理页面")
     public ModelAndView getAccountManagePage(){
         ModelAndView mv = new ModelAndView("/admin/account/account-manage");
         return mv;
@@ -119,7 +123,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/getAccountPagination",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "获得账户分页数据")
     @ResponseBody
     public String getAccountPagination(Account account){
         List<Account> accounts = this.accountService.getAccountPagination(account);
@@ -134,7 +138,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getAccountAMPagination",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "获得账户添加/修改页面")
     public ModelAndView getAccountAMPagination(Account account){
         if(account!=null){
             if(account.getId()!=null){
@@ -152,7 +156,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/amAccount",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "添加/修改账户")
     @ResponseBody
     public Map<String,Object> amAccount(Account account){
         Map<String,Object> resultMap = new HashMap<>();
@@ -182,8 +186,8 @@ public class AdminController {
      * @param ids 账户ID数组
      * @return Map<String,Object>
      */
-    @RequestMapping(value = "accessOrDeniedAccount",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @RequestMapping(value = "/accessOrDeniedAccount",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "禁用或启用账户")
     @ResponseBody
     public Map<String,Object> accessOrDeniedAccount(String [] ids,Account account){
         Map<String,Object> resultMap = new HashMap<>();
@@ -202,7 +206,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value = "/deleteAccount",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "根据ID数组删除账户")
     @ResponseBody
     public Map<String,Object> deleteAccount(String [] ids){
         Map<String,Object> resultMap = new HashMap<>();
@@ -222,7 +226,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getUserManagePage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得用户管理页面")
     public ModelAndView getUserManagePage(){
         ModelAndView mv = new ModelAndView("/admin/user/user-manage");
         return mv;
@@ -234,7 +238,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/getUserBasicPagination",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "获得账户分页数据")
     @ResponseBody
     public String getUserBasicPagination(UserBasic userBasic, PageHelper pageHelper){
         List<UserBasic> userBasics = this.userService.getUserBasicPagination(userBasic,pageHelper);
@@ -250,7 +254,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getUserBasicAMPage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "获得用户添加修改页面")
     public ModelAndView getUserBasicAMPage(UserBasic userBasic){
         ModelAndView mv = new ModelAndView("/admin/user/user-am");
         Accessory idCardPositive = null;//用户身份证正面
@@ -293,7 +297,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value="/amUserBasic",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "添加/修改用户")
     @ResponseBody
     public Map<String,Object> amUserBasic(UserBasic userBasic, MultipartFile imgFile){
         Map<String,Object> resultMap = new HashMap<>();
@@ -325,7 +329,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value = "/deleteUserBasicByIds",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "根据ID数组删除用户")
     @ResponseBody
     public Map<String,Object> deleteUserBasicByIds(String [] ids){
         Map<String,Object> resultMap = new HashMap<>();
@@ -344,7 +348,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value = "/accessOrDeniedUser",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "禁用用户")
     @ResponseBody
     public Map<String,Object> accessOrDeniedUser(String [] ids,UserBasic userBasic){
         Map<String,Object> returnMap = new HashMap<>();
@@ -364,7 +368,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value = "/realNameValid",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "用户实名认证")
     @ResponseBody
     public Map<String,Object> realNameValid(String [] ids,UserBasic userBasic){
         Map<String,Object> returnMap = new HashMap<>();
@@ -383,7 +387,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/getFirstCreateTimeUserBasic",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "获得用户展示数据")
     @ResponseBody
     public Map<String,Object> getFirstCreateTimeUserBasic(String id){
         Map<String,Object> returnMap = new HashMap<>();
@@ -402,7 +406,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value="/amUserIdCardPicture",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "保存用户身份证图片")
     @ResponseBody
     public Map<String,Object> amUserIdCardPicture(String id,MultipartFile idCardPositiveImgFile,MultipartFile idCardNegativeImgFile){
         Map<String,Object> resultMap = new HashMap<>();
@@ -428,7 +432,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getCategoryManagePage",method=RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得分类管理页面")
     public ModelAndView getCategoryManagePage(){
         ModelAndView mv = new ModelAndView("/admin/category/category-manage");
         return mv;
@@ -442,7 +446,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/getCategoryPaginationData",method = RequestMethod.GET)
     @ResponseBody
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得分类分页数据")
     public String getCategoryPaginationData(Category category,PageHelper pageHelper){
         if(pageHelper.getRows()!=null){
             pageHelper.setLimit(pageHelper.getRows());
@@ -461,7 +465,7 @@ public class AdminController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/getCategoryAMPage",method=RequestMethod.GET)
-    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION})
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN,RoleCode.ORGANIZATION},authorizationName = "获得分类管理添加/修改页面")
     public ModelAndView getCategoryAMPage(Category category){
         ModelAndView mv = new ModelAndView("/admin/category/category-am");
         if(category!=null){
@@ -480,7 +484,7 @@ public class AdminController {
      * @return Map<String,Object>
      */
     @RequestMapping(value="/amCategory",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "添加/修改分类")
     @ResponseBody
     public Map<String,Object> amCategory(Category category, MultipartFile imgFile){
         Map<String,Object> resultMap = new HashMap<>();
@@ -509,7 +513,7 @@ public class AdminController {
     /*----------------------------------------------分类管理结束--------------------------------------------------------*/
     /*----------------------------------------------文件服务器管理开始--------------------------------------------------*/
     @RequestMapping(value = "/getFileServerManagePage",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "获得文件服务器管理页面")
     public ModelAndView getFileServerManagePage(HttpServletRequest request){
        // Map<String,Object> returnMap = PublicUtils.getAllProperties();
         String sftpFilePath = this.getClass().getClassLoader().getResource("/").getPath()+PublicConsts.SFTP_FILE_SERVER_PROPERTIES_NAME;
@@ -521,7 +525,7 @@ public class AdminController {
     }
     /*--------------sftp文件服务器表单提交开始-------------------*/
     @RequestMapping(value = "/saveFileServerProperties",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "sftp文件服务器管理")
     @ResponseBody
     public Map<String,Object> saveFileServerProperties(String userName,String password,String host,String port,String filePath,Boolean denied){
         Map<String,Object> returnMap = new HashMap<>();
@@ -540,7 +544,7 @@ public class AdminController {
     /*--------------sftp文件服务器表单提交结束-------------------*/
     /*--------------七牛云存储表单提交开始-------------------*/
     @RequestMapping(value = "/saveQiniuFileServerProperties",method = RequestMethod.POST)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "七牛云存储管理")
     @ResponseBody
     public Map<String,Object> saveQiniuFileServerProperties(String accessKey,String secretKey,String bucketName,String filePath,Boolean denied){
         Map<String,Object> returnMap = new HashMap<>();
@@ -558,6 +562,56 @@ public class AdminController {
     /*--------------七牛云存储表单提交结束-------------------*/
 
     /*----------------------------------------------文件服务器管理结束--------------------------------------------------*/
+    /*----------------------------------------------课程管理开始--------------------------------------------------------*/
+
+    /**
+     * 获得课程管理页面
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getCourseManagePage",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "获得课程管理页面")
+    public ModelAndView getCourseManagePage(){
+        ModelAndView mv = new ModelAndView("/admin/course/course-manage");
+        return mv;
+    }
+
+    /**
+     * 获得课程管理分页数据
+     * @param course 课程实体类
+     * @param pageHelper 分页数据
+     * @return String
+     */
+    @RequestMapping(value = "/getCoursePaginationData",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "课程管理")
+    @ResponseBody
+    public String getCoursePaginationData(Course course,PageHelper pageHelper){
+        List<Course> courses = this.courseService.getCoursePagination(course,pageHelper);
+        long total = this.courseService.getCoursePaginationCount(course);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(PublicConsts.PAGINATION_ROWS,JSONArray.parseArray(JSONArray.toJSONStringWithDateFormat(courses, PublicConsts.DATE_FORMAT_STRING)).toArray());
+        jsonObject.put(PublicConsts.PAGINATION_TOTAL,total);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 获得课程添加/修改页面
+     * @param course 课程实体类
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/getCourseAMPage",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "获得课程添加/修改页面")
+    public ModelAndView getCourseAMPage(Course course){
+        ModelAndView mv = new ModelAndView("/admin/course/course-am");
+        if(course.getId()==null){//如果课程ID为null，说明为添加
+
+        }else{//修改
+
+        }
+        mv.addObject("course",course);
+        return mv;
+
+    }
+    /*----------------------------------------------课程管理结束--------------------------------------------------------*/
 
 
 }

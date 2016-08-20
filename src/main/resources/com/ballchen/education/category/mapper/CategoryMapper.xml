@@ -144,6 +144,38 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
+  <select id="getCategoryBySelective" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+      ID,PARENT_ID,CATEGORY_TYPE,CATEGORY_NAME
+    FROM
+    ballchen_t_category
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="createTime != null" >
+        AND CREATE_TIME = #{createTime,jdbcType=DATE}
+      </if>
+      <if test="categoryName != null" >
+        AND CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR}
+      </if>
+      <if test="categoryType != null" >
+        AND CATEGORY_TYPE IN(
+          <foreach collection="categoryTypes" index="index" item="item" separator=",">
+            #{item}
+          </foreach>
+        )
+      </if>
+      <if test="userBasicId != null" >
+        AND USER_BASIC_ID = #{userBasicId,jdbcType=VARCHAR}
+      </if>
+      <if test="mark != null" >
+        AND MARK = #{mark,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+        AND PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    ORDER BY SEQUENCE ASC
+  </select>
+
   <!--分页-->
   <select id="getCategoryPagination" resultMap="BaseResultMap" parameterType="java.util.Map">
     SELECT

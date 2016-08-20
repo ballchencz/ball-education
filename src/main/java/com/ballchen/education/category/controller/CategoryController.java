@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class CategoryController {
     /**
      * 获得分类类型数据
      * @return 分类类型
-     */
+    */
     @RequestMapping(value = "/getCategoryTypeJSON",method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String,Object>> getCategoryTypesJSON(){
@@ -67,4 +68,19 @@ public class CategoryController {
     }
 
 
+    /**
+     * 获得所有课程分类
+     * @return
+     */
+    @RequestMapping(value = "/getAllCourseCategory",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public List<Category> getAllCourseCategory(){
+        String [] categoryTypes = {
+                CategoryConst.CATEGORY_TYPE_SELF_COURSE,
+                CategoryConst.CATEGORY_TYPE_TEACHER_COURSE,
+                CategoryConst.CATEGORY_TYPE_ORGANIZATION_COURSE
+        };
+        List<Category> categories =  categoryService.getCategoryBySelective(categoryTypes);
+        return categories;
+    }
 }

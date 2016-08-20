@@ -26,7 +26,7 @@ public class UserController {
      * @return String
      */
     @RequestMapping(value = "/validRepeatIdNumber",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    @AuthorizationAnno(roleCode = {RoleCode.STUDENT,RoleCode.ADMIN},authorizationName = "验证重复的身份证")
     @ResponseBody
     public String validRepeatIdNumber(String idNumber,String id){
         UserBasic userBasic = userService.selectUserBasicByIdNumber(idNumber,id);

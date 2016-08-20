@@ -156,4 +156,78 @@
       CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+  <!--课程分页查询-->
+  <select id="getCoursePagination" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    ballchen_t_course
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="createTime != null and endTime == null" >
+        AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=DATE},'%' )
+      </if>
+      <if test="createTime !=null and endTime !=null">
+        AND CREATE_TIME BETWEEN #{createTime,jdbcType=DATE} AND #{endTime,jdbcType=DATE}
+      </if>
+      <if test="createTime ==null and endTime !=null">
+        AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
+      </if>
+      <if test="courseName != null" >
+        AND COURSE_NAME LIKE CONCAT('%',#{courseName,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="courseType != null" >
+        AND COURSE_TYPE LIKE CONCAT('%',#{courseType,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="price != null">
+        AND PRICE = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="denied != null">
+        AND DENIED = #{denied,jdbcType=BIT}
+      </if>
+      <if test="recommend != null">
+        AND RECOMMEND = #{recommend,jdbcType=BIT}
+      </if>
+      <if test="categoryId != null">
+        AND CATEGORY_ID = #{categoryId,jdbcType=BIT}
+      </if>
+    </trim>
+    ORDER BY CREATE_TIME ${order} LIMIT #{limit,jdbcType=INTEGER} OFFSET #{offset,jdbcType=INTEGER}
+  </select>
+  <select id="getCoursePaginationCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    SELECT
+    COUNT(*)
+    FROM
+    ballchen_t_course
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="createTime != null and endTime == null" >
+        AND CREATE_TIME LIKE CONCAT('%',#{createTime,jdbcType=DATE},'%' )
+      </if>
+      <if test="createTime !=null and endTime !=null">
+        AND CREATE_TIME BETWEEN #{createTime,jdbcType=DATE} AND #{endTime,jdbcType=DATE}
+      </if>
+      <if test="createTime ==null and endTime !=null">
+        AND CREATE_TIME LIKE CONCAT('%',#{endTime,jdbcType=DATE},'%' )
+      </if>
+      <if test="courseName != null" >
+        AND COURSE_NAME LIKE CONCAT('%',#{courseName,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="courseType != null" >
+        AND COURSE_TYPE LIKE CONCAT('%',#{courseType,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="price != null">
+        AND PRICE = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="denied != null">
+        AND DENIED = #{denied,jdbcType=BIT}
+      </if>
+      <if test="recommend != null">
+        AND RECOMMEND = #{recommend,jdbcType=BIT}
+      </if>
+      <if test="categoryId != null">
+        AND CATEGORY_ID = #{categoryId,jdbcType=BIT}
+      </if>
+    </trim>
+  </select>
+
 </mapper>

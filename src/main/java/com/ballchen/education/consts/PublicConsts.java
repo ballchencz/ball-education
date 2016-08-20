@@ -69,6 +69,26 @@ public class PublicConsts {
      */
     public static final String FILE_SERVER_TYPE_QINIU = "QINIU";
 
+    /**
+     * 分页总数（JSON数据KEY）
+     */
+    public static final String PAGINATION_TOTAL = "total";
+
+    /**
+     * 分页数据（JSON数据KEY）
+     */
+    public static final String PAGINATION_ROWS = "rows";
+
+    /**
+     * 日期时间字符串
+     */
+    public static final String DATETIME_FORMAT_STRING = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 日期字符串
+     */
+    public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
+
 
 
 }

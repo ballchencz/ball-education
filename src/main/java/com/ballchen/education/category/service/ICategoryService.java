@@ -58,4 +58,11 @@ public interface ICategoryService {
      */
     int updateByPrimaryKeySelective(Category record,Accessory accessory);
 
+    /**
+     * 根据条件查询
+     * @param categoryType
+     * @return List<Category>
+     */
+    List<Category> getCategoryBySelective(String [] categoryType);
+
 }

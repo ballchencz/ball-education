@@ -220,7 +220,7 @@ CREATE TABLE `ballchen_t_course_chapter` (
   `ID`  VARCHAR(50) NOT NULL COMMENT '主键ID',
   `CREATE_TIME` TIMESTAMP   NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
   `CHAPTER_NAME` VARCHAR(200) NOT NULL COMMENT '章节名称',
-  `CHAPTER_TYPE` VARCHAR(50) NOT NULL COMMENT '章节类型（在线直播，线下，视频课，练习题，一对一，其它）',
+  `CHAPTER_TYPE` VARCHAR(50) NOT NULL COMMENT '章节类型（在线直播，线下，视频课，其它）',
   `PLAN_BEGIN_DATE` DATE COMMENT '计划开始日期',
   `PLAN_BEGIN_TIME` TIME COMMENT '计划开始时间',
   `PLAN_END_DATE` DATE COMMENT '计划结束日期',

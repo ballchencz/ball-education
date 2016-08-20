@@ -22,8 +22,12 @@ public class AccountController {
     @Autowired
     private IAccountService accountService;
 
-    @RequestMapping(value = "getAllAccountJSON",method = RequestMethod.GET)
-    @AuthorizationAnno(roleCode = RoleCode.ADMIN)
+    /**
+     * 获得所有的用户
+     * @return
+     */
+    @RequestMapping(value = "/getAllAccountJSON",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.STUDENT,RoleCode.ADMIN},authorizationName = "获得所有的用户")
     @ResponseBody
     public String getAllAccountJSON(){
         JSONArray jsonArray = new JSONArray();

@@ -22,6 +22,7 @@ import com.ballchen.education.security.service.IRoleService;
 import com.ballchen.education.user.dao.IUserBasicDAO;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import java.util.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml","classpath:spring/spring-servlet.xml"})
 public class AdminTest {
+    private static final Logger logger = Logger.getLogger(AdminTest.class);
     @Resource
     private IMenuInfoDAO menuInfoDAO;
     @Autowired
@@ -232,8 +234,13 @@ public class AdminTest {
 
     @Test
     public void testCourse(){
-        CourseChapterAccessory courseChapter = this.courseChapterAccessoryService.selectByPrimaryKey("dsfewfe");
-        System.out.println(courseChapter);
+        PageHelper ph = new PageHelper();
+        ph.setOrder("asc");
+        ph.setLimit(10);
+        ph.setOffset(0);
+        List<Course> courses = this.courseService.getCoursePagination(null,ph);
+        long count = this.courseService.getCoursePaginationCount(null);
+        logger.info(count);
     }
 
 }

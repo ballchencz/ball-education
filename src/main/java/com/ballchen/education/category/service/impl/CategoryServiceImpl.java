@@ -175,4 +175,12 @@ public class CategoryServiceImpl implements ICategoryService {
         /*------------------------------------------------------------------------------------*/
         return  i;
     }
+
+    @Override
+    public List<Category> getCategoryBySelective(String [] categoryTypes) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("categoryTypes",categoryTypes);
+        List<Category> categorys =categoryDAO.getCategoryBySelective(queryMap);
+        return categorys;
+    }
 }
