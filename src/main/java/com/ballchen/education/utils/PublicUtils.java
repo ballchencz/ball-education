@@ -2,6 +2,7 @@ package com.ballchen.education.utils;
 
 
 import com.ballchen.education.consts.PublicConsts;
+import org.springframework.cglib.beans.BeanMap;
 
 import java.io.*;
 import java.util.*;
@@ -167,7 +168,27 @@ public class PublicUtils {
     public static String getUUID(){
         return UUID.randomUUID().toString();
     }
-
+    /**
+     * 将POJO转换成Map
+     * @param object
+     * @return
+     */
+    public static Map<String,Object> parsePOJOtoMap(Object object){
+        Map<String,Object> map = new HashMap<>();
+        if(object!=null){
+            BeanMap beanMap = BeanMap.create(object);
+            Set<String> keySet = beanMap.keySet();
+            Iterator<String> it = keySet.iterator();
+            while(it.hasNext()){
+                String key = it.next();
+                Object value = beanMap.get(key);
+                if(value!=null){
+                    map.put(key,value);
+                }
+            }
+        }
+        return map;
+    }
 
 /*    public static void main(String [] args){
         JSONObject jsonObject = PublicUtils.getAllProperties("C:/IEDA_WORKSPACE/ball-education/src/main/resources/sftpFileServer.properties");

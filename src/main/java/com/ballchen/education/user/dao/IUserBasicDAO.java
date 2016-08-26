@@ -83,4 +83,11 @@ public interface IUserBasicDAO {
      */
     UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(Map<String,Object> queryMap);
 
+    /**
+     * 根据用户角色获得用户
+     * @param queryMap
+     * @return
+     */
+    List<UserBasic> selectUserBasicsByRoles(Map<String,Object> queryMap);
+
 }

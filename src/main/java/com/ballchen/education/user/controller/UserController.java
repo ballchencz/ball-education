@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by ballchen on 2016/6/27.
  */
@@ -35,5 +38,12 @@ public class UserController {
         }else {
             return "true";
         }
+    }
+
+    @RequestMapping(value = "/getUserBasicByRoles",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.ADMIN},authorizationName = "根据角色获得用户")
+    @ResponseBody
+    public List<UserBasic> getUserBasicByRoles(String [] roleCode){
+        return userService.selectUserBasicsByRoles(roleCode);
     }
 }

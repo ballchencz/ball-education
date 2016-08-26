@@ -128,4 +128,11 @@ public interface IUserService {
      */
     UserBasic selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(String id);
 
+    /**
+     * 根据角色获得用户
+     * @param roleCode 角色代码
+     * @return List<UserBasic>
+     */
+    List<UserBasic> selectUserBasicsByRoles(String [] roleCode);
+
 }

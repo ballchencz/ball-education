@@ -204,6 +204,39 @@
       </if>
     </trim>
   </select>
+  <select id="selectUserBasicsByRoles" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    u.ID,
+    u.CREATE_TIME,
+    u.USER_NAME,
+    u.NICK_NAME,
+    u.SEX,
+    u.BIRTHDAY,
+    u.EMAIL,
+    u.ID_NUMBER,
+    u.PHONE,
+    u.HOME_PHONE,
+    u.ACCOUNT_ID,
+    u.MARK,
+    u.REAL_NAME_VALID,
+    u.DENIED,
+    u.DENIED_REASON,
+    u.DESCRIPTION
+    FROM
+    ballchen_t_user_basic_role AS ur
+    INNER JOIN ballchen_t_user_basic AS u ON ur.USER_BASIC_ID = u.ID
+    INNER JOIN ballchen_t_role AS r ON ur.ROLE_ID = r.ID
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="roleCodes!=null">
+        AND r.ROLE_CODE IN (
+              <foreach collection="roleCodes" index="index" item="item" separator=",">
+                #{item}
+              </foreach>
+            )
+      </if>
+    </trim>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_user_basic
     where ID = #{id,jdbcType=VARCHAR}

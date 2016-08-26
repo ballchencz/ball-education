@@ -63,6 +63,14 @@
     delete from ballchen_t_accessory
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.Map" >
+    delete from ballchen_t_accessory
+    where ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </delete>
   <insert id="insert" parameterType="com.ballchen.education.accessory.entity.Accessory" >
     insert into ballchen_t_accessory (ID, CREATE_TIME, ACCESSORY_NAME, 
       SAVE_NAME, FILE_NAME, URL, 

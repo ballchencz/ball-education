@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by ballchen on 2016/8/15.
  */
@@ -20,6 +23,14 @@ public class CourseUserBasicServiceImpl implements ICourseUserBasicService {
     @Override
     public int deleteByPrimaryKey(String id) {
         return courseUserBasicDAO.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteByPrimaryKeys(String [] courseIds,String [] userBasicIds) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("courseIds",courseIds);
+        queryMap.put("userBasicIds",userBasicIds);
+        return courseUserBasicDAO.deleteByPrimaryKeys(queryMap);
     }
 
     @Override

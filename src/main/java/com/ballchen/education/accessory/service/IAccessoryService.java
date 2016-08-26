@@ -14,6 +14,8 @@ import java.util.List;
 public interface IAccessoryService {
     int deleteByPrimaryKey(String id);
 
+    int deleteByPrimaryKeys(String [] ids);
+
     int insert(Accessory record);
 
     int insertSelective(Accessory record);

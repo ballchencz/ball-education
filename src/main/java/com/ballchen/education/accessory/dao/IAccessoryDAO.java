@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface IAccessoryDAO {
     int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKeys(Map<String,Object> queryMap);
 
     int insert(Accessory record);
 

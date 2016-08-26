@@ -10,12 +10,28 @@
     <result column="DENIED" property="denied" jdbcType="BIT" />
     <result column="RECOMMEND" property="recommend" jdbcType="BIT" />
     <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="COURSE_INTRO" property="courseIntro" jdbcType="VARCHAR" />
+    <result column="COURSE_INFO" property="courseInfo" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.ballchen.education.course.entity.Course" extends="BaseResultMap" >
     <result column="DESCRIPTION" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
+  <resultMap id="ResultMapWithAccessories" type="com.ballchen.education.course.entity.Course" extends="BaseResultMap">
+    <collection property="accessories" ofType="com.ballchen.education.accessory.entity.Accessory">
+      <id column="ACCESSORY_ID" property="id" jdbcType="VARCHAR" />
+      <result column="URL" property="url" jdbcType="VARCHAR" />
+      <result column="FILE_SERVER_TYPE" property="fileServerType" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+  <resultMap id="ResultMapWithUserBasics" type="com.ballchen.education.course.entity.Course" extends="BaseResultMap">
+    <collection property="userBasics" ofType="com.ballchen.education.user.entity.UserBasic">
+      <id column="USER_BASIC_ID" property="id" jdbcType="VARCHAR" />
+      <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+      <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, COURSE_NAME, COURSE_TYPE, PRICE, DENIED, RECOMMEND, CATEGORY_ID
+    ID, CREATE_TIME, COURSE_NAME, COURSE_TYPE, PRICE, DENIED, RECOMMEND, CATEGORY_ID,COURSE_INTRO,COURSE_INFO
   </sql>
   <sql id="Blob_Column_List" >
     DESCRIPTION
@@ -28,6 +44,59 @@
     from ballchen_t_course
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectCourseAccessoryByQueryParam" resultMap="ResultMapWithAccessories" parameterType="java.util.Map">
+    SELECT
+        c.ID,
+        c.COURSE_NAME,
+        a.ID AS ACCESSORY_ID,
+        a.URL,
+        a.FILE_SERVER_TYPE
+    FROM
+      ballchen_t_course_accessory ca
+      INNER JOIN
+      ballchen_t_course c ON ca.COURSE_ID = c.ID
+      INNER JOIN
+      ballchen_t_accessory a ON ca.ACCESSORY_ID = a.ID
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="courseId != null">
+        AND c.ID = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="fileServerType != null">
+        AND a.FILE_SERVER_TYPE = #{fileServerType,jdbcType=VARCHAR}
+      </if>
+      <if test="fileType != null">
+        AND a.FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+  <select id="selectCourseUserBasicByQueryParam" resultMap="ResultMapWithUserBasics" parameterType="java.util.Map">
+    SELECT
+        c.ID,
+        c.COURSE_NAME,
+        u.ID AS USER_BASIC_ID,
+        u.USER_NAME,
+        u.NICK_NAME
+    FROM
+      ballchen_t_course_user_basic cu
+      INNER JOIN
+      ballchen_t_course c ON cu.COURSE_ID = c.ID
+      INNER JOIN
+      ballchen_t_user_basic u ON cu.USER_BASIC_ID = u.ID
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="courseId != null">
+        AND c.ID = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="userBasicId != null">
+        AND u.ID = #{userBasicId,jdbcType=VARCHAR}
+      </if>
+      <if test="userName != null">
+        AND u.USER_NAME = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null">
+        AND u.NICK_NAME = #{nickName,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_course
     where ID = #{id,jdbcType=VARCHAR}
@@ -39,7 +108,7 @@
       )
     values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{courseName,jdbcType=VARCHAR}, 
       #{courseType,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{denied,jdbcType=BIT}, 
-      #{recommend,jdbcType=BIT}, #{categoryId,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      #{recommend,jdbcType=BIT}, #{categoryId,jdbcType=VARCHAR},#{courseIntro,jdbcType=VARCHAR},#{courseInfo,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.course.entity.Course" >
@@ -68,6 +137,12 @@
       </if>
       <if test="categoryId != null" >
         CATEGORY_ID,
+      </if>
+      <if test="courseIntro != null" >
+        COURSE_INTRO,
+      </if>
+      <if test="courseInfo != null" >
+        COURSE_INFO,
       </if>
       <if test="description != null" >
         DESCRIPTION,
@@ -98,6 +173,12 @@
       <if test="categoryId != null" >
         #{categoryId,jdbcType=VARCHAR},
       </if>
+      <if test="courseIntro != null" >
+        #{courseIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="courseInfo != null" >
+        #{courseInfo,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -127,6 +208,12 @@
       <if test="categoryId != null" >
         CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
       </if>
+      <if test="courseIntro != null">
+        COURSE_INTRO = #{courseIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="courseInfo != null">
+        COURSE_INFO = #{courseInfo,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -142,6 +229,8 @@
       DENIED = #{denied,jdbcType=BIT},
       RECOMMEND = #{recommend,jdbcType=BIT},
       CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      COURSE_INTRO = #{courseIntro,jdbcType=VARCHAR},
+      COURSE_INFO = #{courseInfo,jdbcType=VARCHAR},
       DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -153,7 +242,9 @@
       PRICE = #{price,jdbcType=DECIMAL},
       DENIED = #{denied,jdbcType=BIT},
       RECOMMEND = #{recommend,jdbcType=BIT},
-      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      COURSE_INTRO = #{courseIntro,jdbcType=VARCHAR},
+      COURSE_INFO = #{courseInfo,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 

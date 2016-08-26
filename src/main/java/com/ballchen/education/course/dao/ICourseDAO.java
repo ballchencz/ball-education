@@ -23,4 +23,8 @@ public interface ICourseDAO {
     List<Course> getCoursePagination(Map<String,Object> queryMap);
 
     long getCoursePaginationCount(Map<String,Object> queryMap);
+
+    List<Course> selectCourseAccessoryByQueryParam(Map<String,Object> queryMap);
+
+    List<Course> selectCourseUserBasicByQueryParam(Map<String,Object> queryMap);
 }

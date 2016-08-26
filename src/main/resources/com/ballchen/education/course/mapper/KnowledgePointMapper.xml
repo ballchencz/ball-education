@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ballchen.education.course.dao.IKnowledgePointDAO" >
+  <resultMap id="BaseResultMap" type="com.ballchen.education.course.entity.KnowledgePoint" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="KNOWLEDGE_NAME" property="knowledgeName" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ballchen.education.course.entity.KnowledgePoint" extends="BaseResultMap" >
+    <result column="DESCRIPTION" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, KNOWLEDGE_NAME, COURSE_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    DESCRIPTION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ballchen_t_knowledge_point
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ballchen_t_knowledge_point
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+   <delete id="deleteByPrimaryKeys" parameterType="java.util.Map" >
+    delete from ballchen_t_knowledge_point
+    where ID IN (
+     <foreach collection="ids" index="index" item="item" separator=",">
+       #{item}
+     </foreach>
+     )
+  </delete>
+
+  <insert id="insert" parameterType="com.ballchen.education.course.entity.KnowledgePoint" >
+    insert into ballchen_t_knowledge_point (ID, CREATE_TIME, KNOWLEDGE_NAME, 
+      COURSE_ID, DESCRIPTION)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{knowledgeName,jdbcType=VARCHAR}, 
+      #{courseId,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ballchen.education.course.entity.KnowledgePoint" >
+    insert into ballchen_t_knowledge_point
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="knowledgeName != null" >
+        KNOWLEDGE_NAME,
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="knowledgeName != null" >
+        #{knowledgeName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ballchen.education.course.entity.KnowledgePoint" >
+    update ballchen_t_knowledge_point
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="knowledgeName != null" >
+        KNOWLEDGE_NAME = #{knowledgeName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ballchen.education.course.entity.KnowledgePoint" >
+    update ballchen_t_knowledge_point
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      KNOWLEDGE_NAME = #{knowledgeName,jdbcType=VARCHAR},
+      COURSE_ID = #{courseId,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ballchen.education.course.entity.KnowledgePoint" >
+    update ballchen_t_knowledge_point
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      KNOWLEDGE_NAME = #{knowledgeName,jdbcType=VARCHAR},
+      COURSE_ID = #{courseId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

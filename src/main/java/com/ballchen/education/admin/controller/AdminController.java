@@ -13,6 +13,7 @@ import com.ballchen.education.annotation.RoleCode;
 import com.ballchen.education.category.entity.Category;
 import com.ballchen.education.category.service.ICategoryService;
 import com.ballchen.education.consts.PublicConsts;
+import com.ballchen.education.course.consts.CourseConsts;
 import com.ballchen.education.course.entity.Course;
 import com.ballchen.education.course.service.ICourseService;
 import com.ballchen.education.security.consts.SecurityConsts;
@@ -605,12 +606,51 @@ public class AdminController {
         if(course.getId()==null){//如果课程ID为null，说明为添加
 
         }else{//修改
-
+            course = courseService.selectByPrimaryKey(course.getId());
         }
         mv.addObject("course",course);
         return mv;
 
     }
+
+    /**
+     * 添加/修改课程
+     * @param course 课程实体类
+     * @param imgFile 课程附件
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value="/amCourse",method = RequestMethod.POST)
+    @AuthorizationAnno(roleCode = RoleCode.ADMIN,authorizationName = "添加/修改课程")
+    @ResponseBody
+    public Map<String,Object> amCourse(Course course,MultipartFile imgFile,String userBasicIds){
+        Map<String,Object> resultMap = new HashMap<>();
+        String [] userBasicIdArray = null;
+        if(userBasicIds!=null && !userBasicIds.equals("")){
+            userBasicIdArray = userBasicIds.split(",");
+        }
+        if(course.getId()==null || course.getId().equals("")){//添加
+            course.setId(UUID.randomUUID().toString());
+            resultMap.put("name","insert");
+            try{
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile, CourseConsts.COURSE_FILE_TYPE_COURE_PICTURE);
+                this.courseService.insertSelective(course,accessory,userBasicIdArray);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }else{//修改
+            resultMap.put("name","update");
+            try{
+                Accessory accessory = this.accessoryService.getAccessoryByMultipartFile(imgFile,CourseConsts.COURSE_FILE_TYPE_COURE_PICTURE);
+                this.courseService.updateByPrimaryKeySelective(course,accessory,userBasicIdArray);
+                resultMap.put("flag",true);
+            }catch(Exception e){
+                resultMap.put("flag",false);
+            }
+        }
+        return resultMap;
+    }
+
     /*----------------------------------------------课程管理结束--------------------------------------------------------*/
 
 

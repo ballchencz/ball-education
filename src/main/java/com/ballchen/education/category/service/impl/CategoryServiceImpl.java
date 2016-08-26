@@ -14,6 +14,7 @@ import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.entity.UserBasicAccessory;
 import com.ballchen.education.user.entity.UserBasicRole;
+import com.ballchen.education.utils.PublicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,15 +39,15 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public List<Category> getCategoryPagination(Category category, PageHelper pageHelper) {
-        Map<String,Object> queryMap = AdminUtils.parsePOJOtoMap(category);
-        queryMap.putAll(AdminUtils.parsePOJOtoMap(pageHelper));
+        Map<String,Object> queryMap = PublicUtils.parsePOJOtoMap(category);
+        queryMap.putAll(PublicUtils.parsePOJOtoMap(pageHelper));
         return categoryDAO.getCategoryPagination(queryMap);
     }
 
     @Override
     public long getCategoryPaginationCount(Category category,PageHelper pageHelper) {
-        Map<String,Object> queryMap = AdminUtils.parsePOJOtoMap(category);
-        queryMap.putAll(AdminUtils.parsePOJOtoMap(pageHelper));
+        Map<String,Object> queryMap = PublicUtils.parsePOJOtoMap(category);
+        queryMap.putAll(PublicUtils.parsePOJOtoMap(pageHelper));
         return categoryDAO.getCategoryPaginationCount(queryMap);
     }
 

@@ -32,13 +32,18 @@ public class AccessoryServiceImpl implements IAccessoryService {
     @Autowired
     private IAccessoryDAO accessoryDAO;
     @Autowired
-    private IUserService userService;
-    @Autowired
     private IUserBasicAccessoryService userBasicAccessoryService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
         return accessoryDAO.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteByPrimaryKeys(String[] ids) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("ids",ids);
+        return accessoryDAO.deleteByPrimaryKeys(queryMap);
     }
 
     @Override

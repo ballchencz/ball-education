@@ -16,9 +16,39 @@
     from ballchen_t_course_accessory
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="getCourseAccessoryByCourseIdAndFileType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+      ca.ID,
+      ca.CREATE_TIME,
+      ca.COURSE_ID,
+      ca.ACCESSORY_ID
+    from
+    ballchen_t_course_accessory ca
+    INNER JOIN ballchen_t_course c ON ca.COURSE_ID = c.ID
+    INNER JOIN ballchen_t_accessory a ON ca.ACCESSORY_ID = a.ID
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="courseId!=null">
+        AND c.ID = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="fileType!=null">
+        AND a.FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_course_accessory
     where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.Map" >
+    delete from ballchen_t_course_accessory
+    where ID IN (
+    <foreach collection="ids" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
   </delete>
   <insert id="insert" parameterType="com.ballchen.education.course.entity.CourseAccessory" >
     insert into ballchen_t_course_accessory (ID, CREATE_TIME, COURSE_ID, 

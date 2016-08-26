@@ -234,13 +234,8 @@ public class AdminTest {
 
     @Test
     public void testCourse(){
-        PageHelper ph = new PageHelper();
-        ph.setOrder("asc");
-        ph.setLimit(10);
-        ph.setOffset(0);
-        List<Course> courses = this.courseService.getCoursePagination(null,ph);
-        long count = this.courseService.getCoursePaginationCount(null);
-        logger.info(count);
+        List<CourseAccessory> courseAccessories = courseAccessoryService.getCourseAccessoryByCourseIdAndFileType("1111","fewfwew");
+        logger.info(courseAccessories+"::::::::::::::::::::::::::::::::::::::");
     }
 
 }

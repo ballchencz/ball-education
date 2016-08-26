@@ -145,16 +145,16 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public List<UserBasic> getUserBasicPagination(UserBasic userBasic, PageHelper pageHelper) {
-        Map<String,Object> queryMap = AdminUtils.parsePOJOtoMap(userBasic);
-        queryMap.putAll(AdminUtils.parsePOJOtoMap(pageHelper));
+        Map<String,Object> queryMap = PublicUtils.parsePOJOtoMap(userBasic);
+        queryMap.putAll(PublicUtils.parsePOJOtoMap(pageHelper));
         List<UserBasic> userBasics = this.userBasicDAO.getUserBasicPagination(queryMap);
         return userBasics;
     }
 
     @Override
     public Long getUserBasicPaginationCount(UserBasic userBasic, PageHelper pageHelper) {
-        Map<String,Object> queryMap = AdminUtils.parsePOJOtoMap(userBasic);
-        queryMap.putAll(AdminUtils.parsePOJOtoMap(pageHelper));
+        Map<String,Object> queryMap = PublicUtils.parsePOJOtoMap(userBasic);
+        queryMap.putAll(PublicUtils.parsePOJOtoMap(pageHelper));
         Long count = this.userBasicDAO.getUserBasicPaginationCount(queryMap);
         return count;
     }
@@ -231,6 +231,13 @@ public class UserServiceImpl implements IUserService{
             queryMap.put("id",id);
         }
         return userBasicDAO.selectUserBasicWithRolesAndHeadPictureAccessoryByPrimaryKey(queryMap);
+    }
+
+    @Override
+    public List<UserBasic> selectUserBasicsByRoles(String[] roleCode) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("roleCodes",roleCode);
+        return userBasicDAO.selectUserBasicsByRoles(queryMap);
     }
 
 }

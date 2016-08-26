@@ -2,6 +2,7 @@ package com.ballchen.education.course.entity;
 
 import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.consts.PublicConsts;
+import com.ballchen.education.user.entity.UserBasic;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -26,9 +27,15 @@ public class Course {
 
     private String categoryId;
 
+    private String courseIntro;
+
+    private String courseInfo;
+
     private String description;
 
     private List<Accessory> accessories;
+
+    private List<UserBasic> userBasics;
 
     public String getId() {
         return id;
@@ -108,5 +115,29 @@ public class Course {
 
     public void setAccessories(List<Accessory> accessories) {
         this.accessories = accessories;
+    }
+
+    public String getCourseInfo() {
+        return courseInfo;
+    }
+
+    public void setCourseInfo(String courseInfo) {
+        this.courseInfo = courseInfo;
+    }
+
+    public String getCourseIntro() {
+        return courseIntro;
+    }
+
+    public void setCourseIntro(String courseIntro) {
+        this.courseIntro = courseIntro;
+    }
+
+    public List<UserBasic> getUserBasics() {
+        return userBasics;
+    }
+
+    public void setUserBasics(List<UserBasic> userBasics) {
+        this.userBasics = userBasics;
     }
 }

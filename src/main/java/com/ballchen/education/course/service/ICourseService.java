@@ -1,5 +1,6 @@
 package com.ballchen.education.course.service;
 
+import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.course.entity.Course;
 
@@ -30,7 +31,7 @@ public interface ICourseService {
      * @param record 课程实体类
      * @return int
      */
-    int insertSelective(Course record);
+    int insertSelective(Course record,Accessory accessory,String [] userBasicIds);
 
     /**
      * 根据id获得课程
@@ -44,7 +45,7 @@ public interface ICourseService {
      * @param record 课程实体类
      * @return int
      */
-    int updateByPrimaryKeySelective(Course record);
+    int updateByPrimaryKeySelective(Course record,Accessory accessory,String [] userBasicIds);
 
     /**
      * 根据数据修改课程（带description）
@@ -74,4 +75,20 @@ public interface ICourseService {
      * @return long
      */
     long getCoursePaginationCount(Course course);
+
+    /**
+     * 根据课程ID获得课程和课程附件
+     * @param id 课程ID
+     * @return Course
+     */
+    Course selectCourseAccessoryByCourseId(String id);
+
+    /**
+     *根据课程ID获得课程和课程用户
+     * @param id 课程ID
+     * @return Course
+     */
+    Course selectCourseUserBasicByCourseId(String id);
+
+
 }

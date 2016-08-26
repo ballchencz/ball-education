@@ -20,6 +20,21 @@
     delete from ballchen_t_course_user_basic
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.Map" >
+    delete from ballchen_t_course_user_basic
+    where COURSE_ID IN (
+      <foreach collection="courseIds" index="index" item="item" separator=",">
+        #{item}
+      </foreach>
+    ) <!-- 这个地方暂时屏蔽，为以后课程指定多个用户
+    AND USER_BASIC_ID IN (
+      <foreach collection="userBasicIds" index="index" item="item" separator=",">
+        #{item}
+      </foreach>
+    )-->
+  </delete>
+
   <insert id="insert" parameterType="com.ballchen.education.course.entity.CourseUserBasic" >
     insert into ballchen_t_course_user_basic (ID, CREATE_TIME, COURSE_ID, 
       USER_BASIC_ID)

@@ -16,7 +16,7 @@ public class AdminUtils {
      * @param object
      * @return
      */
-    public static Map<String,Object> parsePOJOtoMap(Object object){
+/*    public static Map<String,Object> parsePOJOtoMap(Object object){
         Map<String,Object> map = new HashMap<>();
         if(object!=null){
             BeanMap beanMap = BeanMap.create(object);
@@ -31,5 +31,5 @@ public class AdminUtils {
             }
         }
         return map;
-    }
+    }*/
 }
