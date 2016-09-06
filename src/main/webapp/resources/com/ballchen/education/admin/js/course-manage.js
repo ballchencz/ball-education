@@ -3,7 +3,8 @@
  */
 define(function(require,exports,module){
     var URL = {
-        "getCoursePaginationData":contextPath+"/adminController/getCoursePaginationData"
+        "getCoursePaginationData":contextPath+"/adminController/getCoursePaginationData",
+        "getCourseType":contextPath+"/courseController/getCourseTypeJSON"
     }
 
     var common =require("common");
@@ -345,6 +346,7 @@ define(function(require,exports,module){
         $(".alert").remove();
         $("#tab-1").prepend(alertDiv).hide().fadeIn('slow').delay(3000).fadeOut('slow');
     }
+
     return addBootstrapAlert;
 
 
@@ -370,4 +372,58 @@ function formatterDeniedState(value,row,index) {
         return '<span class="label label-danger">禁用</span>';
     else
         return '<span class="label label-primary">启用</span>';
+}
+//推荐格式化
+function formatterRecommend(value,row,index){
+    if(value==true)
+        return '<span class="label label-primary">推荐</span>';
+    else
+        return '<span class="label label-warning">不推荐</span>';
+}
+//格式化课程类型
+function formatterCourseType(value,row,index){
+    var courseType;
+    $.ajax({
+        type: "GET",
+        url: contextPath+"/courseController/getCourseTypeJSON",
+        dataType:"JSON",
+        data:{"courseType":value},
+        async:false,
+        success: function(msg){
+            courseType = msg;
+        }
+    });
+    if(courseType){
+        courseType = courseType[value];
+    }
+   return courseType;
+}
+
+//格式化课程所属分类
+function formatterCourseCategory(value,row,index){
+    var courseCategory;
+    var courseCategoryStr;
+    $.ajax({
+        type: "GET",
+        url: contextPath+"/categoryController/getLogicCategory",
+        dataType:"JSON",
+        data:{"id":value},
+        async:false,
+        success: function(msg){
+            courseCategory = msg;
+        }
+    });
+    if(courseCategory){
+        var courseCategoryName = courseCategory["category"];
+        var parentCourseCategoryName = courseCategory["parentCategory"];
+        var grandParentCourseCategoryName = courseCategory["grandParentCategory"];
+        if(courseCategoryName && parentCourseCategoryName && grandParentCourseCategoryName){
+            courseCategoryStr = grandParentCourseCategoryName+" / "+parentCourseCategoryName+" / "+courseCategoryName;
+        }else if(courseCategoryName && parentCourseCategoryName && !grandParentCourseCategoryName){
+            courseCategoryStr = parentCourseCategoryName+" / "+courseCategoryName;
+        }else if(courseCategoryName && !parentCourseCategoryName && !grandParentCourseCategoryName){
+            courseCategoryStr = courseCategoryName;
+        }
+    }
+    return courseCategoryStr;
 }

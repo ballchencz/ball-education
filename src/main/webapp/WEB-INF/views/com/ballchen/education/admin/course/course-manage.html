@@ -23,7 +23,7 @@
     <link href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css"
           rel="stylesheet">
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/datapicker/datepicker3.css">
-    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/hplus/css/plugins/switchery/switchery.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
     <style type="text/css">
         .button-group{margin-top:20px;}
         .button-group {margin-top: 20px;}
@@ -108,10 +108,10 @@
                                         <th data-checkbox="true"></th>
                                         <th data-visible="false" data-field="id"></th>
                                         <th data-field="courseName">课程名称</th>
-                                        <th data-field="courseType">课程类型</th>
-                                        <th data-field="categoryId">所属分类</th>
+                                        <th data-field="courseType" data-formatter="formatterCourseType">课程类型</th>
+                                        <th data-field="categoryId" data-formatter="formatterCourseCategory">所属分类</th>
                                         <th data-field="price">价格</th>
-                                        <th data-field="recommend">推荐</th>
+                                        <th data-field="recommend" data-formatter="formatterRecommend">推荐</th>
                                         <th data-field="denied" data-formatter="formatterDeniedState">禁用</th>
                                     </tr>
                                 </thead>
@@ -182,14 +182,14 @@
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-    <script src="${request.contextPath}/resources/com/ballchen/education/hplus/js/plugins/switchery/switchery.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/com/ballchen/education/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script>
     $(function(){$(".full-height-scroll").slimScroll({height:"100%"})});
 </script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 <#include "/admin/public-js.html">
     <script type="text/javascript">
-        seajs.use("admin/js/course-manage")
+        seajs.use("admin/js/course-manage");
     </script>
 </body>
 

@@ -6,14 +6,12 @@ import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.category.consts.CategoryConst;
 import com.ballchen.education.category.entity.Category;
 import com.ballchen.education.category.service.ICategoryService;
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,5 +80,45 @@ public class CategoryController {
         };
         List<Category> categories =  categoryService.getCategoryBySelective(categoryTypes);
         return categories;
+    }
+
+    /**
+     * 根据id获得分类逻辑数据
+     * @param id 分类ID
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/getLogicCategory",method = RequestMethod.GET,produces = "application/json")
+    @ResponseBody
+    public Map<String,Object> getLogicCategory(String id){
+        Map<String,Object> returnMap = new HashMap<>();
+        Category category = this.categoryService.selectByPrimaryKey(id);
+        Category parentCategory = null;
+        Category grandParentCategory = null;
+        if(category!=null){
+            if(category.getLevel()!=null){
+                switch (category.getLevel()){
+                    case 0:
+                        returnMap.put("category",category.getCategoryName());
+                        break;
+                    case 1:
+                        parentCategory = this.categoryService.selectByPrimaryKey(category.getParentId());
+                        if (parentCategory!=null){
+                            returnMap.put("category",category.getCategoryName());
+                            returnMap.put("parentCategory",parentCategory.getCategoryName());
+                        }
+                        break;
+                    case 2:
+                        parentCategory = this.categoryService.selectByPrimaryKey(category.getParentId());
+                        if(parentCategory!=null){
+                            grandParentCategory = this.categoryService.selectByPrimaryKey(parentCategory.getParentId());
+                            returnMap.put("category",category.getCategoryName());
+                            returnMap.put("parentCategory",parentCategory.getCategoryName());
+                            returnMap.put("grandParentCategory",grandParentCategory.getCategoryName());
+                        }
+                        break;
+                }
+            }
+        }
+        return returnMap;
     }
 }

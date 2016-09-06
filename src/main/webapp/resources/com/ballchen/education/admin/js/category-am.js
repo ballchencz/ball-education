@@ -101,6 +101,9 @@ define(function(require,exports,module){
                     sequence:{
                         number:true
                     },
+                    level:{
+                        number:true
+                    },
                     mark: {
                         maxlength: 500
                     }
@@ -112,6 +115,8 @@ define(function(require,exports,module){
                         maxlength:e+"分类名称不能大于50个字符"
                     },sequence:{
                         number:e+"排序序号必须为数字（0，1，2，3......）"
+                    },level:{
+                        number:e+"等级必须为数字（0：一级；1：二级；2：三级）"
                     },mark: {
                         maxlength: e+"备注不能大于500个字符"
                     }

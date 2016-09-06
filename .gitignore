@@ -7,6 +7,7 @@ target/
 .gitignore
 *.1
 src/main/resources/rebel.xml
+logs
 # Eclipse #
 .settings/
 .metadata/

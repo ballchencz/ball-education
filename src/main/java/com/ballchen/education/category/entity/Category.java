@@ -23,6 +23,11 @@ public class Category {
 
     private String accessoryId;
 
+    /**
+     * 菜单等级（0，一级；1，二级；2，三级）
+     */
+    private Byte level;
+
     private String mark;
 
 
@@ -96,5 +101,13 @@ public class Category {
 
     public void setAccessoryId(String accessoryId) {
         this.accessoryId = accessoryId;
+    }
+
+    public Byte getLevel() {
+        return level;
+    }
+
+    public void setLevel(Byte level) {
+        this.level = level;
     }
 }

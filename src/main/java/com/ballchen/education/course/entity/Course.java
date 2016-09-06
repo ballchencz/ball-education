@@ -37,6 +37,8 @@ public class Course {
 
     private List<UserBasic> userBasics;
 
+    private List<KnowledgePoint> knowledgePoints;
+
     public String getId() {
         return id;
     }
@@ -139,5 +141,13 @@ public class Course {
 
     public void setUserBasics(List<UserBasic> userBasics) {
         this.userBasics = userBasics;
+    }
+
+    public List<KnowledgePoint> getKnowledgePoints() {
+        return knowledgePoints;
+    }
+
+    public void setKnowledgePoints(List<KnowledgePoint> knowledgePoints) {
+        this.knowledgePoints = knowledgePoints;
     }
 }

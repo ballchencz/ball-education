@@ -271,7 +271,7 @@ function onCheck(e, treeId, treeNode) {
     }
     if (v.length > 0 ) v = v.substring(0, v.length-1);
     var cityObj = $("#citySel");
-    cityObj.attr("value", v);
+    cityObj.val(v);
     $("input[name='categoryId']").val(treeNode.id);
 }
 
