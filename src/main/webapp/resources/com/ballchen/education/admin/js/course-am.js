@@ -132,7 +132,37 @@ define(function (require, exports, module) {
                     }
                 }
             });
-
+            /*绑定知识点添加按钮点击事件*/
+            $("#addKnowledgePointBtn").bind('click',function(){
+                var knowledgeName = $(this).parent("div#knowledgePointForm").find('input#knowledgeName').val();
+                var knowledgeDescription = $(this).parent("div#knowledgePointForm").find('textarea#knowledgeDes').val();
+                var arr = [];
+                if(knowledgeName){
+                    var knowledgePointPanelTemp = $("#knowledgePointPanelTemp");
+                    //判断有无知识点面板元素
+                    var childrenLength = $("#accordion").children().length;
+                    var knowledgeNameInput = knowledgePointPanelTemp.find("a").next("input");
+                    var knowledgeDesInput = knowledgePointPanelTemp.find(".panel-body").next("input");
+                    if(childrenLength==0){//设置input框中的name为0
+                        knowledgeNameInput.attr('name',"knowledgePoints[0].knowledgeName");
+                        knowledgeDesInput.attr("name","knowledgePoints[0].description");
+                    }else{//设置input框中的name为length+1
+                        knowledgeNameInput.attr('name',"knowledgePoints["+length+1+"].knowledgeName");
+                        knowledgeDesInput.attr("name","knowledgePoints["+length+1+"].description");
+                    }
+                    //给知识点元素赋值
+                    knowledgePointPanelTemp.find("a").html(knowledgeName);
+                    knowledgeNameInput.val(knowledgeName);
+                    knowledgePointPanelTemp.find(".panel-body").html(knowledgeDescription);
+                    knowledgeDesInput.valueOf(knowledgeDescription);
+                    //克隆知识点元素
+                    var temp = knowledgePointPanelTemp.clone(true);
+                    arr.push(temp);
+                }
+                //添加知识点面板
+                $("#accordion").append(arr[0]);
+                $("#accordion").children().show();
+            });
             /*初始化课程类型select*/
             $.get(URL.getAllCourseTypeJSON,function(data){
                 for(var key in data){
@@ -146,6 +176,8 @@ define(function (require, exports, module) {
                     $("select[name='userBasicIds']").append("<option value='"+data[i].id+"'>"+data[i].userName+"</option>");
                 }
             })
+
+
         }
     );
 //头像上传

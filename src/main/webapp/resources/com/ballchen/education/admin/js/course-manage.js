@@ -88,7 +88,15 @@ define(function(require,exports,module){
             area: ['700px', '530px'],
             fix: false, //不固定
             maxmin: true,
-            content: contextPath+'/adminController/getCourseAMPage'
+            content: contextPath+'/adminController/getCourseAMPage',
+            btn: ['保存', '关闭'],
+            yes: function(index, layero){
+                var childJquery = layero.find("iframe").get(0).contentWindow.$;
+                childJquery("form").submit();
+            },
+            cancle: function(index, layero){
+
+            }
         });
         parent.layer.full(index);
     });
@@ -102,7 +110,15 @@ define(function(require,exports,module){
                 area: ['700px', '530px'],
                 fix: false, //不固定
                 maxmin: true,
-                content: contextPath+'/adminController/getCourseAMPage?id='+selectRow.id
+                content: contextPath+'/adminController/getCourseAMPage?id='+selectRow.id,
+                btn: ['保存', '关闭'],
+                yes: function(index, layero){
+                    var childJquery = layero.find("iframe").get(0).contentWindow.$;
+                    childJquery("form").submit();
+                },
+                cancle: function(index, layero){
+
+                }
             });
             parent.layer.full(index);
         }else{
