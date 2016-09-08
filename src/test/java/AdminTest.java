@@ -270,6 +270,7 @@ public class AdminTest {
         String [] userBasicIds = {"f052e12a-533b-41d9-9eda-77ac28c8cf14"};
         courseService.insertSelective(course,accessory,userBasicIds);
         //courseService.testTransactional(knowledgePoints);
+        ///com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
     }
 
 }

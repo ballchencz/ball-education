@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by ballchen on 2016/8/26.
  */
-public interface IKnowledgePoingService {
+public interface IKnowledgePointService {
     int deleteByPrimaryKey(String id);
 
     int insert(KnowledgePoint record);

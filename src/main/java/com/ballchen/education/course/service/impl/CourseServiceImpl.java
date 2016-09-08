@@ -3,7 +3,6 @@ package com.ballchen.education.course.service.impl;
 import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.accessory.service.IAccessoryService;
 import com.ballchen.education.admin.entity.PageHelper;
-import com.ballchen.education.admin.utils.AdminUtils;
 import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.course.consts.CourseConsts;
 import com.ballchen.education.course.dao.ICourseDAO;
@@ -14,7 +13,7 @@ import com.ballchen.education.course.entity.KnowledgePoint;
 import com.ballchen.education.course.service.ICourseAccessoryService;
 import com.ballchen.education.course.service.ICourseService;
 import com.ballchen.education.course.service.ICourseUserBasicService;
-import com.ballchen.education.course.service.IKnowledgePoingService;
+import com.ballchen.education.course.service.IKnowledgePointService;
 import com.ballchen.education.utils.PublicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class CourseServiceImpl implements ICourseService {
     @Autowired
     private ICourseUserBasicService courseUserBasicService;
     @Autowired
-    private IKnowledgePoingService knowledgePoingService;
+    private IKnowledgePointService knowledgePointService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -51,7 +50,7 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public int insertSelective(Course record,Accessory accessory,String [] userBasicIds) throws Exception {
+    public int insertSelective(Course record,Accessory accessory,String [] userBasicIds){
         //课程添加结果
         int courseInsertResult = -1;
         courseInsertResult = courseDAO.insertSelective(record);
@@ -70,7 +69,7 @@ public class CourseServiceImpl implements ICourseService {
             for(KnowledgePoint knowledgePoint : record.getKnowledgePoints()){
                 //knowledgePoint.setId(UUID.randomUUID().toString());
                 knowledgePoint.setCourseId(record.getId());
-                knowledgePoingService.insertSelective(knowledgePoint);
+                knowledgePointService.insertSelective(knowledgePoint);
             }
         }
         return courseInsertResult;
@@ -191,7 +190,7 @@ public class CourseServiceImpl implements ICourseService {
     public void testTransactional(List<KnowledgePoint> knowledgePoints) {
         for(int i=0;i<knowledgePoints.size();i++){
             if(i<2){
-                knowledgePoingService.insertSelective(knowledgePoints.get(i));
+                knowledgePointService.insertSelective(knowledgePoints.get(i));
             }
         }
         Accessory accessory = new Accessory();

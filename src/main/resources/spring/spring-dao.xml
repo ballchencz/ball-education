@@ -11,6 +11,9 @@
        <!--１.配置数据库相关参数-->
        <context:property-placeholder location="classpath:dataSource.properties"/>
 
+       <context:component-scan base-package="com.ballchen.education">
+              <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+       </context:component-scan>
        <!--2.配置连接池属性-->
        <!-- 配置数据源 -->
        <bean name="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">

@@ -2,7 +2,7 @@ package com.ballchen.education.course.service.impl;
 
 import com.ballchen.education.course.dao.IKnowledgePointDAO;
 import com.ballchen.education.course.entity.KnowledgePoint;
-import com.ballchen.education.course.service.IKnowledgePoingService;
+import com.ballchen.education.course.service.IKnowledgePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class KnowledgePointServiceImpl implements IKnowledgePoingService {
+public class KnowledgePointServiceImpl implements IKnowledgePointService {
 
     @Autowired
     private IKnowledgePointDAO knowledgePointDAO;

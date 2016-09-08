@@ -33,7 +33,7 @@ public interface ICourseService {
      * @param record 课程实体类
      * @return int
      */
-    int insertSelective(Course record,Accessory accessory,String [] userBasicIds) throws Exception;
+    int insertSelective(Course record,Accessory accessory,String [] userBasicIds);
 
     /**
      * 根据id获得课程
