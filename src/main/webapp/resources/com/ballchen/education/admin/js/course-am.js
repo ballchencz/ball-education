@@ -136,7 +136,6 @@ define(function (require, exports, module) {
             $("#addKnowledgePointBtn").bind('click',function(){
                 var knowledgeName = $(this).parent("div#knowledgePointForm").find('input#knowledgeName').val();
                 var knowledgeDescription = $(this).parent("div#knowledgePointForm").find('textarea#knowledgeDes').val();
-                var arr = [];
                 if(knowledgeName){
                     var knowledgePointPanelTemp = $("#knowledgePointPanelTemp");
                     //判断有无知识点面板元素
@@ -146,22 +145,49 @@ define(function (require, exports, module) {
                     if(childrenLength==0){//设置input框中的name为0
                         knowledgeNameInput.attr('name',"knowledgePoints[0].knowledgeName");
                         knowledgeDesInput.attr("name","knowledgePoints[0].description");
+                        //设置panelID和a标签的指向
+                        knowledgePointPanelTemp.find("a").attr("href","tabs_panels.html#knowledgePoints0");
+                        knowledgePointPanelTemp.find(".panel-collapse").attr("id","knowledgePoints0");
                     }else{//设置input框中的name为length+1
-                        knowledgeNameInput.attr('name',"knowledgePoints["+length+1+"].knowledgeName");
-                        knowledgeDesInput.attr("name","knowledgePoints["+length+1+"].description");
+                        knowledgeNameInput.attr('name',"knowledgePoints["+childrenLength+"].knowledgeName");
+                        knowledgeDesInput.attr("name","knowledgePoints["+childrenLength+"].description");
+                        knowledgePointPanelTemp.find("a").attr("href","tabs_panels.html#knowledgePoints"+childrenLength);
+                        knowledgePointPanelTemp.find(".panel-collapse").attr("id","knowledgePoints"+childrenLength);
                     }
                     //给知识点元素赋值
                     knowledgePointPanelTemp.find("a").html(knowledgeName);
                     knowledgeNameInput.val(knowledgeName);
                     knowledgePointPanelTemp.find(".panel-body").html(knowledgeDescription);
-                    knowledgeDesInput.valueOf(knowledgeDescription);
+                    knowledgeDesInput.val(knowledgeDescription);
                     //克隆知识点元素
-                    var temp = knowledgePointPanelTemp.clone(true);
-                    arr.push(temp);
+                    var temp = knowledgePointPanelTemp.clone().removeAttr("id").appendTo($("#accordion"));
+                    //添加知识点面板
+                    //$("#accordion").append(temp);
+                    //添加完成后将值设置为空
+                    $(this).parent("div#knowledgePointForm").find('input#knowledgeName').val("");
+                    $(this).parent("div#knowledgePointForm").find('textarea#knowledgeDes').val("");
+                    //显示添加后的元素
+                    $("#accordion").children().show();
                 }
-                //添加知识点面板
-                $("#accordion").append(arr[0]);
-                $("#accordion").children().show();
+            });
+            /*绑定课程知识点删除按钮事件*/
+            $(document).on("click","button.close",function(){
+                //删除当前知识点
+                $(this).parents(".panel-default").remove();
+                //重新排列当前元素知识点元素的ID和name
+                var childrenElementLength = $("#accordion").children().length;
+                if(childrenElementLength>0){
+                    $("#accordion").children().each(function(index,value){
+                        //改变a标签的href属性
+                        $(value).find("a").attr("href","tabs_panels.html#knowledgePoints"+index);
+                        //改变知识点名称的name属性
+                        $(value).find("a").next().attr("name","knowledgePoints["+index+"].knowledgeName");
+                        //改变panel-collapse的ID属性值
+                        $(value).find(".panel-collapse").attr("id","knowledgePoints"+index);
+                        //改变课程知识点描述name属性值
+                        $(value).find(".panel-collapse").children("input").attr("name","knowledgePoints["+index+"].description");
+                    });
+                }
             });
             /*初始化课程类型select*/
             $.get(URL.getAllCourseTypeJSON,function(data){

@@ -3,6 +3,8 @@ package com.ballchen.education.course.service;
 import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.admin.entity.PageHelper;
 import com.ballchen.education.course.entity.Course;
+import com.ballchen.education.course.entity.KnowledgePoint;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ public interface ICourseService {
      * @param record 课程实体类
      * @return int
      */
-    int insertSelective(Course record,Accessory accessory,String [] userBasicIds);
+    int insertSelective(Course record,Accessory accessory,String [] userBasicIds) throws Exception;
 
     /**
      * 根据id获得课程
@@ -90,5 +92,7 @@ public interface ICourseService {
      */
     Course selectCourseUserBasicByCourseId(String id);
 
+
+    void testTransactional(List<KnowledgePoint> knowledgePoints);
 
 }

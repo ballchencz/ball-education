@@ -10,18 +10,17 @@ import com.ballchen.education.course.dao.ICourseDAO;
 import com.ballchen.education.course.entity.Course;
 import com.ballchen.education.course.entity.CourseAccessory;
 import com.ballchen.education.course.entity.CourseUserBasic;
+import com.ballchen.education.course.entity.KnowledgePoint;
 import com.ballchen.education.course.service.ICourseAccessoryService;
 import com.ballchen.education.course.service.ICourseService;
 import com.ballchen.education.course.service.ICourseUserBasicService;
+import com.ballchen.education.course.service.IKnowledgePoingService;
 import com.ballchen.education.utils.PublicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by ballchen on 2016/8/15.
@@ -38,6 +37,8 @@ public class CourseServiceImpl implements ICourseService {
     private ICourseAccessoryService courseAccessoryService;
     @Autowired
     private ICourseUserBasicService courseUserBasicService;
+    @Autowired
+    private IKnowledgePoingService knowledgePoingService;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -50,7 +51,7 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public int insertSelective(Course record,Accessory accessory,String [] userBasicIds) {
+    public int insertSelective(Course record,Accessory accessory,String [] userBasicIds) throws Exception {
         //课程添加结果
         int courseInsertResult = -1;
         courseInsertResult = courseDAO.insertSelective(record);
@@ -62,8 +63,15 @@ public class CourseServiceImpl implements ICourseService {
             courseAccessory.setCourseId(record.getId());
             courseAccessoryService.insertSelective(courseAccessory);
         }
-        if(userBasicIds!=null && userBasicIds.length>0){
+        if(userBasicIds!=null && userBasicIds.length>0){//如果所属用户不为空,添加所属用户
             insertCourseUserBasic(record,userBasicIds);
+        }
+        if(record.getKnowledgePoints()!=null&&record.getKnowledgePoints().size()>0){//如果知识点不为空，添加知识点
+            for(KnowledgePoint knowledgePoint : record.getKnowledgePoints()){
+                //knowledgePoint.setId(UUID.randomUUID().toString());
+                knowledgePoint.setCourseId(record.getId());
+                knowledgePoingService.insertSelective(knowledgePoint);
+            }
         }
         return courseInsertResult;
     }
@@ -176,6 +184,30 @@ public class CourseServiceImpl implements ICourseService {
         }else{
             return null;
         }
+    }
+
+
+    @Override
+    public void testTransactional(List<KnowledgePoint> knowledgePoints) {
+        for(int i=0;i<knowledgePoints.size();i++){
+            if(i<2){
+                knowledgePoingService.insertSelective(knowledgePoints.get(i));
+            }
+        }
+        Accessory accessory = new Accessory();
+        //accessory.setId(UUID.randomUUID().toString());
+        accessory.setAccessoryName("awefwae");
+        accessory.setCreateTime(new Date());
+        accessory.setExt(".txt");
+        accessory.setFileName("hello");
+        accessory.setMark("dfjaoiwejofjwe");
+        accessory.setSaveName(UUID.randomUUID().toString());
+        accessory.setFileType(PublicConsts.USER_FILE_TYPE_OTHER);
+        accessory.setUrl("/repository");
+        accessory.setFileSize(125635L);
+        accessoryService.insertSelective(accessory);
+
+
     }
 
 

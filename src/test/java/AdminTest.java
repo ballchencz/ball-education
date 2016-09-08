@@ -31,6 +31,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import javax.swing.plaf.synth.SynthTextAreaUI;
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -234,8 +235,41 @@ public class AdminTest {
 
     @Test
     public void testCourse(){
-        List<CourseAccessory> courseAccessories = courseAccessoryService.getCourseAccessoryByCourseIdAndFileType("1111","fewfwew");
-        logger.info(courseAccessories+"::::::::::::::::::::::::::::::::::::::");
+        List<KnowledgePoint> knowledgePoints = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            KnowledgePoint knowledgePoint = new KnowledgePoint();
+            knowledgePoint.setDescription("dfawefe"+i);
+            knowledgePoint.setKnowledgeName("eeege"+i);
+            knowledgePoints.add(knowledgePoint);
+        }
+        Accessory accessory = new Accessory();
+        accessory.setId(UUID.randomUUID().toString());
+        accessory.setAccessoryName("awefwae");
+        accessory.setCreateTime(new Date());
+        accessory.setExt(".txt");
+        accessory.setFileName("hello");
+        accessory.setMark("dfjaoiwejofjwe");
+        accessory.setSaveName(UUID.randomUUID().toString());
+        accessory.setFileType(PublicConsts.USER_FILE_TYPE_OTHER);
+        accessory.setUrl("/repository");
+        accessory.setFileSize(125635L);
+        accessory.setFileServerType(PublicConsts.FILE_SERVER_TYPE_QINIU);
+
+        Course course = new Course();
+        course.setId(UUID.randomUUID().toString());
+        course.setCourseName("dafaett");
+        course.setCourseType("BAN_KE");
+        course.setPrice(new BigDecimal(123));
+        course.setDenied(false);
+        course.setRecommend(false);
+        course.setCategoryId("f8038cbe-032e-4260-a005-5d137e463708");
+        course.setCourseIntro("dfawefawegawefawef");
+        course.setCourseInfo("faewfawegweafawef");
+        course.setDescription("dsfawefawef");
+        course.setKnowledgePoints(knowledgePoints);
+        String [] userBasicIds = {"f052e12a-533b-41d9-9eda-77ac28c8cf14"};
+        courseService.insertSelective(course,accessory,userBasicIds);
+        //courseService.testTransactional(knowledgePoints);
     }
 
 }
