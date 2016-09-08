@@ -1,7 +1,6 @@
 package com.ballchen.education.course.controller;
 
 import com.ballchen.education.accessory.entity.Accessory;
-import com.ballchen.education.admin.utils.AdminUtils;
 import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
 import com.ballchen.education.course.consts.CourseConsts;
@@ -11,7 +10,6 @@ import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
 import com.ballchen.education.utils.PublicUtils;
-import com.sun.javafx.webkit.Accessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
