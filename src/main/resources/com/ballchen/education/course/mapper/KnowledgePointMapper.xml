@@ -24,6 +24,28 @@
     from ballchen_t_knowledge_point
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectBySelective" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ballchen_t_knowledge_point
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id!=null">
+        AND ID = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime!=null">
+        AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="knowledgeName!=null">
+        AND KNOWLEDGE_NAME = #{knowledgeName,jdbcType=VARCHAR}
+      </if>
+      <if test="courseId!=null">
+        AND COURSE_ID = #{courseId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ballchen_t_knowledge_point
     where ID = #{id,jdbcType=VARCHAR}

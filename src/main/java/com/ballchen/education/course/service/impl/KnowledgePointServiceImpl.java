@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,5 +61,12 @@ public class KnowledgePointServiceImpl implements IKnowledgePointService {
         Map<String,Object> queryMap = new HashMap<>();
         queryMap.put("ids",ids);
         return knowledgePointDAO.deleteByPrimaryKeys(queryMap);
+    }
+
+    @Override
+    public List<KnowledgePoint> getKnowledgePointByCourseId(String id) {
+        Map<String,Object> queryMap = new HashMap<>();
+        queryMap.put("courseId",id);
+        return knowledgePointDAO.selectBySelective(queryMap);
     }
 }

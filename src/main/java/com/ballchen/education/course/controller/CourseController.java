@@ -5,7 +5,9 @@ import com.ballchen.education.annotation.AuthorizationAnno;
 import com.ballchen.education.annotation.RoleCode;
 import com.ballchen.education.course.consts.CourseConsts;
 import com.ballchen.education.course.entity.Course;
+import com.ballchen.education.course.entity.KnowledgePoint;
 import com.ballchen.education.course.service.ICourseService;
+import com.ballchen.education.course.service.IKnowledgePointService;
 import com.ballchen.education.security.entity.Role;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.service.IUserService;
@@ -33,6 +35,9 @@ public class CourseController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IKnowledgePointService knowledgePointService;
 
     /**
      * 获得所有课程类型
@@ -124,6 +129,18 @@ public class CourseController {
             }
         }
         return userBasicsReturn;
+    }
+
+    /**
+     * 根据课程ID获得课程知识点
+     * @param id 课程ID
+     * @return List<KnowledgePoint>
+     */
+    @RequestMapping(value = "/getKnowledgePointByCourseId",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.STUDENT,RoleCode.ADMIN},authorizationName = "根据课程ID获得课程知识点")
+    @ResponseBody
+    public List<KnowledgePoint> getKnowledgePointByCourseId(String id){
+        return knowledgePointService.getKnowledgePointByCourseId(id);
     }
 
 }

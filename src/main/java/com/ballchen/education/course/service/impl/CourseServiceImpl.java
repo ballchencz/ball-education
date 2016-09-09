@@ -67,7 +67,7 @@ public class CourseServiceImpl implements ICourseService {
         }
         if(record.getKnowledgePoints()!=null&&record.getKnowledgePoints().size()>0){//如果知识点不为空，添加知识点
             for(KnowledgePoint knowledgePoint : record.getKnowledgePoints()){
-                //knowledgePoint.setId(UUID.randomUUID().toString());
+                knowledgePoint.setId(UUID.randomUUID().toString());
                 knowledgePoint.setCourseId(record.getId());
                 knowledgePointService.insertSelective(knowledgePoint);
             }
@@ -121,11 +121,28 @@ public class CourseServiceImpl implements ICourseService {
                 courseAccessoryService.insertSelective(courseAccessory);
             }
         }
+        /*------课程与用户----*/
         if(userBasicIds!=null && userBasicIds.length>0){
                 /*首先删除课程和用户的关联*/
             courseUserBasicService.deleteByPrimaryKeys(new String[]{record.getId()},userBasicIds);
                 /*然后添加课程用户关联*/
             insertCourseUserBasic(record,userBasicIds);
+        }
+        /*-----课程与知识点----*/
+        List<KnowledgePoint> knowledgePoints = knowledgePointService.getKnowledgePointByCourseId(record.getId());
+        if(knowledgePoints!=null && knowledgePoints.size()>0){
+            //先删除知识点
+            List<String> ids = new ArrayList<>();
+            for(KnowledgePoint knowledgePoint : knowledgePoints){
+                ids.add(knowledgePoint.getId());
+            }
+            knowledgePointService.deleteByPrimaryKeys(ids.toArray(new String[knowledgePoints.size()]));
+            //再添加新的知识点
+            for(KnowledgePoint knowledgePoint:record.getKnowledgePoints()){
+                knowledgePoint.setId(UUID.randomUUID().toString());
+                knowledgePoint.setCourseId(record.getId());
+                knowledgePointService.insertSelective(knowledgePoint);
+            }
         }
         i=courseDAO.updateByPrimaryKeySelective(record);
 

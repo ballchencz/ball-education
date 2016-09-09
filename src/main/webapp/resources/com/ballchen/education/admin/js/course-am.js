@@ -24,7 +24,8 @@ define(function (require, exports, module) {
         "getCategoryById":contextPath+"/categoryController/getCategoryById",
         "getCoursePictureByCourseId":contextPath+"/courseController/getCoursePictureByCourseId",
         "getCourseByCourseId":contextPath+"/courseController/getCourseByCourseId",
-        "getCourseUserBasicByCourseId":contextPath+"/courseController/getCourseUserBasicByCourseId"
+        "getCourseUserBasicByCourseId":contextPath+"/courseController/getCourseUserBasicByCourseId",
+        "getCourseKnowledgeByCourseId":contextPath+"/courseController/getKnowledgePointByCourseId"
     }
     parent.layer.iframeAuto(index);
     //require("validate-messages_zh");
@@ -274,13 +275,11 @@ define(function (require, exports, module) {
     $.ajax({
         type: "GET",
         url: URL.getAllCourseCategory,
-        async:false,
         success: function(msg){
             zNodes = msg;
+            $.fn.zTree.init($("#courseTypeCategory"), setting, zNodes);
         }
     });
-    $.fn.zTree.init($("#courseTypeCategory"), setting, zNodes);
-
     /*初始化课程分类*/
     var categoryId = $("input[name='categoryId']").val();
     if(categoryId){
@@ -309,7 +308,28 @@ define(function (require, exports, module) {
             $("select[name='userBasicIds']").val(data[0].id);
         })
     }
-
+    /*初始化知识点*/
+    if(courseId){
+        $.get(URL.getCourseKnowledgeByCourseId,{id:courseId},function(data){
+            $.each(data,function(index,value){
+                var knowledgePointPanelTemp = $("#knowledgePointPanelTemp");
+                var knowledgeNameInput = knowledgePointPanelTemp.find("a").next("input");
+                var knowledgeDesInput = knowledgePointPanelTemp.find(".panel-body").next("input");
+                knowledgeNameInput.attr('name',"knowledgePoints["+index+"].knowledgeName");
+                knowledgeDesInput.attr("name","knowledgePoints["+index+"].description");
+                //设置panelID和a标签的指向
+                knowledgePointPanelTemp.find("a").attr("href","tabs_panels.html#knowledgePoints"+index);
+                knowledgePointPanelTemp.find(".panel-collapse").attr("id","knowledgePoints"+index);
+                //给知识点元素赋值
+                knowledgePointPanelTemp.find("a").html(value.knowledgeName);
+                knowledgeNameInput.val(value.knowledgeName);
+                knowledgePointPanelTemp.find(".panel-body").html(value.description);
+                knowledgeDesInput.val(value.description);
+                //克隆知识点元素
+                knowledgePointPanelTemp.clone().removeAttr("id").show().appendTo($("#accordion"));
+            })
+        });
+    }
 });
 
 var menuContentId;

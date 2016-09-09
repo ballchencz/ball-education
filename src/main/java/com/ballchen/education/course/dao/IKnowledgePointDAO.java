@@ -2,6 +2,7 @@ package com.ballchen.education.course.dao;
 
 import com.ballchen.education.course.entity.KnowledgePoint;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IKnowledgePointDAO {
@@ -20,4 +21,6 @@ public interface IKnowledgePointDAO {
     int updateByPrimaryKey(KnowledgePoint record);
 
     int deleteByPrimaryKeys(Map<String,Object> queryMap);
+
+    List<KnowledgePoint> selectBySelective(Map<String,Object> queryMap);
 }
