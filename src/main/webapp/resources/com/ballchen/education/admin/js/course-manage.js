@@ -36,11 +36,11 @@ define(function(require,exports,module){
         },
         onClickRow:function(row){
             var id = row.id;
-            /*显示右侧用户信息*/
+            /*显示右侧课程信息*/
             $.get(URL.getFirstCreateTimeUserBasic,{id:id},function(data){
                 data = $.parseJSON(data.userBasic);
                 if(data){
-                    //加载用户姓名
+                    //加载课程姓名
                     $(".userName").text(data.userName);
                     //加载个人简介
                     $(".description").html(data.description);
@@ -122,7 +122,7 @@ define(function(require,exports,module){
             });
             parent.layer.full(index);
         }else{
-            parent.layer.alert('请选择要修改的用户', {
+            parent.layer.alert('请选择要修改的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -136,7 +136,7 @@ define(function(require,exports,module){
     $(".glyphicon-trash").parent().bind('click',function(){
         var selectRows = $("#userManageDataGrid").bootstrapTable("getAllSelections");
         if(selectRows.length){
-            parent.layer.confirm('是否删除所选用户？', {
+            parent.layer.confirm('是否删除所选课程？', {
                 btn: ['是','否'] //按钮
             }, function(){
                 var selectRows = $("#userManageDataGrid").bootstrapTable("getAllSelections");
@@ -148,13 +148,13 @@ define(function(require,exports,module){
                     $.post(URL.deleteUserBasicByIds,{"ids":""+idsArray+""},function(data){
                         if(data.flag){
                             $("#userManageDataGrid").bootstrapTable("refresh");
-                            parent.layer.alert("所选用户已删除");
+                            parent.layer.alert("所选课程已删除");
                         }
                     });
                 }
             },function(){})
         }else{
-            parent.layer.alert('请选择要删除的用户', {
+            parent.layer.alert('请选择要删除的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -163,12 +163,12 @@ define(function(require,exports,module){
     });
 
     /**
-     * 禁用用户
+     * 禁用课程
      */
     $("#deniedBtn").bind("click",function(){
         var selectRow = $("#userManageDataGrid").bootstrapTable("getAllSelections")[0];
         if(selectRow){
-            parent.layer.prompt({title: '禁用用户', formType: 2}, function(text){
+            parent.layer.prompt({title: '禁用课程', formType: 2}, function(text){
                 var selectRows = $("#userManageDataGrid").bootstrapTable("getAllSelections");
                 if(selectRows.length>0) {
                     var idsArray = [];
@@ -178,13 +178,13 @@ define(function(require,exports,module){
                     $.post(URL.accessoryOrDeniedUser,{"ids":""+idsArray+"",denied:true,deniedReason:text},function(data){
                         if(data.flag){
                             $("#userManageDataGrid").bootstrapTable("refresh");
-                            parent.layer.alert("所选账户已禁用");
+                            parent.layer.alert("所选课程已禁用");
                         }
                     });
                 }
             });
         }else{
-            parent.layer.alert('请选择要禁用的用户', {
+            parent.layer.alert('请选择要禁用的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -201,11 +201,11 @@ define(function(require,exports,module){
             $.post(URL.accessoryOrDeniedUser,{"ids":""+idsArray+"",denied:false,deniedReason:""},function(data){
                 if(data.flag){
                     $("#userManageDataGrid").bootstrapTable("refresh");
-                    parent.layer.alert("所选用户已启用");
+                    parent.layer.alert("所选课程已启用");
                 }
             });
         }else{
-            parent.layer.alert('请选择要启用的用户', {
+            parent.layer.alert('请选择要启用的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -224,11 +224,11 @@ define(function(require,exports,module){
             $.post(URL.realNameValid,{"ids":""+idsArray+"",realNameValid:true},function(data){
                 if(data.flag){
                     $("#userManageDataGrid").bootstrapTable("refresh");
-                    parent.layer.alert("所选用户已认证");
+                    parent.layer.alert("所选课程已认证");
                 }
             });
         }else{
-            parent.layer.alert('请选择要实名认证的用户', {
+            parent.layer.alert('请选择要实名认证的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -247,11 +247,11 @@ define(function(require,exports,module){
             $.post(URL.realNameValid,{"ids":""+idsArray+"",realNameValid:false},function(data){
                 if(data.flag){
                     $("#userManageDataGrid").bootstrapTable("refresh");
-                    parent.layer.alert("所选用户已取消认证");
+                    parent.layer.alert("所选课程已取消认证");
                 }
             });
         }else{
-            parent.layer.alert('请选择要取消实名认证的用户', {
+            parent.layer.alert('请选择要取消实名认证的课程', {
                 icon: 0,
                 skin: 'layer-ext-moon'
             })
@@ -263,9 +263,9 @@ define(function(require,exports,module){
     $("#seachParam").children("li").bind("click",function(){
         var elementText = $(this).children("a").text();
         switch(elementText){
-            case "用户姓名" :
+            case "课程姓名" :
                 $(this).parents(".input-group-btn").prev().children().remove();
-                $(this).parents(".input-group-btn").prev().append("<input type=\"text\" placeholder=\"用户姓名\" name='userName' class=\"input form-control\">");
+                $(this).parents(".input-group-btn").prev().append("<input type=\"text\" placeholder=\"课程姓名\" name='userName' class=\"input form-control\">");
                 $(this).parent().prev().html(elementText+"<span class=\"caret\"></span>");
                 break;
             case "昵称":
@@ -308,11 +308,11 @@ define(function(require,exports,module){
                 break;
         }
     });
-    /*显示右侧用户信息*/
+    /*显示右侧课程信息*/
     $.get(URL.getFirstCreateTimeUserBasic,function(data){
         data = $.parseJSON(data.userBasic);
         if(data){
-            //加载用户姓名
+            //加载课程姓名
             $(".userName").text(data.userName);
             //加载个人简介
             $(".description").html(data.description);

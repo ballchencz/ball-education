@@ -25,7 +25,8 @@ define(function (require, exports, module) {
         "getCoursePictureByCourseId":contextPath+"/courseController/getCoursePictureByCourseId",
         "getCourseByCourseId":contextPath+"/courseController/getCourseByCourseId",
         "getCourseUserBasicByCourseId":contextPath+"/courseController/getCourseUserBasicByCourseId",
-        "getCourseKnowledgeByCourseId":contextPath+"/courseController/getKnowledgePointByCourseId"
+        "getCourseKnowledgeByCourseId":contextPath+"/courseController/getKnowledgePointByCourseId",
+        "getCourseChapterType":contextPath+"/courseController/getCourseChapterType"
     }
     parent.layer.iframeAuto(index);
     //require("validate-messages_zh");
@@ -50,6 +51,7 @@ define(function (require, exports, module) {
         validClass: "help-block m-b-none"
     });
     $(function () {
+            $( 'input[name="chapterFile"]' ).prettyFile();
             var editor = new Simditor({textarea: $("#editor"),upload:true})
             $('#birthday').datepicker({
                 keyboardNavigation: true,
@@ -204,7 +206,30 @@ define(function (require, exports, module) {
                 }
             })
 
-
+        var chosenConfig = {
+            ".chosen-select-provence": {
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            },
+            ".chosen-select-city":{
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            },
+            ".chosen-select-xian":{
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            },
+            ".chosen-select-street":{
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            }
+        };
+        for (var selector in chosenConfig)
+            $(selector).chosen(chosenConfig[selector]);
         }
     );
 //头像上传
@@ -292,7 +317,7 @@ define(function (require, exports, module) {
     if(courseId){
         $.get(URL.getCoursePictureByCourseId,{id:courseId},function(data){
             if(data){
-                $("#preview").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.id);
+                $("#courseImg").attr("src",URL.getAccessoryBytesByAccessoryId+"?id="+data.id);
             }
         });
     }
@@ -329,6 +354,18 @@ define(function (require, exports, module) {
                 knowledgePointPanelTemp.clone().removeAttr("id").show().appendTo($("#accordion"));
             })
         });
+    }
+
+    /*初始化课节类型*/
+    $.get(URL.getCourseChapterType,function(data){
+        for(var key in data){
+            $("select[name='chapterType']").append("<option value='"+key+"'>"+data[key]+"</option>");
+        }
+    });
+
+    /*判断有无课程ID，显示或隐藏课程章节信息维护*/
+    if(!courseId){
+        $("#tab-2-title").addClass("hide")
     }
 });
 

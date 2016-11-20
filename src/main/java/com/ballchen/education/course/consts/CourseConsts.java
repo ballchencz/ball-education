@@ -44,8 +44,8 @@ public class CourseConsts {
     public static final Map<String,Object> COURSE_CHAPTER_TYPE_MAP = new HashMap<>();
     static{
         COURSE_CHAPTER_TYPE_MAP.put(COURSE_CHAPTER_TYPE_ONLINE,"在线直播");
-        COURSE_CHAPTER_TYPE_MAP.put(COURSE_CHAPTER_TYPE_OUTLINE,"线下课程");
         COURSE_CHAPTER_TYPE_MAP.put(COURSE_CHAPTER_TYPE_VIDEO,"视频课");
+        COURSE_CHAPTER_TYPE_MAP.put(COURSE_CHAPTER_TYPE_OUTLINE,"线下课程");
         COURSE_CHAPTER_TYPE_MAP.put(COURSE_CHAPTER_TYPE_OTHER,"其它");
     }
     /*------------------------课程章节常量结束------------------------------*/

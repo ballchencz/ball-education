@@ -2,50 +2,29 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>山姆钢琴</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/public/css/normalize.css"/>
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/public/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${request.contextPath}/resources/com/ballchen/education/view/css/index.css"/>
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top" id="menu-nav">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">切换导航</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand clearNavbarBrand" href="#"><img src="${request.contextPath}/resources/com/ballchen/education/public/images/logo.gif"/></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">首页<span class="sr-only">(current)</span></a></li>
-                <li><a href="#veryGood">优秀作业<span class="sr-only">(current)</span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">课程<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#course" data-tab="tab-onetoone-course">一对一</a></li>
-                        <li><a href="#course" data-tab="tab-banke-course">班课</a></li>
-                        <li><a href="#course" data-tab="tab-video-course">视频课</a></li>
-                    </ul>
-                </li>
-                </li>
-                <li><a href="#" data-toggle="modal" data-target="#about-modal">关于</a></li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索课程">
-                </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
+<!--nav头部开始-->
+<div class="ball-nav">
+    <div class="ball-nav-container center_content">
+        <a href="#" class="logo ball-nav-left"><img src="${request.contextPath}/resources/com/ballchen/education/public/images/logo.jpg" alt="山姆钢琴"/></a>
+        <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">拜厄</a></li>
+            <li><a href="#">车尔尼</a></li>
+            <li><a href="#">社区</a></li>
+        </ul>
+        <div class="login">
+            <a href="#" class="f_l">登陆</a><span class="f_l">|</span><a href="#" class="f_l">注册</a>
         </div>
     </div>
 </div>
+<!--nav头部结束-->
 <!-- 广告轮播 -->
 <div id="ad-carousel" class="carousel" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -131,57 +110,40 @@
 <div class="container summary">
     <!--优秀作业-->
     <div id="veryGood" class="page-header">
-        <h3><a href="#">优秀作业</a></h3>
+        <h3><img class="excellent_cycle_img" src="${request.contextPath}/resources/com/ballchen/education/view/images/excellent-homework.png" alt="优秀作业" width="30" height="30">
+        <a href="#">优秀作业</a></h3>
     </div>
     <div class="row" id="summary-container">
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-1.jpg" alt="assignment-1" width="150" height="150">
             <h4>小星星变奏曲</h4>
-            <!--<p>Google Chrome，又称Google浏览器，是一个由Google（谷歌）公司开发的网页浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-2.jpg" alt="assignment-2" width="150" height="150">
             <h4>小星星变奏曲</h4>
-            <!--<p>Mozilla Firefox，中文名通常称为“火狐”或“火狐浏览器”，是一个开源网页浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-3.jpg" alt="assignment-3" width="150" height="150">
             <h4>夜的钢琴曲五</h4>
-            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-4.jpg" alt="assignment-4" width="150" height="150">
             <h4>夜的钢琴曲五</h4>
-            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-5.jpg" alt="assignment-5" width="150" height="150">
             <h4>夜的钢琴曲五</h4>
-            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
         <div class="col-md-2">
             <img class="img-rounded" src="${request.contextPath}/resources/com/ballchen/education/view/images/assignment-6.jpg" alt="assignment-6" width="150" height="150">
             <h4>天空之城</h4>
-            <!--<p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器。</p>-->
-            <p><a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-play"></span>点我播放</a></p>
         </div>
     </div>
 
     <!--课程-->
-    <!--华丽的分割线-->
     <div class="page-header" id="course">
-        <h3><a href="#">课程</a></h3>
+        <h3><img src="${request.contextPath}/resources/com/ballchen/education/view/images/sam-style.png" alt="Sam风采" width="30" height="30"><a href="#">Sam风采</a></h3>
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="feature-tab">
-        <li class="active"><a href="#tab-onetoone-course" role="tab" data-toggle="tab">一对一</a></li>
-        <li><a href="#tab-banke-course" role="tab" data-toggle="tab">班课</a></li>
-        <li><a href="#tab-video-course" role="tab" data-toggle="tab">视频课</a></li>
-    </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="tab-onetoone-course">
             <div class="row feature">
@@ -283,6 +245,128 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header" id="study-plan">
+        <h3><img src="${request.contextPath}/resources/com/ballchen/education/view/images/study-plan.png" alt="学习计划" width="30" height="30"><a href="#">学习计划</a></h3>
+    </div>
+    <div class="row" id="study-plan-content">
+        <div class="paimai_list">
+            <div class="paimai_content">
+                <!--前言-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>前言</p></div><!--<div class="time_content"><em></em><span></span></div>-->
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-1.jpg" width="520" height="198"/></a>
+                    <dl>
+                        <dt><h2>什么是基本功</h2></dt>
+                        <dd class="pm_organ">想用钢琴弹出优美的乐曲，基本功是必须要学习的。所谓基本功就是正确的弹琴方法。</dd>
+                    </dl>
+                </div>
+                <!--学习周期-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>学习周期</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-2.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>关于基本功学习周期</h2></dt>
+                        <dd class="pm_organ">
+                            <p>基本功的学习周期按“月”划分。</p><br/>
+                            <p>大部分进度正常的同学通过4个月的学习可以完成第一个阶段的课程。</p><br/>
+                            <p>如果中间出差不能连续学习也可以暂停。</p><br/>
+                        </dd>
+                    </dl>
+                </div>
+                <!--如何学习-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>如何学习</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-3.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>通过网络如何学习钢琴</h2></dt>
+                        <dd class="pm_organ">
+                            <p>通过网络学习，有效的降低了我们的学习成本，我们的学习理念是每天学习一点点。</p><br/>
+                            <p>基本功的学习是需要积累的，每天学习1个知识点，每天练习一首简单的练习曲。</p><br/>
+                            <p>每天发作业给老师，每天去解决一个问题。</p><br/>
+                            <p>学习效率会比传统面授课程高的多。</p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--在哪学习-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>在哪学习</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-4.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>关于我们的教学安排</h2></dt>
+                        <dd class="pm_organ">
+                            <p>每个付费学员都会拥有一个班级，每个班级不超过40人。</p><br/>
+                            <p>老师通过QQ群视频授课，集体授课，1对1解答同学的问题，回复同学的作业。</p><br/>
+                            <p>如果落下了直播课也有录播课程可以观看。只要有时间就能随时随地学钢琴。</p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--关于学费-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>关于学费</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-5.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>我们的收费制度</h2></dt>
+                        <dd class="pm_organ">
+                            <p>学费每个月100元-200元不等。</p><br/>
+                            <p>1个月的高品质学习付出的费用只等于线下钢琴老师1节课的课时费。</p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--定期活动-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>定期活动</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-7.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>我们平时的集体活动</h2></dt>
+                        <dd class="pm_organ">
+                            <p>每周末除了正常的课程和作业回复外，周末会进行周学习总结。</p><br/>
+                            <p>把一周学习的重点内容更细致的剖析复习。</p><br/>
+                            <p>月末进行汇报演出，让同学试胆，避免弹琴见光死的悲剧。</p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--学习效果-->
+                <div class="list_head1">
+                    <div class="time_box" ><p>学习效果</p></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="list_content">
+                    <a href="#"><img src="../images/piano-basic-skill-6.jpg" width="520" height="198" /></a>
+                    <dl>
+                        <dt><h2>通过学习，达到的效果</h2></dt>
+                        <dd class="pm_organ">
+                            <p>经过4个月的课程，大部分同学都能够在识谱、手型等方面获得较系统的学习。</p><br/>
+                            <p>具备自学大部分非炫技的流行歌曲、流行钢琴曲并用正确的方式演奏出来的能力。</p><br/>
+                            <p>家里的钢琴终于不是摆设了，也圆了自己从小的钢琴梦。</p>
+                        </dd>
+                    </dl>
+                </div>
+                <!--                    <div class="list_head1">
+                                        <div class="time_box" ><p></p></div>
+                                        <div class="clear"></div>
+                                    </div>-->
             </div>
         </div>
     </div>

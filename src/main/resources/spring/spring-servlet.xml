@@ -39,11 +39,11 @@
         <property name="exposeSpringMacroHelpers" value="true" />
         <property name="requestContextAttribute" value="request"/>
     </bean>
-<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!--    <entity class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
         <property name="prefix" value="/WEB-INF/views/com/ballchen/education/" />
         <property name="suffix" value=".html" />
-    </bean>-->
+    </entity>-->
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

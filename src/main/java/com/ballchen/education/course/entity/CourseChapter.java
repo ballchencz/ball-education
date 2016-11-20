@@ -1,5 +1,8 @@
 package com.ballchen.education.course.entity;
 
+import com.ballchen.education.consts.PublicConsts;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class CourseChapter {
@@ -11,20 +14,16 @@ public class CourseChapter {
 
     private String chapterType;
 
-    private Date planBeginDate;
-
+    @DateTimeFormat(pattern = PublicConsts.DATETIME_FORMAT_STRING)
     private Date planBeginTime;
 
-    private Date planEndDate;
-
+    @DateTimeFormat(pattern = PublicConsts.DATETIME_FORMAT_STRING)
     private Date planEndTime;
 
-    private Date realBeginDate;
-
+    @DateTimeFormat(pattern = PublicConsts.DATETIME_FORMAT_STRING)
     private Date realBeginTime;
 
-    private Date realEndDate;
-
+    @DateTimeFormat(pattern = PublicConsts.DATETIME_FORMAT_STRING)
     private Date realEndTime;
 
     private String courseId;
@@ -61,28 +60,12 @@ public class CourseChapter {
         this.chapterType = chapterType == null ? null : chapterType.trim();
     }
 
-    public Date getPlanBeginDate() {
-        return planBeginDate;
-    }
-
-    public void setPlanBeginDate(Date planBeginDate) {
-        this.planBeginDate = planBeginDate;
-    }
-
     public Date getPlanBeginTime() {
         return planBeginTime;
     }
 
     public void setPlanBeginTime(Date planBeginTime) {
         this.planBeginTime = planBeginTime;
-    }
-
-    public Date getPlanEndDate() {
-        return planEndDate;
-    }
-
-    public void setPlanEndDate(Date planEndDate) {
-        this.planEndDate = planEndDate;
     }
 
     public Date getPlanEndTime() {
@@ -93,28 +76,12 @@ public class CourseChapter {
         this.planEndTime = planEndTime;
     }
 
-    public Date getRealBeginDate() {
-        return realBeginDate;
-    }
-
-    public void setRealBeginDate(Date realBeginDate) {
-        this.realBeginDate = realBeginDate;
-    }
-
     public Date getRealBeginTime() {
         return realBeginTime;
     }
 
     public void setRealBeginTime(Date realBeginTime) {
         this.realBeginTime = realBeginTime;
-    }
-
-    public Date getRealEndDate() {
-        return realEndDate;
-    }
-
-    public void setRealEndDate(Date realEndDate) {
-        this.realEndDate = realEndDate;
     }
 
     public Date getRealEndTime() {

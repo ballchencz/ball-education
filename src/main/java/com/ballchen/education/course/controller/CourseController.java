@@ -143,4 +143,24 @@ public class CourseController {
         return knowledgePointService.getKnowledgePointByCourseId(id);
     }
 
+    /*------------------------------------课节---------------------------------------*/
+
+    /**
+     * 根据课节类型获得课节
+     * @param chapterType 课节类型
+     * @return Map<String,Object>
+     */
+    @RequestMapping(value = "/getCourseChapterType",method = RequestMethod.GET)
+    @AuthorizationAnno(roleCode = {RoleCode.STUDENT,RoleCode.ADMIN},authorizationName = "根据课程ID获得课程知识点")
+    @ResponseBody
+    public Map<String,Object> getCourseChapterType(String chapterType){
+        if(chapterType==null){
+            return CourseConsts.COURSE_CHAPTER_TYPE_MAP;
+        }else{
+            Map<String,Object> chapterTypeMap = new HashMap<>();
+            chapterTypeMap.put(chapterType,CourseConsts.COURSE_CHAPTER_TYPE_MAP.get(chapterType));
+            return chapterTypeMap;
+        }
+    }
+
 }
