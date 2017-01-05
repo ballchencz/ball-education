@@ -223,17 +223,24 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">课节视频：</label>
-                                                <div class="col-sm-10">
-                                                    <input type="file" class="form-control m-b" name="chapterFile">
+                                                <div class="col-sm-4 inline" id="courseChapterVideoContent">
+                                                    <input type="file" class="form-control m-b" name="chapterFile" accept="video/*,audio/*">
+                                                    <a class="btn btn-warning btn-rounded" href="javascript:void(0)" name="courseChapterRemoveBtn" style="float: right">删除</a>
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label">&nbsp;</label>
+                                                <div class="col-sm-10">
+                                                    <input type="button" value="新增视频" class="btn btn-primary btn-xs" id="addNewVideoBtn">
+                                                </div>
+                                            </div>
+                                            <div class="form-group hide">
                                                 <label class="col-sm-2 control-label">计划开始时间：</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control m-b" id="planBeginTime" name="planBeginTime" onFocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'planEndTime\')}'})"/>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group hide">
                                                 <label class="col-sm-2 control-label">计划结束时间：</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control m-b" name="planEndTime" id="planEndTime" onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'planBeginTime\')}'})">
@@ -250,8 +257,9 @@
             </div>
         </div>
     </div>
-    <!--课节表单-->
-
+    <!--课节视频temp-->
+    <input type="file" class="form-control m-b hide" name="chapterFile" id="courseChapterVideo" accept="video/*,audio/*">
+    <a class="btn btn-warning btn-rounded hide" href="javascript:void(0)" id="courseChapterVideoBtn" style="float: right;">删除</a>
     <!--课程分类树形结构-->
     <div id="menuContent" class="panel panel-default" style="display:none; position: absolute;z-index: 9999">
         <div class="panel-body">

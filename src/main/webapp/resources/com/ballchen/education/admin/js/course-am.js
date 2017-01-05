@@ -51,7 +51,7 @@ define(function (require, exports, module) {
         validClass: "help-block m-b-none"
     });
     $(function () {
-            $( 'input[name="chapterFile"]' ).prettyFile();
+            //$( 'input[name="chapterFile"]' ).prettyFile();
             var editor = new Simditor({textarea: $("#editor"),upload:true})
             $('#birthday').datepicker({
                 keyboardNavigation: true,
@@ -356,6 +356,7 @@ define(function (require, exports, module) {
         });
     }
 
+    /*------------------------关于课节的js脚本开始-------------------------------*/
     /*初始化课节类型*/
     $.get(URL.getCourseChapterType,function(data){
         for(var key in data){
@@ -363,6 +364,32 @@ define(function (require, exports, module) {
         }
     });
 
+    /*新增视频按钮绑定点击事件*/
+    $("#addNewVideoBtn").bind('click',function(){
+        //获得课节input
+        var courseChapterVideo = $("#courseChapterVideo").clone();
+        //获得课程节删除按钮
+        var courseChapterVideoBtn = $("#courseChapterVideoBtn").clone();
+        //添加课节input和删除按钮
+        $("#courseChapterVideoContent").append(courseChapterVideo);
+        $("#courseChapterVideoContent").append(courseChapterVideoBtn);
+        $("#courseChapterVideoContent").find("input").removeAttr("id").removeClass("hide");
+        $("#courseChapterVideoContent").find("a").removeAttr("id").removeClass("hide").attr("name","courseChapterRemoveBtn");
+        /*课节删除按钮绑定点击事件*/
+        $("a[name='courseChapterRemoveBtn']").on("click",function(){
+            var length = $("a[name='courseChapterRemoveBtn']").length;
+            console.log(length);
+            if(length>1){
+                $(this).prev().remove();
+                $(this).remove();
+            }else{
+                $(this).prev().val();
+            }
+        });
+        //$( 'input[name="chapterFile"]' ).prettyFile();
+    });
+
+    /*-----------------------关于课节的js脚本结束--------------------------------*/
     /*判断有无课程ID，显示或隐藏课程章节信息维护*/
     if(!courseId){
         $("#tab-2-title").addClass("hide")

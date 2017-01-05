@@ -38,5 +38,6 @@ public interface IAccessoryService {
     String getAccessoryURLString(String id);
 
 
+
     /*List<Accessory> getUserIdCardPositivePictureAndNegativePicture(MultipartFile idCardPositivePicture,MultipartFile idCardNegativePicture) throws JSchException, IOException, SftpException;*/
 }

@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         ">
-    <mvc:annotation-driven conversion-service="conversionService" enable-matrix-variables="true" />
+    <mvc:annotation-driven conversion-service="conversionService" enable-matrix-variables="true" ></mvc:annotation-driven>
     <context:component-scan base-package="com.ballchen.education">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>

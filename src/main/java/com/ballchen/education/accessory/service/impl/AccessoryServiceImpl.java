@@ -3,6 +3,7 @@ package com.ballchen.education.accessory.service.impl;
 import com.ballchen.education.accessory.dao.IAccessoryDAO;
 import com.ballchen.education.accessory.entity.Accessory;
 import com.ballchen.education.accessory.service.IAccessoryService;
+import com.ballchen.education.accessory.utils.FileUploadThread;
 import com.ballchen.education.consts.PublicConsts;
 import com.ballchen.education.user.entity.UserBasic;
 import com.ballchen.education.user.entity.UserBasicAccessory;
@@ -33,6 +34,8 @@ public class AccessoryServiceImpl implements IAccessoryService {
     private IAccessoryDAO accessoryDAO;
     @Autowired
     private IUserBasicAccessoryService userBasicAccessoryService;
+    @Autowired
+    private FileUploadThread fileUploadThread;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -106,7 +109,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
                     sftpUtils.disconnect();
                 }
             }else{//七牛云存储
-                QiniuCloudUtils qiniuCloudUtils = getQiniuCloudUtils(fileServerProperties);
+                QiniuCloudUtils qiniuCloudUtils = FileUploadThread.getQiniuCloudUtils(fileServerProperties);
                 String saveName = accessory.getSaveName()+accessory.getExt();
                 try {
                     bytes = qiniuCloudUtils.getFileBytesBySaveName(saveName);
@@ -197,7 +200,7 @@ public class AccessoryServiceImpl implements IAccessoryService {
                     sftpUtils.disconnect();
                 }
             }else{//七牛云存储
-                QiniuCloudUtils qiniuCloudUtils = getQiniuCloudUtils(fileServerProperties);
+                QiniuCloudUtils qiniuCloudUtils = FileUploadThread.getQiniuCloudUtils(fileServerProperties);
                 String saveName = accessory.getSaveName()+accessory.getExt();
                 URL = qiniuCloudUtils.getFileURLString(saveName);
             }
@@ -234,14 +237,14 @@ public class AccessoryServiceImpl implements IAccessoryService {
         returnMap.put("sftpUtils",sftpUtils);
         return returnMap;
     }
-    private QiniuCloudUtils getQiniuCloudUtils(Map<String,Object> properties){
+/*    private QiniuCloudUtils getQiniuCloudUtils(Map<String,Object> properties){
         String accessKey = (String)properties.get("accessKey");
         String secretKey = (String)properties.get("secretKey");
         String bucketName = (String)properties.get("bucketName");
         String filePath = (String)properties.get("filePath");
         QiniuCloudUtils qiniuCloudUtils = new QiniuCloudUtils(accessKey,secretKey,bucketName,filePath);
         return qiniuCloudUtils;
-    }
+    }*/
 
     private Accessory uploadFile(String fileServerType,MultipartFile file,boolean flag,Map<String,Object> fileServerProperties,String fileType) throws JSchException, IOException, SftpException {
         Accessory accessory = null;
@@ -260,8 +263,24 @@ public class AccessoryServiceImpl implements IAccessoryService {
             flag = true;
             sftpUtils.disconnect();
         }else{//使用七牛云存储
-            QiniuCloudUtils qiniuCloudUtils = getQiniuCloudUtils(fileServerProperties);
-            qiniuCloudUtils.simpleUpload(file.getBytes(),saveFileServeName+ext);
+
+            /**
+             * 这里将文件上传改为多线程
+             * 这种方法有待考证,经过验证，传大文件确的话，响应确实提高了很多。。。就先这样吧。。。。但可能会对服务器造成很大的压力
+             * 我又有了一个新的思路，我在这里判断文件的大小，要是大于20M的话，我用多线程的方式上传，小于就用直传。。。。
+             * 20M太大，改成2M
+             */
+            if(file.getSize()>(2*1024*1024)) {
+                fileUploadThread.setFileServerProperties(fileServerProperties);
+                fileUploadThread.setFile(file);
+                fileUploadThread.setExt(ext);
+                fileUploadThread.setSaveFileServeName(saveFileServeName);
+                Thread thread = new Thread(fileUploadThread);
+                thread.start();
+            }else{
+                QiniuCloudUtils qiniuCloudUtils = FileUploadThread.getQiniuCloudUtils(fileServerProperties);
+                qiniuCloudUtils.simpleUpload(file.getBytes(),saveFileServeName+ext);
+            }
             flag = true;
         }
         if(flag){

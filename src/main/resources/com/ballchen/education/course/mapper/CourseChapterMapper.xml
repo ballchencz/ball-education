@@ -6,19 +6,15 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CHAPTER_NAME" property="chapterName" jdbcType="VARCHAR" />
     <result column="CHAPTER_TYPE" property="chapterType" jdbcType="VARCHAR" />
-    <result column="PLAN_BEGIN_DATE" property="planBeginDate" jdbcType="DATE" />
-    <result column="PLAN_BEGIN_TIME" property="planBeginTime" jdbcType="TIME" />
-    <result column="PLAN_END_DATE" property="planEndDate" jdbcType="DATE" />
-    <result column="PLAN_END_TIME" property="planEndTime" jdbcType="TIME" />
-    <result column="REAL_BEGIN_DATE" property="realBeginDate" jdbcType="DATE" />
-    <result column="REAL_BEGIN_TIME" property="realBeginTime" jdbcType="DATE" />
-    <result column="REAL_END_DATE" property="realEndDate" jdbcType="DATE" />
-    <result column="REAL_END_TIME" property="realEndTime" jdbcType="DATE" />
+    <result column="PLAN_BEGIN_TIME" property="planBeginTime" jdbcType="TIMESTAMP" />
+    <result column="PLAN_END_TIME" property="planEndTime" jdbcType="TIMESTAMP" />
+    <result column="REAL_BEGIN_TIME" property="realBeginTime" jdbcType="TIMESTAMP" />
+    <result column="REAL_END_TIME" property="realEndTime" jdbcType="TIMESTAMP" />
     <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CREATE_TIME, CHAPTER_NAME, CHAPTER_TYPE, PLAN_BEGIN_DATE, PLAN_BEGIN_TIME, PLAN_END_DATE, 
-    PLAN_END_TIME, REAL_BEGIN_DATE, REAL_BEGIN_TIME, REAL_END_DATE, REAL_END_TIME, COURSE_ID
+    ID, CREATE_TIME, CHAPTER_NAME, CHAPTER_TYPE, PLAN_BEGIN_TIME,
+    PLAN_END_TIME, REAL_BEGIN_TIME, REAL_END_TIME, COURSE_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,15 +28,12 @@
   </delete>
   <insert id="insert" parameterType="com.ballchen.education.course.entity.CourseChapter" >
     insert into ballchen_t_course_chapter (ID, CREATE_TIME, CHAPTER_NAME, 
-      CHAPTER_TYPE, PLAN_BEGIN_DATE, PLAN_BEGIN_TIME, 
-      PLAN_END_DATE, PLAN_END_TIME, REAL_BEGIN_DATE, 
-      REAL_BEGIN_TIME, REAL_END_DATE, REAL_END_TIME, 
+      CHAPTER_TYPE, PLAN_BEGIN_TIME,
+      PLAN_END_TIME,REAL_BEGIN_TIME,REAL_END_TIME,
       COURSE_ID)
-    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{chapterName,jdbcType=VARCHAR}, 
-      #{chapterType,jdbcType=VARCHAR}, #{planBeginDate,jdbcType=DATE}, #{planBeginTime,jdbcType=TIME}, 
-      #{planEndDate,jdbcType=DATE}, #{planEndTime,jdbcType=TIME}, #{realBeginDate,jdbcType=DATE}, 
-      #{realBeginTime,jdbcType=DATE}, #{realEndDate,jdbcType=DATE}, #{realEndTime,jdbcType=DATE}, 
-      #{courseId,jdbcType=VARCHAR})
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{chapterName,jdbcType=VARCHAR},
+      #{chapterType,jdbcType=VARCHAR},#{planBeginTime,jdbcType=TIMESTAMP},#{planEndTime,jdbcType=TIMESTAMP},
+      #{realBeginTime,jdbcType=TIMESTAMP},#{realEndTime,jdbcType=TIMESTAMP},#{courseId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ballchen.education.course.entity.CourseChapter" >
     insert into ballchen_t_course_chapter
@@ -57,26 +50,14 @@
       <if test="chapterType != null" >
         CHAPTER_TYPE,
       </if>
-      <if test="planBeginDate != null" >
-        PLAN_BEGIN_DATE,
-      </if>
       <if test="planBeginTime != null" >
         PLAN_BEGIN_TIME,
-      </if>
-      <if test="planEndDate != null" >
-        PLAN_END_DATE,
       </if>
       <if test="planEndTime != null" >
         PLAN_END_TIME,
       </if>
-      <if test="realBeginDate != null" >
-        REAL_BEGIN_DATE,
-      </if>
       <if test="realBeginTime != null" >
         REAL_BEGIN_TIME,
-      </if>
-      <if test="realEndDate != null" >
-        REAL_END_DATE,
       </if>
       <if test="realEndTime != null" >
         REAL_END_TIME,
@@ -98,29 +79,17 @@
       <if test="chapterType != null" >
         #{chapterType,jdbcType=VARCHAR},
       </if>
-      <if test="planBeginDate != null" >
-        #{planBeginDate,jdbcType=DATE},
-      </if>
       <if test="planBeginTime != null" >
-        #{planBeginTime,jdbcType=TIME},
-      </if>
-      <if test="planEndDate != null" >
-        #{planEndDate,jdbcType=DATE},
+        #{planBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="planEndTime != null" >
-        #{planEndTime,jdbcType=TIME},
-      </if>
-      <if test="realBeginDate != null" >
-        #{realBeginDate,jdbcType=DATE},
+        #{planEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="realBeginTime != null" >
-        #{realBeginTime,jdbcType=DATE},
-      </if>
-      <if test="realEndDate != null" >
-        #{realEndDate,jdbcType=DATE},
+        #{realBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="realEndTime != null" >
-        #{realEndTime,jdbcType=DATE},
+        #{realEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="courseId != null" >
         #{courseId,jdbcType=VARCHAR},
@@ -139,29 +108,17 @@
       <if test="chapterType != null" >
         CHAPTER_TYPE = #{chapterType,jdbcType=VARCHAR},
       </if>
-      <if test="planBeginDate != null" >
-        PLAN_BEGIN_DATE = #{planBeginDate,jdbcType=DATE},
-      </if>
       <if test="planBeginTime != null" >
-        PLAN_BEGIN_TIME = #{planBeginTime,jdbcType=TIME},
-      </if>
-      <if test="planEndDate != null" >
-        PLAN_END_DATE = #{planEndDate,jdbcType=DATE},
+        PLAN_BEGIN_TIME = #{planBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="planEndTime != null" >
-        PLAN_END_TIME = #{planEndTime,jdbcType=TIME},
-      </if>
-      <if test="realBeginDate != null" >
-        REAL_BEGIN_DATE = #{realBeginDate,jdbcType=DATE},
+        PLAN_END_TIME = #{planEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="realBeginTime != null" >
-        REAL_BEGIN_TIME = #{realBeginTime,jdbcType=DATE},
-      </if>
-      <if test="realEndDate != null" >
-        REAL_END_DATE = #{realEndDate,jdbcType=DATE},
+        REAL_BEGIN_TIME = #{realBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="realEndTime != null" >
-        REAL_END_TIME = #{realEndTime,jdbcType=DATE},
+        REAL_END_TIME = #{realEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="courseId != null" >
         COURSE_ID = #{courseId,jdbcType=VARCHAR},
@@ -174,14 +131,10 @@
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CHAPTER_NAME = #{chapterName,jdbcType=VARCHAR},
       CHAPTER_TYPE = #{chapterType,jdbcType=VARCHAR},
-      PLAN_BEGIN_DATE = #{planBeginDate,jdbcType=DATE},
-      PLAN_BEGIN_TIME = #{planBeginTime,jdbcType=TIME},
-      PLAN_END_DATE = #{planEndDate,jdbcType=DATE},
-      PLAN_END_TIME = #{planEndTime,jdbcType=TIME},
-      REAL_BEGIN_DATE = #{realBeginDate,jdbcType=DATE},
-      REAL_BEGIN_TIME = #{realBeginTime,jdbcType=DATE},
-      REAL_END_DATE = #{realEndDate,jdbcType=DATE},
-      REAL_END_TIME = #{realEndTime,jdbcType=DATE},
+      PLAN_BEGIN_TIME = #{planBeginTime,jdbcType=TIMESTAMP},
+      PLAN_END_TIME = #{planEndTime,jdbcType=TIMESTAMP},
+      REAL_BEGIN_TIME = #{realBeginTime,jdbcType=TIMESTAMP},
+      REAL_END_TIME = #{realEndTime,jdbcType=TIMESTAMP},
       COURSE_ID = #{courseId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
