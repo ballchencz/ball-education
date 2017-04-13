@@ -206,49 +206,65 @@
                     </div>
                     <div id="tab-2" class="tab-pane">
                             <div class="panel-body">
-                                <form class="form-horizontal m-t" method="post">
-                                    <div class="row">
+                                <div class="row">
+                                    <form class="form-horizontal m-t" method="post">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">课节名称：</label>
+                                                    <div class="col-sm-10">
+                                                        <input class="form-control col-sm-10" type="text" placeholder="课节名称">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">课节类型：</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-control m-b" name="chapterType" id="chapterType"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" name="courseChapterVideoContentDiv">
+                                                    <label class="col-sm-2 control-label">课节视频：</label>
+                                                    <div class="col-sm-4 inline" id="courseChapterVideoContent">
+                                                        <input type="file" class="form-control m-b" name="chapterFile" accept="video/*,audio/*">
+                                                        <a class="btn btn-warning btn-rounded" href="javascript:void(0)" name="courseChapterRemoveBtn" style="float: right">删除</a>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" name="courseChapterVideoContentDiv">
+                                                    <label class="col-sm-2 control-label">&nbsp;</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="button" value="新增视频" class="btn btn-primary btn-xs" id="addNewVideoBtn">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group hide" name="courseChapterPlanDateContentDiv">
+                                                    <label class="col-sm-2 control-label">计划开始时间：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control m-b" id="planBeginTime" name="planBeginTime" onFocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'planEndTime\')}'})"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group hide" name="courseChapterPlanDateContentDiv">
+                                                    <label class="col-sm-2 control-label">计划结束时间：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control m-b" name="planEndTime" id="planEndTime" onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'planBeginTime\')}'})">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" >
+                                                        <input type="button" value="添加" class="btn btn-primary">
+                                                    </label>
+                                                    <div class="col-sm-10">&nbsp;</div>
+                                                </div>
+                                            </div>
+                                    </form>
+                                    <form class="form-horizontal m-t" method="post" id="courseChapterForm">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">课节名称：</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control col-sm-10" type="text" placeholder="课节名称">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">课节类型：</label>
-                                                <div class="col-sm-10">
-                                                    <select class="form-control m-b" name="chapterType"></select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">课节视频：</label>
-                                                <div class="col-sm-4 inline" id="courseChapterVideoContent">
-                                                    <input type="file" class="form-control m-b" name="chapterFile" accept="video/*,audio/*">
-                                                    <a class="btn btn-warning btn-rounded" href="javascript:void(0)" name="courseChapterRemoveBtn" style="float: right">删除</a>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">&nbsp;</label>
-                                                <div class="col-sm-10">
-                                                    <input type="button" value="新增视频" class="btn btn-primary btn-xs" id="addNewVideoBtn">
-                                                </div>
-                                            </div>
-                                            <div class="form-group hide">
-                                                <label class="col-sm-2 control-label">计划开始时间：</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control m-b" id="planBeginTime" name="planBeginTime" onFocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'planEndTime\')}'})"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group hide">
-                                                <label class="col-sm-2 control-label">计划结束时间：</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control m-b" name="planEndTime" id="planEndTime" onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'planBeginTime\')}'})">
+                                                <label class="col-sm-3 control-label">课节名称：</label>
+                                                <div class="col-sm-9">
+                                                    sdjfiewfeifj
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

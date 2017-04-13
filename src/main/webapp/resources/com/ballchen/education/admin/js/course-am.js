@@ -386,9 +386,27 @@ define(function (require, exports, module) {
                 $(this).prev().val();
             }
         });
-        //$( 'input[name="chapterFile"]' ).prettyFile();
     });
-
+    /*课节类型的change事件绑定*/
+    $("#chapterType").bind("change",function(){
+        var chapterType = $(this).val();
+        switch(chapterType){
+            case "COURSE_CHAPTER_TYPE_ONLINE"://在线直播
+                $("div[name='courseChapterVideoContentDiv']").addClass("hide");
+                $("div[name='courseChapterPlanDateContentDiv']").removeClass("hide");
+                break;
+            case "COURSE_CHAPTER_TYPE_OUTLINE"://线下课程
+                $("div[name='courseChapterVideoContentDiv']").addClass("hide");
+                $("div[name='courseChapterPlanDateContentDiv']").removeClass("hide");
+                break;
+            case "COURSE_CHAPTER_TYPE_VIDEO"://视频课
+                $("div[name='courseChapterVideoContentDiv']").removeClass("hide");
+                $("div[name='courseChapterPlanDateContentDiv']").addClass("hide");
+                break;
+            case "COURSE_CHAPTER_TYPE_OTHER"://其它
+                break;
+        }
+    });
     /*-----------------------关于课节的js脚本结束--------------------------------*/
     /*判断有无课程ID，显示或隐藏课程章节信息维护*/
     if(!courseId){
